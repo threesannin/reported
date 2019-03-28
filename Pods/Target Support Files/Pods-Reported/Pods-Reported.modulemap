@@ -1,0 +1,6 @@
+framework module Pods_Reported {
+  umbrella header "Pods-Reported-umbrella.h"
+
+  export *
+  module * { export * }
+}
