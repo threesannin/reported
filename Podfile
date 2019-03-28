@@ -6,6 +6,8 @@ target 'Reported' do
   use_frameworks!
 
   # Pods for Reported
+  pod "Parse"
+  pod "AlamofireImage"
 
   target 'ReportedTests' do
     inherit! :search_paths
