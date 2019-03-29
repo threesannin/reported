@@ -1,0 +1,13 @@
+### Swift ###
+# Xcode
+
+## Build generated
+build/
+DerivedData/
+
+## Settings
+**/xcuserdata
+
+## macOS
+.DS_Store
+
