@@ -25,12 +25,19 @@
                                 </connections>
                             </mapView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MUT-NB-Um4">
-                                <rect key="frame" x="276" y="558" width="51" height="30"/>
+                                <rect key="frame" x="284" y="558" width="36" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Form"/>
+                                <connections>
+                                    <segue destination="Icw-Yt-UwX" kind="presentation" id="Fvd-pb-IcK"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zgB-dm-PRg">
+                                <rect key="frame" x="282" y="492" width="51" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Update"/>
                                 <connections>
-                                    <action selector="onLocationPRess:" destination="q2r-jl-TJ1" eventType="touchUpInside" id="bzU-sW-htT"/>
-                                    <segue destination="Icw-Yt-UwX" kind="presentation" id="Fvd-pb-IcK"/>
+                                    <action selector="onLocationPRess:" destination="q2r-jl-TJ1" eventType="touchUpInside" id="spm-5j-snn"/>
                                 </connections>
                             </button>
                         </subviews>
