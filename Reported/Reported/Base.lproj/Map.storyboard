@@ -4,7 +4,6 @@
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -13,35 +12,50 @@
         <!--Map-->
         <scene sceneID="nWl-WV-u3d">
             <objects>
-                <viewController id="q2r-jl-TJ1" userLabel="Map" sceneMemberID="viewController">
+                <viewController id="q2r-jl-TJ1" userLabel="Map" customClass="MapViewController" customModule="Reported" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="cKm-Jc-GDR">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MUT-NB-Um4">
-                                <rect key="frame" x="269" y="520" width="46" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Hcd-Uf-z3N">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <gestureRecognizers/>
                                 <connections>
+                                    <outletCollection property="gestureRecognizers" destination="WLY-YN-w52" appends="YES" id="n6H-4s-HHJ"/>
+                                </connections>
+                            </mapView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MUT-NB-Um4">
+                                <rect key="frame" x="276" y="558" width="51" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Update"/>
+                                <connections>
+                                    <action selector="onLocationPRess:" destination="q2r-jl-TJ1" eventType="touchUpInside" id="bzU-sW-htT"/>
                                     <segue destination="Icw-Yt-UwX" kind="presentation" id="Fvd-pb-IcK"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Map" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jx0-YA-Bfa">
-                                <rect key="frame" x="157" y="268" width="34" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="Hcd-Uf-z3N" firstAttribute="trailing" secondItem="xkQ-vQ-hYE" secondAttribute="trailing" id="SrD-gI-50l"/>
+                            <constraint firstItem="Hcd-Uf-z3N" firstAttribute="bottom" secondItem="xkQ-vQ-hYE" secondAttribute="bottom" id="fHY-o4-Nnw"/>
+                            <constraint firstItem="Hcd-Uf-z3N" firstAttribute="top" secondItem="cKm-Jc-GDR" secondAttribute="top" id="gjp-4M-IBV"/>
+                            <constraint firstItem="Hcd-Uf-z3N" firstAttribute="leading" secondItem="xkQ-vQ-hYE" secondAttribute="leading" id="vEM-0f-wOW"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="xkQ-vQ-hYE"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Item" id="nvY-cR-Byo"/>
+                    <connections>
+                        <outlet property="mapView" destination="Hcd-Uf-z3N" id="iOt-df-5Rz"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="67C-3e-sUh" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="WLY-YN-w52">
+                    <connections>
+                        <action selector="onLongPressAdd:" destination="q2r-jl-TJ1" id="cwJ-lE-FTM"/>
+                    </connections>
+                </pongPressGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="860" y="125"/>
+            <point key="canvasLocation" x="860" y="124.58770614692655"/>
         </scene>
         <!--Form-->
         <scene sceneID="RzZ-PX-szJ">
