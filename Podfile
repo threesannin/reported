@@ -8,6 +8,7 @@ target 'Reported' do
   # Pods for Reported
   pod "Parse"
   pod "AlamofireImage"
+  pod "iOSDropDown"
 
   target 'ReportedTests' do
     inherit! :search_paths

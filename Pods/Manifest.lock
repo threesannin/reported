@@ -3,6 +3,7 @@ PODS:
   - AlamofireImage (3.5.1):
     - Alamofire (~> 4.8)
   - Bolts/Tasks (1.9.0)
+  - iOSDropDown (0.2.7)
   - Parse (1.17.2):
     - Parse/Core (= 1.17.2)
   - Parse/Core (1.17.2):
@@ -10,6 +11,7 @@ PODS:
 
 DEPENDENCIES:
   - AlamofireImage
+  - iOSDropDown
   - Parse
 
 SPEC REPOS:
@@ -17,14 +19,16 @@ SPEC REPOS:
     - Alamofire
     - AlamofireImage
     - Bolts
+    - iOSDropDown
     - Parse
 
 SPEC CHECKSUMS:
   Alamofire: ae5c501addb7afdbb13687d7f2f722c78734c2d3
   AlamofireImage: 1ea645cb3328d612ba7f3e3d75a947a17eb427c2
   Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
+  iOSDropDown: 7a4cfc67d5166f319858747b63cd2f7760c4fb4b
   Parse: 3b31a3dd1777b07ee7f0caee32fafbff544483a5
 
-PODFILE CHECKSUM: 1ccf9b842b618713f3e5757bbb090a6abfa373cb
+PODFILE CHECKSUM: d05d94ab3217e1392b181289e201e27d02d36ec6
 
 COCOAPODS: 1.6.1
