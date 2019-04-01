@@ -13,11 +13,39 @@ import CoreLocation
 class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
 
     @IBOutlet weak var mapView: MKMapView!
+    
+    @IBOutlet weak var mapSearchBar: UISearchBar!
+    
+    
+    @IBOutlet weak var filterButton: UIButton!
+    
+    @IBOutlet weak var locationButton: UIButton!
+    
+    
+    @IBOutlet weak var addButton: UIButton!
+    
+    
     var locationManager : CLLocationManager!
     var lastLocation : CLLocationCoordinate2D!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        filterButton.layer.shadowColor = UIColor.black.cgColor
+        filterButton.layer.shadowOffset = CGSize(width: 2, height: 2)
+        filterButton.layer.shadowRadius = 2
+        filterButton.layer.shadowOpacity = 0.2
+        
+        locationButton.layer.shadowColor = UIColor.black.cgColor
+        locationButton.layer.shadowOffset = CGSize(width: 2, height: 2)
+        locationButton.layer.shadowRadius = 2
+        locationButton.layer.shadowOpacity = 0.2
+        
+        addButton.layer.shadowColor = UIColor.black.cgColor
+        addButton.layer.shadowOffset = CGSize(width: 2, height: 2)
+        addButton.layer.shadowRadius = 2
+        addButton.layer.shadowOpacity = 0.2
+        
         
         mapView.delegate = self
         locationManager = CLLocationManager()
