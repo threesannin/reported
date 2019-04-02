@@ -20,6 +20,7 @@
 		77E0B6E7657258813BB32CEF /* Pods_Reported.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89A6E2A7859686C638197B2E /* Pods_Reported.framework */; };
 		9850E9369924E42783FAB5E3 /* Pods_ReportedTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BE13C4E7D7F6ADE4E88A87A /* Pods_ReportedTests.framework */; };
 		9D8B9D9F4933E671B65E8894 /* Pods_ReportedUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F26188474FB297516CE369E3 /* Pods_ReportedUITests.framework */; };
+		B370B9152252F9FC007D42AD /* MapUpdateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B370B9142252F9FC007D42AD /* MapUpdateViewController.swift */; };
 		B3B51C94225151BB00201955 /* iOSDropDown.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3B51C93225151BB00201955 /* iOSDropDown.framework */; };
 		B3B51C962251520D00201955 /* FormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3B51C952251520D00201955 /* FormViewController.swift */; };
 		B3F048C822507E19001ADDBB /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3F048C722507E19001ADDBB /* MapKit.framework */; };
@@ -65,6 +66,7 @@
 		89A6E2A7859686C638197B2E /* Pods_Reported.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Reported.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8BE13C4E7D7F6ADE4E88A87A /* Pods_ReportedTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ReportedTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A171BD004EC04CC461883501 /* Pods-Reported.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Reported.debug.xcconfig"; path = "Target Support Files/Pods-Reported/Pods-Reported.debug.xcconfig"; sourceTree = "<group>"; };
+		B370B9142252F9FC007D42AD /* MapUpdateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapUpdateViewController.swift; sourceTree = "<group>"; };
 		B3B51C93225151BB00201955 /* iOSDropDown.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = iOSDropDown.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B3B51C952251520D00201955 /* FormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FormViewController.swift; path = ViewControllers/FormViewController.swift; sourceTree = "<group>"; };
 		B3F048C722507E19001ADDBB /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
@@ -141,6 +143,7 @@
 				22B123F0224C296A00FE40C7 /* Main.storyboard */,
 				220108AC224C330500C1EDD0 /* Profile.storyboard */,
 				22B1241F224C305C00FE40C7 /* Map.storyboard */,
+				B370B9142252F9FC007D42AD /* MapUpdateViewController.swift */,
 				B3B51C952251520D00201955 /* FormViewController.swift */,
 				220108AA224C31B800C1EDD0 /* Alert.storyboard */,
 				22B123F3224C296C00FE40C7 /* Assets.xcassets */,
@@ -447,6 +450,7 @@
 			files = (
 				22B123EF224C296A00FE40C7 /* ViewController.swift in Sources */,
 				B3F048CC22507F20001ADDBB /* MapViewController.swift in Sources */,
+				B370B9152252F9FC007D42AD /* MapUpdateViewController.swift in Sources */,
 				B3B51C962251520D00201955 /* FormViewController.swift in Sources */,
 				22B123ED224C296A00FE40C7 /* AppDelegate.swift in Sources */,
 			);

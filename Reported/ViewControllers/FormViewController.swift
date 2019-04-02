@@ -14,8 +14,11 @@ class FormViewController: UIViewController {
     @IBOutlet weak var categoryDropField: DropDown!
     
     @IBOutlet weak var datePickerTextField: UITextField!
+    @IBOutlet weak var timePickerTextField: UITextField!
     
     let datePicker = UIDatePicker()
+    let timePicker = UIDatePicker()
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,16 +29,52 @@ class FormViewController: UIViewController {
         categoryDropField.didSelect {
             (selectedText , index ,id) in print("Selected String: \(selectedText) \n index: \(index)")
         }
+        datePicker.datePickerMode = UIDatePicker.Mode.date
+        timePicker.datePickerMode = UIDatePicker.Mode.time
         createDatePicker()
+        createTimePicker()
         // Do any additional setup after loading the view.
     }
     
     func createDatePicker() {
         datePickerTextField.inputView = datePicker
+        let dpToolbar = UIToolbar()
+        dpToolbar.sizeToFit()
+        let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: nil, action: #selector(didSelectDate))
+        dpToolbar.setItems([doneButton], animated: true)
+        datePickerTextField.inputAccessoryView = dpToolbar
+    }
+    
+    func createTimePicker() {
+        timePickerTextField.inputView = timePicker
+        
+        let dpToolbar = UIToolbar()
+        dpToolbar.sizeToFit()
+        
+        let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: nil, action: #selector(didSelectTime))
+        dpToolbar.setItems([doneButton], animated: true)
+        timePickerTextField.inputAccessoryView = dpToolbar
+    }
+    
+    @objc func didSelectDate() {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .medium
+        datePickerTextField.text = dateFormatter.string(from: datePicker.date)
+        self.view.endEditing(true)
+    }
+    
+    @objc func didSelectTime() {
+        let dateFormatter = DateFormatter()
+        dateFormatter.timeStyle = .medium
+        timePickerTextField.text = dateFormatter.string(from: datePicker.date)
+        self.view.endEditing(true)
     }
     
    
-
+    @IBAction func cancel(_ sender: UIBarButtonItem) {
+        dismiss(animated: true, completion: nil)
+    }
+    
     /*
     // MARK: - Navigation
 
