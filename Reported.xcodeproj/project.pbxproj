@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		220108AB224C31B800C1EDD0 /* Alert.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 220108AA224C31B800C1EDD0 /* Alert.storyboard */; };
 		220108AE224C330500C1EDD0 /* Profile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 220108AC224C330500C1EDD0 /* Profile.storyboard */; };
+		22816CD1225337FA009BC52F /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22816CD0225337FA009BC52F /* SignUpViewController.swift */; };
 		22B123ED224C296A00FE40C7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B123EC224C296A00FE40C7 /* AppDelegate.swift */; };
 		22B123EF224C296A00FE40C7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B123EE224C296A00FE40C7 /* ViewController.swift */; };
 		22B123F2224C296A00FE40C7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 22B123F0224C296A00FE40C7 /* Main.storyboard */; };
@@ -42,6 +43,7 @@
 /* Begin PBXFileReference section */
 		220108AA224C31B800C1EDD0 /* Alert.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Alert.storyboard; sourceTree = "<group>"; };
 		220108AD224C330500C1EDD0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Reported/Base.lproj/Profile.storyboard; sourceTree = "<group>"; };
+		22816CD0225337FA009BC52F /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		22B123E9224C296A00FE40C7 /* Reported.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Reported.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		22B123EC224C296A00FE40C7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		22B123EE224C296A00FE40C7 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -129,6 +131,7 @@
 				22B123F3224C296C00FE40C7 /* Assets.xcassets */,
 				22B123F5224C296C00FE40C7 /* LaunchScreen.storyboard */,
 				22B123F8224C296C00FE40C7 /* Info.plist */,
+				22816CD0225337FA009BC52F /* SignUpViewController.swift */,
 			);
 			path = Reported;
 			sourceTree = "<group>";
@@ -409,6 +412,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				22816CD1225337FA009BC52F /* SignUpViewController.swift in Sources */,
 				22B123EF224C296A00FE40C7 /* ViewController.swift in Sources */,
 				22B123ED224C296A00FE40C7 /* AppDelegate.swift in Sources */,
 			);
