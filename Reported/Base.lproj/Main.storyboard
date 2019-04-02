@@ -21,7 +21,7 @@
                                 <rect key="frame" x="100" y="412" width="175" height="43"/>
                                 <color key="backgroundColor" red="0.80000000000000004" green="0.80000000000000004" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="22"/>
-                                <state key="normal" title="login"/>
+                                <state key="normal" title="Login"/>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Reported" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gtw-jG-JsO">
                                 <rect key="frame" x="121" y="116" width="133" height="42"/>
@@ -53,9 +53,11 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c5q-Mb-nsy">
-                                <rect key="frame" x="144" y="546" width="86" height="9"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c5q-Mb-nsy">
+                                <rect key="frame" x="145" y="546" width="85" height="9"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="9" id="HJO-af-1So"/>
+                                </constraints>
                                 <state key="normal" title="bypass login"/>
                                 <connections>
                                     <segue destination="8hb-Bq-xiq" kind="popoverPresentation" popoverAnchorView="c5q-Mb-nsy" id="2bf-h4-bfH">
@@ -67,7 +69,7 @@
                                 <rect key="frame" x="100" y="463" width="175" height="43"/>
                                 <color key="backgroundColor" red="0.80000000000000004" green="0.80000000000000004" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="22"/>
-                                <state key="normal" title="SignUp"/>
+                                <state key="normal" title="Sign Up"/>
                                 <connections>
                                     <segue destination="fS9-ki-mKR" kind="presentation" id="UTf-f8-qyw"/>
                                 </connections>
@@ -85,13 +87,17 @@
                             <constraint firstItem="Gtw-jG-JsO" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="121" id="P9A-3G-O2e"/>
                             <constraint firstItem="zA7-AA-Mc1" firstAttribute="top" secondItem="RyT-IA-3kP" secondAttribute="bottom" constant="16" id="SYO-xj-VCg"/>
                             <constraint firstItem="lJ1-C4-3De" firstAttribute="top" secondItem="cOg-Co-UfJ" secondAttribute="bottom" constant="50" id="TvU-rR-h1j"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Gtw-jG-JsO" secondAttribute="trailing" constant="121" id="VYP-vK-GaZ"/>
                             <constraint firstItem="Gtw-jG-JsO" firstAttribute="centerX" secondItem="5M7-Nf-sp9" secondAttribute="centerX" id="ay5-5f-KCk"/>
                             <constraint firstItem="lJ1-C4-3De" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="100" id="dKI-xp-sq3"/>
                             <constraint firstItem="HpC-RN-b0T" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="100" id="dzN-xi-GoL"/>
                             <constraint firstItem="RyT-IA-3kP" firstAttribute="top" secondItem="5M7-Nf-sp9" secondAttribute="bottom" constant="8" id="fFM-KW-NEP"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="5M7-Nf-sp9" secondAttribute="trailing" constant="20" id="gGw-er-G0z"/>
+                            <constraint firstItem="c5q-Mb-nsy" firstAttribute="top" secondItem="HpC-RN-b0T" secondAttribute="bottom" constant="40" id="gVh-8n-cHl"/>
                             <constraint firstItem="cOg-Co-UfJ" firstAttribute="top" secondItem="zA7-AA-Mc1" secondAttribute="bottom" constant="8" id="hwg-jv-wKG"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="c5q-Mb-nsy" secondAttribute="trailing" constant="145" id="lc7-Ct-iDj"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="zA7-AA-Mc1" secondAttribute="trailing" constant="20" id="lyv-F8-rph"/>
+                            <constraint firstItem="c5q-Mb-nsy" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="145" id="rMU-6z-voJ"/>
                             <constraint firstItem="RyT-IA-3kP" firstAttribute="top" secondItem="5M7-Nf-sp9" secondAttribute="bottom" constant="8" id="swy-de-LkC"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="RyT-IA-3kP" secondAttribute="trailing" constant="20" id="tDp-fl-evN"/>
                             <constraint firstItem="cOg-Co-UfJ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="tq8-sd-ooq"/>
