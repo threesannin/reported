@@ -13,6 +13,15 @@ class FormViewController: UIViewController {
 
     @IBOutlet weak var categoryDropField: DropDown!
     
+    @IBOutlet weak var prioritySegmentedControl: UISegmentedControl!
+    @IBOutlet weak var directionDropField: DropDown!
+    @IBOutlet weak var transportationDropField: DropDown!
+    @IBOutlet weak var streetTextField: UITextField!
+    
+    
+    
+    
+    
     @IBOutlet weak var datePickerTextField: UITextField!
     @IBOutlet weak var timePickerTextField: UITextField!
     
@@ -29,6 +38,13 @@ class FormViewController: UIViewController {
         categoryDropField.didSelect {
             (selectedText , index ,id) in print("Selected String: \(selectedText) \n index: \(index)")
         }
+        directionDropField.optionArray = ["Northbound","Eastbound","Southbound","Westbound"]
+        
+        directionDropField.optionIds = [1,2,3,4]
+        directionDropField.didSelect { (selectedText, index, id) in
+            print("")
+        }
+        
         datePicker.datePickerMode = UIDatePicker.Mode.date
         timePicker.datePickerMode = UIDatePicker.Mode.time
         createDatePicker()
