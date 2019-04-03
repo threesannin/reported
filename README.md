@@ -89,7 +89,19 @@ Report issues dealing with city/state infustructure damage/disturbances which in
 ### [BONUS] Interactive Prototype
 
 ## Schema 
-[This section will be completed in Unit 9]
+|Property|Type|Description|
+|---|---|---|
+|category|string|type of issue to be reported|
+|dirOfTravel|string|direction defined by N,S,E,W|
+|modeOfTrans|string|type of transportation like car, boat, walking, ect  |
+|crossStreet|string|nearest intersection to issue|
+|date|string|date issue was created|
+|time|string|time issue was created|
+|image|File|image related to issue|
+|latitude|string|latitude coordinate of issue|
+|longitude|string|longitude coordinate of issue|
+|description|string|description of issue|
+|receiveResponse|boolean|whether or not follow up response is needed|
 ### Models
 [Add table of models]
 ### Networking
