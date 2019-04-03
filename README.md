@@ -105,6 +105,92 @@ Report issues dealing with city/state infustructure damage/disturbances which in
 ### Models
 [Add table of models]
 ### Networking
+## List of network requests by screen
+- Login 
+    - (Read/Get) Query user credentials to get corresponding user
+     ``` swift
+     PFUser.logInWithUsername(inBackground: username, password: password)
+            { (user, error) in
+            if user != nil {
+                self.performSegue(withIdentifier: "loginSegue", sender: nil)
+            } else {
+                print("Error: \(String(describing: error?.localizedDescription))")
+            }
+        }
+    ```
+- SignUp
+    - (Create/Post) Create a new user
+    ``` swift
+        let user = PFUser()
+        user.username = usernameField.text
+        user.password = passwordField.text
+        user.signUpInBackground { (success, error) in
+            if success {
+                self.performSegue(withIdentifier: "loginSegue", sender: nil)
+            } else {
+                print("Error: \(String(describing: error?.localizedDescription))")
+            }
+        }
+    ```
+- Create a Report
+    - (Create/Post) Create a new report
+    ``` swift
+        let post = PFObject(className: "Posts")
+        
+        post["category"] = categoryField.text
+        post["dirOfTravel"] = dirOfTravelField.text
+        //post["ect"] = ect
+        
+        let imageData = imageView.image!.pngData()
+        let file = PFFileObject(data: imageData!)
+
+        post["image"] = file
+        
+        post.saveInBackground{ (success, error) in
+            if success {
+                self.dismiss(animated: true, completion: nil)
+                print("Saved!")
+            } else {
+                print("error!")
+            }
+        }
+    ```
+- Get reports
+    - (Read/Get)
+    ``` swift
+        let query = PFQuery(className:"Posts")
+        //query.includeKeys(["author", "comments", "comments.author"])
+        
+        query.limit = amount
+        
+        query.findObjectsInBackground{ (posts, error) in
+            if posts != nil {
+                self.posts = posts!
+                self.tableView.reloadData()
+                self.myRefreshControl.endRefreshing()
+            } else {
+                print("Error: \(String(describing: error))")
+            }
+        }
+    ```
+- Get Profile
+    - (Read/Get)
+    ``` swift
+        let query = PFQuery(className:"User")
+        //query.includeKeys(["author", "comments", "comments.author"])
+        
+        query.limit = amount
+        
+        query.findObjectsInBackground{ (posts, error) in
+            if posts != nil {
+                self.posts = posts!
+                self.tableView.reloadData()
+                self.myRefreshControl.endRefreshing()
+            } else {
+                print("Error: \(String(describing: error))")
+            }
+        }
+    ```
 - [Add list of network requests by screen ]
 - [Create basic snippets for each Parse network request]
 - [OPTIONAL: List endpoints if using existing API such as Yelp]
