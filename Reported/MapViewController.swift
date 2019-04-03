@@ -13,17 +13,11 @@ import CoreLocation
 class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
 
     @IBOutlet weak var mapView: MKMapView!
-    
     @IBOutlet weak var mapSearchBar: UISearchBar!
-    
-    
     @IBOutlet weak var filterButton: UIButton!
-    
     @IBOutlet weak var locationButton: UIButton!
-    
-    
     @IBOutlet weak var addButton: UIButton!
-    
+//    var currentMapSnapShotImage: UIImage?
     
     var locationManager : CLLocationManager!
     var lastLocation : CLLocationCoordinate2D!
@@ -99,6 +93,21 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         lastLocation = location?.coordinate
     }
     
+//    func takeSnapshot() {
+//        let snapOption = MKMapSnapshotter.Options()
+//        var mapRegion = MKCoordinateRegion()
+//        mapRegion.center = mapView.centerCoordinate
+//        snapOption.region = mapRegion
+//        let snapshotter = MKMapSnapshotter(options: snapOption)
+//        snapshotter.start {snapshot,error in
+//            DispatchQueue.main.async {
+//                self.currentMapSnapShotImage = snapshot?.image
+//            }
+//        }
+//    }
+   
+    
+    
     @IBAction func onLocationPRess(_ sender: UIButton) {
         var annotations = [mapView.userLocation]
         mapView.showAnnotations(annotations, animated: true)
@@ -115,14 +124,34 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         self.addPin(coordinate: coordinate)
     }
     
-    /*
+  
+    
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        let destinationNavigationController = segue.destination as! UINavigationController
+        let formViewController = destinationNavigationController.topViewController as! FormViewController
+        
+        let mapSnapshotImage = mapView.pbtakesnap()
+        formViewController.mapSnapshotImage = mapSnapshotImage
+        
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
     }
-    */
+    
 
+}
+extension UIView {
+    func pbtakesnap() -> UIImage {
+        UIGraphicsBeginImageContextWithOptions(bounds.size, false, UIScreen.main.scale)
+        
+        drawHierarchy(in: self.bounds, afterScreenUpdates: true)
+        
+        let image = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        return image
+    }
 }
