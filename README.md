@@ -89,6 +89,9 @@ Report issues dealing with city/state infustructure damage/disturbances which in
 ### [BONUS] Interactive Prototype
 
 ## Schema 
+
+### Models
+#### Post
 |Property|Type|Description|
 |---|---|---|
 |category|string|type of issue to be reported|
@@ -102,8 +105,17 @@ Report issues dealing with city/state infustructure damage/disturbances which in
 |longitude|string|longitude coordinate of issue|
 |description|string|description of issue|
 |receiveResponse|boolean|whether or not follow up response is needed|
-### Models
-[Add table of models]
+|username|string|author of post|
+
+#### User
+|Property|Type|Description|
+|---|---|---|
+|username|string|unique user identifier|
+|email|string|user email|
+|firstName|string|user first name|
+|lastName|string|user last name|
+|password|string|user password|
+
 ### Networking
 ## List of network requests by screen
 - Login 
