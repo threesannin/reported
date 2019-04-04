@@ -53,10 +53,10 @@ class loginAndSignupViewController: UIViewController {
             } else {
                 // The login failed. Check error to see why.
                 print("Error: \(String(describing: error?.localizedDescription))")
+                
+                //displaying an alert to screen
                 let alert = UIAlertController(title: "Error Logging In", message: "", preferredStyle: .alert)
-                
                 alert.addAction(UIAlertAction(title: "ok", style: .default, handler: nil))
-                
                 self.present(alert, animated: true)
             }
         }
@@ -68,23 +68,30 @@ class loginAndSignupViewController: UIViewController {
         profile["firstName"] = signupFirstNameTextfield.text!
         profile["lastName"] = signupLastNameTextfield.text!
         profile["email"] = signupEmailTextfield.text!
-        profile.saveInBackground{ (success, error) in
-            if success{
-                print("saved")
-            }else{
-                print("error")
+        if(signupUsernameTextfield.text! == "" || signupFirstNameTextfield.text! == "" || signupLastNameTextfield.text! == "" || signupEmailTextfield.text! == "" || signupPasswordTextfield.text! == ""){
+            //displaying an alert to screen
+            let alert = UIAlertController(title: "Error Signing Up", message: "all fields must be filled", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "ok", style: .default, handler: nil))
+            self.present(alert, animated: true)
+        }else{
+            profile.saveInBackground{ (success, error) in
+                if success{
+                    print("saved")
+                }else{
+                    print("error")
+                }
             }
-        }
-        
-        let user = PFUser()
-        user.username = signupUsernameTextfield.text!
-        user.password = signupPasswordTextfield.text!
-        user.email = signupEmailTextfield.text!
-        user.signUpInBackground { (success, error) in
-            if success{
-                self.performSegue(withIdentifier: "loginSegue2", sender: nil)
-            }else {
-                print("error signing up: \(error?.localizedDescription)")
+            
+            let user = PFUser()
+            user.username = signupUsernameTextfield.text!
+            user.password = signupPasswordTextfield.text!
+            user.email = signupEmailTextfield.text!
+            user.signUpInBackground { (success, error) in
+                if success{
+                    self.performSegue(withIdentifier: "loginSegue2", sender: nil)
+                }else {
+                    print("error signing up: \(error?.localizedDescription)")
+                }
             }
         }
         
