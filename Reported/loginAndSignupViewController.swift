@@ -53,18 +53,41 @@ class loginAndSignupViewController: UIViewController {
             } else {
                 // The login failed. Check error to see why.
                 print("Error: \(String(describing: error?.localizedDescription))")
+                let alert = UIAlertController(title: "Error Logging In", message: "", preferredStyle: .alert)
+                
+                alert.addAction(UIAlertAction(title: "ok", style: .default, handler: nil))
+                
+                self.present(alert, animated: true)
             }
         }
     }
     
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    @IBAction func onSignUp(_ sender: Any) {
+        let profile = PFObject(className: "Profile")
+        profile["username"] = signupUsernameTextfield.text!
+        profile["firstName"] = signupFirstNameTextfield.text!
+        profile["lastName"] = signupLastNameTextfield.text!
+        profile["email"] = signupEmailTextfield.text!
+        profile.saveInBackground{ (success, error) in
+            if success{
+                print("saved")
+            }else{
+                print("error")
+            }
+        }
+        
+        let user = PFUser()
+        user.username = signupUsernameTextfield.text!
+        user.password = signupPasswordTextfield.text!
+        user.email = signupEmailTextfield.text!
+        user.signUpInBackground { (success, error) in
+            if success{
+                self.performSegue(withIdentifier: "loginSegue2", sender: nil)
+            }else {
+                print("error signing up: \(error?.localizedDescription)")
+            }
+        }
+        
     }
-    */
-
+    
 }
