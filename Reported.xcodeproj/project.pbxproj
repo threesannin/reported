@@ -20,6 +20,9 @@
 		22B12402224C296C00FE40C7 /* ReportedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B12401224C296C00FE40C7 /* ReportedTests.swift */; };
 		22B1240D224C296C00FE40C7 /* ReportedUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B1240C224C296C00FE40C7 /* ReportedUITests.swift */; };
 		22B12421224C305C00FE40C7 /* Map.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 22B1241F224C305C00FE40C7 /* Map.storyboard */; };
+		73DE7DE12253C06C00A650CD /* AlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73DE7DE02253C06C00A650CD /* AlertViewController.swift */; };
+		73DE7DE32253C0A400A650CD /* AlertCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73DE7DE22253C0A400A650CD /* AlertCell.swift */; };
+		73DE7DE5225413A800A650CD /* loginAndSignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73DE7DE4225413A800A650CD /* loginAndSignupViewController.swift */; };
 		77E0B6E7657258813BB32CEF /* Pods_Reported.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89A6E2A7859686C638197B2E /* Pods_Reported.framework */; };
 		9850E9369924E42783FAB5E3 /* Pods_ReportedTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BE13C4E7D7F6ADE4E88A87A /* Pods_ReportedTests.framework */; };
 		9D8B9D9F4933E671B65E8894 /* Pods_ReportedUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F26188474FB297516CE369E3 /* Pods_ReportedUITests.framework */; };
@@ -63,6 +66,9 @@
 		22B1240E224C296C00FE40C7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		22B12420224C305C00FE40C7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Reported/Base.lproj/Map.storyboard; sourceTree = "<group>"; };
 		3DE3EDEB641C6D6FCD6773F5 /* Pods-ReportedTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReportedTests.debug.xcconfig"; path = "Target Support Files/Pods-ReportedTests/Pods-ReportedTests.debug.xcconfig"; sourceTree = "<group>"; };
+		73DE7DE02253C06C00A650CD /* AlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertViewController.swift; sourceTree = "<group>"; };
+		73DE7DE22253C0A400A650CD /* AlertCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertCell.swift; sourceTree = "<group>"; };
+		73DE7DE4225413A800A650CD /* loginAndSignupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = loginAndSignupViewController.swift; sourceTree = "<group>"; };
 		89A6E2A7859686C638197B2E /* Pods_Reported.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Reported.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8BE13C4E7D7F6ADE4E88A87A /* Pods_ReportedTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ReportedTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A171BD004EC04CC461883501 /* Pods-Reported.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Reported.debug.xcconfig"; path = "Target Support Files/Pods-Reported/Pods-Reported.debug.xcconfig"; sourceTree = "<group>"; };
@@ -128,12 +134,15 @@
 			children = (
 				22B123EC224C296A00FE40C7 /* AppDelegate.swift */,
 				22B123EE224C296A00FE40C7 /* ViewController.swift */,
+				22B123F5224C296C00FE40C7 /* LaunchScreen.storyboard */,
 				22B123F0224C296A00FE40C7 /* Main.storyboard */,
+				73DE7DE4225413A800A650CD /* loginAndSignupViewController.swift */,
 				220108AC224C330500C1EDD0 /* Profile.storyboard */,
 				22B1241F224C305C00FE40C7 /* Map.storyboard */,
 				220108AA224C31B800C1EDD0 /* Alert.storyboard */,
+				73DE7DE02253C06C00A650CD /* AlertViewController.swift */,
+				73DE7DE22253C0A400A650CD /* AlertCell.swift */,
 				22B123F3224C296C00FE40C7 /* Assets.xcassets */,
-				22B123F5224C296C00FE40C7 /* LaunchScreen.storyboard */,
 				22B123F8224C296C00FE40C7 /* Info.plist */,
 				22652F2B22547CDF00960AEF /* ProfileViewController.swift */,
 				22652F2D2254804900960AEF /* ProfileTableViewCell.swift */,
@@ -422,7 +431,10 @@
 				22652F2E2254804900960AEF /* ProfileTableViewCell.swift in Sources */,
 				22B123EF224C296A00FE40C7 /* ViewController.swift in Sources */,
 				22652F3022548EE300960AEF /* ReportTableViewCell.swift in Sources */,
+				73DE7DE12253C06C00A650CD /* AlertViewController.swift in Sources */,
+				73DE7DE32253C0A400A650CD /* AlertCell.swift in Sources */,
 				22B123ED224C296A00FE40C7 /* AppDelegate.swift in Sources */,
+				73DE7DE5225413A800A650CD /* loginAndSignupViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
