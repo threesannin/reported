@@ -89,10 +89,120 @@ Report issues dealing with city/state infustructure damage/disturbances which in
 ### [BONUS] Interactive Prototype
 
 ## Schema 
-[This section will be completed in Unit 9]
+
 ### Models
-[Add table of models]
+#### Post
+|Property|Type|Description|
+|---|---|---|
+|category|string|type of issue to be reported|
+|dirOfTravel|string|direction defined by N,S,E,W|
+|modeOfTrans|string|type of transportation like car, boat, walking, ect  |
+|crossStreet|string|nearest intersection to issue|
+|date|string|date issue was created|
+|time|string|time issue was created|
+|image|File|image related to issue|
+|latitude|string|latitude coordinate of issue|
+|longitude|string|longitude coordinate of issue|
+|description|string|description of issue|
+|receiveResponse|boolean|whether or not follow up response is needed|
+|username|string|author of post|
+
+#### User
+|Property|Type|Description|
+|---|---|---|
+|username|string|unique user identifier|
+|email|string|user email|
+|firstName|string|user first name|
+|lastName|string|user last name|
+|password|string|user password|
+
 ### Networking
+## List of network requests by screen
+- Login 
+    - (Read/Get) Query user credentials to get corresponding user
+     ``` swift
+     PFUser.logInWithUsername(inBackground: username, password: password)
+            { (user, error) in
+            if user != nil {
+                self.performSegue(withIdentifier: "loginSegue", sender: nil)
+            } else {
+                print("Error: \(String(describing: error?.localizedDescription))")
+            }
+        }
+    ```
+- SignUp
+    - (Create/Post) Create a new user
+    ``` swift
+        let user = PFUser()
+        user.username = usernameField.text
+        user.password = passwordField.text
+        user.signUpInBackground { (success, error) in
+            if success {
+                self.performSegue(withIdentifier: "loginSegue", sender: nil)
+            } else {
+                print("Error: \(String(describing: error?.localizedDescription))")
+            }
+        }
+    ```
+- Create a Report
+    - (Create/Post) Create a new report
+    ``` swift
+        let post = PFObject(className: "Posts")
+        
+        post["category"] = categoryField.text
+        post["dirOfTravel"] = dirOfTravelField.text
+        //post["ect"] = ect
+        
+        let imageData = imageView.image!.pngData()
+        let file = PFFileObject(data: imageData!)
+
+        post["image"] = file
+        
+        post.saveInBackground{ (success, error) in
+            if success {
+                self.dismiss(animated: true, completion: nil)
+                print("Saved!")
+            } else {
+                print("error!")
+            }
+        }
+    ```
+- Get reports
+    - (Read/Get)
+    ``` swift
+        let query = PFQuery(className:"Posts")
+        //query.includeKeys(["author", "comments", "comments.author"])
+        
+        query.limit = amount
+        
+        query.findObjectsInBackground{ (posts, error) in
+            if posts != nil {
+                self.posts = posts!
+                self.tableView.reloadData()
+                self.myRefreshControl.endRefreshing()
+            } else {
+                print("Error: \(String(describing: error))")
+            }
+        }
+    ```
+- Get Profile
+    - (Read/Get)
+    ``` swift
+        let query = PFQuery(className:"User")
+        //query.includeKeys(["author", "comments", "comments.author"])
+        
+        query.limit = amount
+        
+        query.findObjectsInBackground{ (posts, error) in
+            if posts != nil {
+                self.posts = posts!
+                self.tableView.reloadData()
+                self.myRefreshControl.endRefreshing()
+            } else {
+                print("Error: \(String(describing: error))")
+            }
+        }
+    ```
 - [Add list of network requests by screen ]
 - [Create basic snippets for each Parse network request]
 - [OPTIONAL: List endpoints if using existing API such as Yelp]
