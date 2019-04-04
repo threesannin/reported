@@ -17,7 +17,7 @@ class loginAndSignupViewController: UIViewController {
     @IBOutlet weak var signupLastNameTextfield: UITextField!
     @IBOutlet weak var signupEmailTextfield: UITextField!
     @IBOutlet weak var signupUsernameTextfield: UITextField!
-    @IBOutlet weak var signupPasswordTextfield: UITextField!    
+    @IBOutlet weak var signupPasswordTextfield: UITextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -80,14 +80,6 @@ class loginAndSignupViewController: UIViewController {
             self.present(alert, animated: true)
             
         }else{ //if all fields are filled save user
-            profile.saveInBackground{ (success, error) in
-                if success{
-                    print("saved")
-                }else{
-                    print("error")
-                }
-            }
-            
             //creating a PFUser object to save the user with only their username, password, and email
             let user = PFUser()
             user.username = signupUsernameTextfield.text!
@@ -95,11 +87,19 @@ class loginAndSignupViewController: UIViewController {
             user.email = signupEmailTextfield.text!
             user.signUpInBackground { (success, error) in
                 if success{
+                    profile.saveInBackground{ (success, error) in
+                        if success{
+                            print("saved")
+                        }else{
+                            print("error")
+                        }
+                    }
                     self.performSegue(withIdentifier: "loginSegue2", sender: nil)
                 }else {
                     print("error signing up: \(String(describing: error?.localizedDescription))")
                 }
             }
+            
         }
         
     }
