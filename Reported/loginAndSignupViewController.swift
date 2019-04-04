@@ -17,29 +17,28 @@ class loginAndSignupViewController: UIViewController {
     @IBOutlet weak var signupLastNameTextfield: UITextField!
     @IBOutlet weak var signupEmailTextfield: UITextField!
     @IBOutlet weak var signupUsernameTextfield: UITextField!
-    @IBOutlet weak var signupPasswordTextfield: UITextField!
-    @IBOutlet weak var signupPhoneNumberTextfield: UITextField!
-    
+    @IBOutlet weak var signupPasswordTextfield: UITextField!    
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
     }
-    
+    //end editing on sign up view
     @IBAction func onTap(_ sender: Any) {
         print("tapping on main view")
         view.endEditing(true);
     }
+    //end editing on login view
     @IBAction func onTap2(_ sender: Any) {
         print("tapping on main view")
         view.endEditing(true);
     }
-    
+    //dissmissing the sign up modal after pressing back to login
     @IBAction func dismissModal(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
     }
-    
+    //actions for when login is pressed
     @IBAction func onLogin(_ sender: Any) {
         let user = loginUsernameTextfield.text!
         let pass = loginPasswordTextfield.text!
@@ -61,19 +60,26 @@ class loginAndSignupViewController: UIViewController {
             }
         }
     }
-    
+    //actions for when sign up is pressed.
     @IBAction func onSignUp(_ sender: Any) {
+        //creating a 'Profile' object to save to the database
         let profile = PFObject(className: "Profile")
         profile["username"] = signupUsernameTextfield.text!
         profile["firstName"] = signupFirstNameTextfield.text!
         profile["lastName"] = signupLastNameTextfield.text!
         profile["email"] = signupEmailTextfield.text!
-        if(signupUsernameTextfield.text! == "" || signupFirstNameTextfield.text! == "" || signupLastNameTextfield.text! == "" || signupEmailTextfield.text! == "" || signupPasswordTextfield.text! == ""){
+        
+        //only save user to database if all text fields are filled out
+        if(signupUsernameTextfield.text! == "" || signupFirstNameTextfield.text! == "" ||
+           signupLastNameTextfield.text! == "" || signupEmailTextfield.text! == "" ||
+           signupPasswordTextfield.text! == ""){ //error if all fields are not filled
+            
             //displaying an alert to screen
             let alert = UIAlertController(title: "Error Signing Up", message: "all fields must be filled", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "ok", style: .default, handler: nil))
             self.present(alert, animated: true)
-        }else{
+            
+        }else{ //if all fields are filled save user
             profile.saveInBackground{ (success, error) in
                 if success{
                     print("saved")
@@ -82,6 +88,7 @@ class loginAndSignupViewController: UIViewController {
                 }
             }
             
+            //creating a PFUser object to save the user with only their username, password, and email
             let user = PFUser()
             user.username = signupUsernameTextfield.text!
             user.password = signupPasswordTextfield.text!
@@ -90,7 +97,7 @@ class loginAndSignupViewController: UIViewController {
                 if success{
                     self.performSegue(withIdentifier: "loginSegue2", sender: nil)
                 }else {
-                    print("error signing up: \(error?.localizedDescription)")
+                    print("error signing up: \(String(describing: error?.localizedDescription))")
                 }
             }
         }
