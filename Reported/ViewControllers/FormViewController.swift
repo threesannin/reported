@@ -31,12 +31,15 @@ class FormViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         addImageButton.layer.borderWidth = 1
+        addImageButton.layer.cornerRadius = 5
+        
+        addImageButton.layer.borderColor = UIColor.blue.cgColor
+        
         if let mapImage = mapSnapshotImage {
             mapImageView.contentMode = UIView.ContentMode.scaleAspectFill
             mapImageView.image = mapImage
         }
 
-        
         categoryDropField.optionArray = ["Option 1", "Option 2", "Option 3", "Option 4"]
 //        //Its Id Values and its optional
         categoryDropField.optionIds = [1,2,3,4]
