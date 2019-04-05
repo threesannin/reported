@@ -10,15 +10,13 @@ import UIKit
 import iOSDropDown
 import MapKit
 
-class FormViewController: UIViewController {
+class FormViewController: UIViewController,UIImagePickerControllerDelegate, UINavigationControllerDelegate  {
 
     @IBOutlet weak var categoryDropField: DropDown!
-    @IBOutlet weak var prioritySegmentedControl: UISegmentedControl!
     @IBOutlet weak var directionDropField: DropDown!
     @IBOutlet weak var transportationDropField: DropDown!
     @IBOutlet weak var streetTextField: UITextField!
     @IBOutlet weak var datePickerTextField: UITextField!
-    @IBOutlet weak var timePickerTextField: UITextField!
     @IBOutlet weak var mapImageView: UIImageView!
     var mapSnapshotImage: UIImage?
     
@@ -27,6 +25,8 @@ class FormViewController: UIViewController {
     let timePicker = UIDatePicker()
 
     @IBOutlet weak var addImageButton: UIButton!
+    
+    typealias selectorHandler = ()  -> Void
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,48 +56,16 @@ class FormViewController: UIViewController {
         }
         
         
-        datePicker.datePickerMode = UIDatePicker.Mode.date
-        timePicker.datePickerMode = UIDatePicker.Mode.time
-        createDatePicker()
-        createTimePicker()
+        datePicker.datePickerMode = UIDatePicker.Mode.dateAndTime
+        datePickerTextField.createModalPicker(datePicker: datePicker, selector: #selector(didSelectDate))
+        // timePickerTextField.createModalPicker(datePicker: timePicker, selector: #selector(didSelectTime))
         // Do any additional setup after loading the view.
     }
     
-    func createDatePicker() {
-        datePickerTextField.inputView = datePicker
-        let dpToolbar = UIToolbar()
-        dpToolbar.sizeToFit()
-        let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: nil, action: #selector(didSelectDate))
-        dpToolbar.setItems([doneButton], animated: true)
-        datePickerTextField.inputAccessoryView = dpToolbar
-    }
-    
-    func createTimePicker() {
-        timePickerTextField.inputView = timePicker
-        
-        let dpToolbar = UIToolbar()
-        dpToolbar.sizeToFit()
-        
-        let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: nil, action: #selector(didSelectTime))
-        dpToolbar.setItems([doneButton], animated: true)
-        timePickerTextField.inputAccessoryView = dpToolbar
-    }
-    
     @objc func didSelectDate() {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .medium
-        datePickerTextField.text = dateFormatter.string(from: datePicker.date)
-        self.view.endEditing(true)
+        datePickerTextField.setFormat(picker: datePicker, controller: self)
     }
-    
-    @objc func didSelectTime() {
-        let dateFormatter = DateFormatter()
-        dateFormatter.timeStyle = .medium
-        timePickerTextField.text = dateFormatter.string(from: datePicker.date)
-        self.view.endEditing(true)
-    }
-    
-   
+
     @IBAction func cancel(_ sender: UIBarButtonItem) {
         dismiss(animated: true, completion: nil)
     }
@@ -113,3 +81,22 @@ class FormViewController: UIViewController {
     */
 
 }
+extension UITextField {
+    func createModalPicker(datePicker: UIDatePicker, selector: Selector) {
+        self.inputView = datePicker
+        let dpToolbar = UIToolbar()
+        dpToolbar.sizeToFit()
+        let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: nil, action: selector)
+        dpToolbar.setItems([doneButton], animated: true)
+        self.inputAccessoryView = dpToolbar
+    }
+    
+    @objc func setFormat(picker: UIDatePicker, controller: FormViewController) {
+        let dateFormatter = DateFormatter()
+        dateFormatter.timeStyle = .medium
+        dateFormatter.dateStyle = .medium
+        self.text = dateFormatter.string(from: picker.date)
+        controller.view.endEditing(true)
+    }
+}
+
