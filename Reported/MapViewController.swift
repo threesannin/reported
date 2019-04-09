@@ -72,25 +72,36 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         }
     }
     
-    func mapView(mapView: MKMapView!, didUpdateUserLocation userLocation: MKUserLocation!) {
-        var annotations = [mapView.userLocation]
+    // Update map view to center on user location
+    func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
+        let annotations = [mapView.userLocation]
         mapView.showAnnotations(annotations, animated: true)
+        lastLocation = userLocation.coordinate
+        print("1")
+
     }
     
-    func mapView(mapView: MKMapView!, didSelectAnnotationView view: MKAnnotationView!) {
-        var annotations = [mapView.userLocation, view.annotation]
+    // Update map view to center on user and annotation
+    func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
+        let annotations = [mapView.userLocation, view.annotation]
         mapView.showAnnotations(annotations as! [MKAnnotation], animated: true)
+        print("2")
     }
     
-    func locationManager(manager: CLLocationManager!, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
+    // Allow updates to location when moving
+    private func locationManager(manager: CLLocationManager!, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
         if status == CLAuthorizationStatus.authorizedWhenInUse {
             manager.startUpdatingLocation()
         }
+        print("3")
+
     }
     
+    // get last location when location is updated
     func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
-        var location = locations.first as? CLLocation
+        let location = locations.first as? CLLocation
         lastLocation = location?.coordinate
+        print("4")
     }
     
 //    func takeSnapshot() {
@@ -109,7 +120,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     
     
     @IBAction func onLocationPRess(_ sender: UIButton) {
-        var annotations = [mapView.userLocation]
+        let annotations = [mapView.userLocation]
         mapView.showAnnotations(annotations, animated: true)
     }
     
@@ -137,6 +148,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         
         let mapSnapshotImage = mapView.pbtakesnap()
         formViewController.mapSnapshotImage = mapSnapshotImage
+        formViewController.pinLocation = lastLocation
         
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.

@@ -18,29 +18,30 @@ class FormViewController: UIViewController,UIImagePickerControllerDelegate, UINa
     @IBOutlet weak var streetTextField: UITextField!
     @IBOutlet weak var datePickerTextField: UITextField!
     @IBOutlet weak var mapImageView: UIImageView!
-    var mapSnapshotImage: UIImage?
-    
-    
-    let datePicker = UIDatePicker()
-    let timePicker = UIDatePicker()
-
+    @IBOutlet weak var gpsLabel: UILabel!
     @IBOutlet weak var addImageButton: UIButton!
     
-    typealias selectorHandler = ()  -> Void
+    var mapSnapshotImage: UIImage?
+    var pinLocation: CLLocationCoordinate2D?
+    let datePicker = UIDatePicker()
+    let timePicker = UIDatePicker()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         addImageButton.layer.borderWidth = 1
         addImageButton.layer.cornerRadius = 5
-        
         addImageButton.layer.borderColor = UIColor.blue.cgColor
         
         if let mapImage = mapSnapshotImage {
             mapImageView.contentMode = UIView.ContentMode.scaleAspectFill
             mapImageView.image = mapImage
         }
-
-        categoryDropField.optionArray = ["Option 1", "Option 2", "Option 3", "Option 4"]
+        
+        if let lat = pinLocation?.latitude, let long = pinLocation?.longitude {
+            gpsLabel.text = String("\(String(describing: lat)), \(String(describing: long))")
+        }
+     
+        categoryDropField.optionArray = ["Pothole", "Litter/Garbage", "Graffiti", "Other"]
 //        //Its Id Values and its optional
         categoryDropField.optionIds = [1,2,3,4]
 //        // The the Closure returns Selected Index and String
@@ -49,7 +50,6 @@ class FormViewController: UIViewController,UIImagePickerControllerDelegate, UINa
         }
         
         directionDropField.optionArray = ["Northbound","Eastbound","Southbound","Westbound"]
-//
         directionDropField.optionIds = [1,2,3,4]
         directionDropField.didSelect { (selectedText, index, id) in
             print("")
@@ -58,8 +58,6 @@ class FormViewController: UIViewController,UIImagePickerControllerDelegate, UINa
         
         datePicker.datePickerMode = UIDatePicker.Mode.dateAndTime
         datePickerTextField.createModalPicker(datePicker: datePicker, selector: #selector(didSelectDate))
-        // timePickerTextField.createModalPicker(datePicker: timePicker, selector: #selector(didSelectTime))
-        // Do any additional setup after loading the view.
     }
     
     @objc func didSelectDate() {
@@ -68,6 +66,24 @@ class FormViewController: UIViewController,UIImagePickerControllerDelegate, UINa
 
     @IBAction func cancel(_ sender: UIBarButtonItem) {
         dismiss(animated: true, completion: nil)
+    }
+    
+    
+    @IBAction func done(_ sender: UIBarButtonItem) {
+        // POST
+        print(categoryDropField.text!)
+        if (directionDropField.text?.isEmpty)! {
+            print("empty")
+        }
+        if let mot = transportationDropField.text {
+            print(mot)
+        }
+        if let ncs = streetTextField.text {
+            print(ncs)
+        }
+        if let datetime = datePickerTextField.text {
+            print(datetime)
+        }
     }
     
     /*
