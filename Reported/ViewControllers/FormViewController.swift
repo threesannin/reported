@@ -41,7 +41,7 @@ class FormViewController: UIViewController,UIImagePickerControllerDelegate, UINa
             gpsLabel.text = String("\(String(describing: lat)), \(String(describing: long))")
         }
      
-        categoryDropField.optionArray = ["Pothole", "Litter/Garbage", "Graffiti", "Other"]
+        categoryDropField.optionArray = ["Roadway - Pothole", "Litter - Trash/Debris", "Graffiti", "Other"]
 //        //Its Id Values and its optional
         categoryDropField.optionIds = [1,2,3,4]
 //        // The the Closure returns Selected Index and String
@@ -55,7 +55,6 @@ class FormViewController: UIViewController,UIImagePickerControllerDelegate, UINa
             print("")
         }
         
-        
         datePicker.datePickerMode = UIDatePicker.Mode.dateAndTime
         datePickerTextField.createModalPicker(datePicker: datePicker, selector: #selector(didSelectDate))
     }
@@ -63,7 +62,19 @@ class FormViewController: UIViewController,UIImagePickerControllerDelegate, UINa
     @objc func didSelectDate() {
         datePickerTextField.setFormat(picker: datePicker, controller: self)
     }
-
+    
+    @IBAction func dismissDropDown(_ sender: UITapGestureRecognizer) {
+        print("attempting dismissal")
+        categoryDropField.resignFirstResponder()
+        categoryDropField.hideList()
+        directionDropField.resignFirstResponder()
+        directionDropField.hideList()
+        transportationDropField.resignFirstResponder()
+        transportationDropField.hideList()
+        streetTextField.resignFirstResponder()
+        datePickerTextField.resignFirstResponder()
+    }
+    
     @IBAction func cancel(_ sender: UIBarButtonItem) {
         dismiss(animated: true, completion: nil)
     }

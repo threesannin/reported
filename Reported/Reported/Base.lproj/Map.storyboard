@@ -160,8 +160,8 @@
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Direction of travel*" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k9G-pY-7xr">
-                                                <rect key="frame" x="38" y="124" width="122" height="17"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Direction of Travel*" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k9G-pY-7xr">
+                                                <rect key="frame" x="38" y="124" width="124" height="17"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
@@ -219,35 +219,45 @@
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits"/>
                                             </textField>
-                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="LdF-te-gEm" customClass="DropDown" customModule="iOSDropDown">
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Select Mode" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="LdF-te-gEm" customClass="DropDown" customModule="iOSDropDown">
                                                 <rect key="frame" x="38" y="224" width="299" height="30"/>
                                                 <nil key="textColor"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits"/>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="boolean" keyPath="isSearchEnable" value="YES"/>
+                                                    <userDefinedRuntimeAttribute type="color" keyPath="selectedRowColor">
+                                                        <color key="value" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
                                             </textField>
-                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="xK2-16-IU9" customClass="DropDown" customModule="iOSDropDown">
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Select Direction" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="xK2-16-IU9" customClass="DropDown" customModule="iOSDropDown">
                                                 <rect key="frame" x="38" y="149" width="299" height="30"/>
                                                 <nil key="textColor"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits"/>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="boolean" keyPath="isSearchEnable" value="YES"/>
+                                                    <userDefinedRuntimeAttribute type="color" keyPath="selectedRowColor">
+                                                        <color key="value" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
                                             </textField>
-                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="V4x-A9-eGp" customClass="DropDown" customModule="iOSDropDown">
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Select Issue" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="V4x-A9-eGp" customClass="DropDown" customModule="iOSDropDown">
                                                 <rect key="frame" x="38" y="71" width="299" height="30"/>
                                                 <nil key="textColor"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits"/>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="boolean" keyPath="isSearchEnable" value="YES"/>
+                                                    <userDefinedRuntimeAttribute type="color" keyPath="selectedRowColor">
+                                                        <color key="value" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
                                             </textField>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <gestureRecognizers/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="1000" id="1Aw-dF-pd0"/>
                                             <constraint firstItem="xK2-16-IU9" firstAttribute="leading" secondItem="N7a-7B-cB0" secondAttribute="leading" id="2Fd-oQ-xHE"/>
@@ -297,6 +307,9 @@
                                             <constraint firstItem="WXa-vV-Bdl" firstAttribute="top" secondItem="N7a-7B-cB0" secondAttribute="bottom" constant="8" symbolic="YES" id="xDa-9e-x2T"/>
                                             <constraint firstItem="V4x-A9-eGp" firstAttribute="leading" secondItem="X8K-K3-W33" secondAttribute="leadingMargin" constant="30" id="z2n-DX-5rr"/>
                                         </constraints>
+                                        <connections>
+                                            <outletCollection property="gestureRecognizers" destination="PR4-Mf-zNg" appends="YES" id="Gq5-C5-s9L"/>
+                                        </connections>
                                     </view>
                                 </subviews>
                                 <constraints>
@@ -347,6 +360,11 @@
                 <tapGestureRecognizer id="UuH-0k-84h">
                     <connections>
                         <segue destination="efP-5q-wrq" kind="presentation" id="v42-HO-LbN"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <tapGestureRecognizer id="PR4-Mf-zNg">
+                    <connections>
+                        <action selector="dismissDropDown:" destination="Icw-Yt-UwX" id="7rv-hs-bhC"/>
                     </connections>
                 </tapGestureRecognizer>
             </objects>
