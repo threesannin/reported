@@ -325,7 +325,11 @@
                                 <action selector="cancel:" destination="Icw-Yt-UwX" id="JBw-iT-8R6"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="qUw-4u-dfQ"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="qUw-4u-dfQ">
+                            <connections>
+                                <action selector="done:" destination="Icw-Yt-UwX" id="0ZO-zN-JiI"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <size key="freeformSize" width="375" height="1000"/>
                     <connections>
@@ -333,6 +337,7 @@
                         <outlet property="categoryDropField" destination="V4x-A9-eGp" id="fqj-ei-Dtm"/>
                         <outlet property="datePickerTextField" destination="44L-b3-POM" id="YY4-1T-N3N"/>
                         <outlet property="directionDropField" destination="xK2-16-IU9" id="X4C-5c-qbQ"/>
+                        <outlet property="gpsLabel" destination="JVw-dR-v02" id="2xN-C7-b3V"/>
                         <outlet property="mapImageView" destination="tqm-Q1-1q6" id="F0D-0A-pJx"/>
                         <outlet property="streetTextField" destination="WXa-vV-Bdl" id="AQR-X2-sam"/>
                         <outlet property="transportationDropField" destination="LdF-te-gEm" id="kLN-34-MWB"/>
