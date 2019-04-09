@@ -104,4 +104,84 @@ class loginAndSignupViewController: UIViewController {
         
     }
     
+    
+    
+    @IBAction func apiCaller(_ sender: Any) {
+        print("pressed")
+        let url = URL(string: "https://reportedapi.herokuapp.com/test")!
+        let request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 10)
+        let session = URLSession(configuration: .default, delegate: nil, delegateQueue: OperationQueue.main)
+        let task = session.dataTask(with: request) { (data, response, error) in
+            if let error = error {
+                print(error.localizedDescription)
+            } else if let data = data {
+                let msg = try! JSONSerialization.jsonObject(with: data, options:[]) as! [String: Any]
+                print(msg)
+                print(msg["status"] as! String)
+            }
+        }
+        task.resume()
+    }
+
+    
+    struct Form: Codable {
+        let category: String
+        let dirOfTravel: String
+        let modeOfTrans: String
+        let crossStreet: String
+        let date: String
+        let time: String
+        let latitude: String
+        let longitude: String
+        let description: String
+        let username: String
+        let receiveResponse: Bool
+    }
+    
+    @IBAction func postApiCall(_ sender: Any) {
+        var urlComponents = URLComponents()
+        urlComponents.scheme = "https"
+        urlComponents.host = "reportedapi.herokuapp.com"
+        urlComponents.path = "/submitPost"
+        guard let url = urlComponents.url else { fatalError("Could not create URL from components") }
+        
+        // Specify this request as being a POST method
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        // Make sure that we include headers specifying that our request's HTTP body
+        // will be JSON encoded
+        var headers = request.allHTTPHeaderFields ?? [:]
+        headers["Content-Type"] = "application/json"
+        request.allHTTPHeaderFields = headers
+        
+        //let post = Response(status: "daniel sampson", error: false)
+        let post = Form(category: "Pothole", dirOfTravel: "South", modeOfTrans: "Car", crossStreet: "fist and second", date: "04/09/2019", time: "14:50", latitude: "12.431.1", longitude: "12.43.1", description: "big pothole", username: "potholeFinder", receiveResponse: false)
+        
+        let encoder = JSONEncoder()
+        do {
+            let jsonData = try encoder.encode(post)
+            // ... and set our request's HTTP body
+            request.httpBody = jsonData
+            print("jsonData: ", String(data: request.httpBody!, encoding: .utf8) ?? "no body data")
+        } catch {
+            print(error.localizedDescription)
+        }
+        
+        // Create and run a URLSession data task with our JSON encoded POST request
+        let config = URLSessionConfiguration.default
+        let session = URLSession(configuration: config)
+        let task = session.dataTask(with: request) { data, response, error in
+            if let error = error {
+                print(error.localizedDescription)
+            } else if let data = data {
+                let msg = try! JSONSerialization.jsonObject(with: data, options:[]) as! [String: Any]
+                print(msg)
+
+                print(msg["status"] as! String)
+            }
+        }
+        task.resume()
+        
+    }
+    
 }
