@@ -9,18 +9,67 @@
 import UIKit
 import iOSDropDown
 import MapKit
+import Parse
 
-class FormViewController: UIViewController,UIImagePickerControllerDelegate, UINavigationControllerDelegate  {
-
-    @IBOutlet weak var categoryDropField: DropDown!
-    @IBOutlet weak var directionDropField: DropDown!
-    @IBOutlet weak var transportationDropField: DropDown!
+class FormViewController: UIViewController,UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate  {
+    
+    @IBOutlet weak var categoryLabel: UILabel!
+    @IBOutlet weak var directionLabel: UILabel!
+    @IBOutlet weak var transportationLabel: UILabel!
+    @IBOutlet weak var streetLabel: UILabel!
+    @IBOutlet weak var dateTimeLabel: UILabel!
+    @IBOutlet weak var categoryDropField: DropDown! {
+        didSet {
+            categoryDropField.optionArray = ["Roadway - Pothole", "Litter - Trash/Debris", "Graffiti", "Other"]
+            categoryDropField.optionIds = [1,2,3,4]
+            categoryDropField.didSelect {
+                (selectedText , index ,id) in print("Selected String: \(selectedText) \n index: \(index)")
+            }
+        }
+    }
+    @IBOutlet weak var directionDropField: DropDown! {
+        didSet {
+            directionDropField.optionArray = ["Northbound","Eastbound","Southbound","Westbound"]
+            directionDropField.optionIds = [1,2,3,4]
+            directionDropField.didSelect { (selectedText, index, id) in
+                print("Selected String: \(selectedText) \n index: \(index)")
+            }
+        }
+    }
+    @IBOutlet weak var transportationDropField: DropDown! {
+        didSet {
+            transportationDropField.optionArray = ["Car","Bicycle","Walking","Other"]
+            transportationDropField.didSelect { (selectedText, index, id) in
+                print("Selected String: \(selectedText) \n index: \(index)")
+            }
+        }
+    }
     @IBOutlet weak var streetTextField: UITextField!
     @IBOutlet weak var datePickerTextField: UITextField!
-    @IBOutlet weak var mapImageView: UIImageView!
-    @IBOutlet weak var gpsLabel: UILabel!
-    @IBOutlet weak var addImageButton: UIButton!
+    @IBOutlet weak var mapImageView: UIImageView! {
+        didSet {
+            if let mapImage = mapSnapshotImage {
+                mapImageView.contentMode = UIView.ContentMode.scaleAspectFill
+                mapImageView.image = mapImage
+            }
+        }
+    }
+    @IBOutlet weak var gpsLabel: UILabel! {
+        didSet {
+            if let lat = pinLocation?.latitude, let long = pinLocation?.longitude {
+                gpsLabel.text = String("\(String(describing: lat)), \(String(describing: long))")
+            }
+        }
+    }
+    @IBOutlet weak var addImageButton: UIButton! {
+        didSet {
+            addImageButton.layer.borderWidth = 1
+            addImageButton.layer.cornerRadius = 5
+            addImageButton.layer.borderColor = UIColor.blue.cgColor
+        }
+    }
     
+    var requiredFieldPairs: [UITextField : UILabel] = [:]
     var mapSnapshotImage: UIImage?
     var pinLocation: CLLocationCoordinate2D?
     let datePicker = UIDatePicker()
@@ -28,32 +77,11 @@ class FormViewController: UIViewController,UIImagePickerControllerDelegate, UINa
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        addImageButton.layer.borderWidth = 1
-        addImageButton.layer.cornerRadius = 5
-        addImageButton.layer.borderColor = UIColor.blue.cgColor
-        
-        if let mapImage = mapSnapshotImage {
-            mapImageView.contentMode = UIView.ContentMode.scaleAspectFill
-            mapImageView.image = mapImage
-        }
-        
-        if let lat = pinLocation?.latitude, let long = pinLocation?.longitude {
-            gpsLabel.text = String("\(String(describing: lat)), \(String(describing: long))")
-        }
-     
-        categoryDropField.optionArray = ["Roadway - Pothole", "Litter - Trash/Debris", "Graffiti", "Other"]
-//        //Its Id Values and its optional
-        categoryDropField.optionIds = [1,2,3,4]
-//        // The the Closure returns Selected Index and String
-        categoryDropField.didSelect {
-            (selectedText , index ,id) in print("Selected String: \(selectedText) \n index: \(index)")
-        }
-        
-        directionDropField.optionArray = ["Northbound","Eastbound","Southbound","Westbound"]
-        directionDropField.optionIds = [1,2,3,4]
-        directionDropField.didSelect { (selectedText, index, id) in
-            print("")
-        }
+        requiredFieldPairs[categoryDropField] = categoryLabel
+        requiredFieldPairs[directionDropField] = directionLabel
+        requiredFieldPairs[transportationDropField] = transportationLabel
+        requiredFieldPairs[streetTextField] = streetLabel
+        requiredFieldPairs[datePickerTextField] = dateTimeLabel
         
         datePicker.datePickerMode = UIDatePicker.Mode.dateAndTime
         datePickerTextField.createModalPicker(datePicker: datePicker, selector: #selector(didSelectDate))
@@ -63,18 +91,6 @@ class FormViewController: UIViewController,UIImagePickerControllerDelegate, UINa
         datePickerTextField.setFormat(picker: datePicker, controller: self)
     }
     
-    @IBAction func dismissDropDown(_ sender: UITapGestureRecognizer) {
-        print("attempting dismissal")
-        categoryDropField.resignFirstResponder()
-        categoryDropField.hideList()
-        directionDropField.resignFirstResponder()
-        directionDropField.hideList()
-        transportationDropField.resignFirstResponder()
-        transportationDropField.hideList()
-        streetTextField.resignFirstResponder()
-        datePickerTextField.resignFirstResponder()
-    }
-    
     @IBAction func cancel(_ sender: UIBarButtonItem) {
         dismiss(animated: true, completion: nil)
     }
@@ -82,19 +98,63 @@ class FormViewController: UIViewController,UIImagePickerControllerDelegate, UINa
     
     @IBAction func done(_ sender: UIBarButtonItem) {
         // POST
-        print(categoryDropField.text!)
-        if (directionDropField.text?.isEmpty)! {
-            print("empty")
+        if requiredFieldsValid() {
+            
+            print("submitting")
+            let post = PFObject(className: "Posts")
+            
+            post["category"] = categoryDropField.text
+            post["dirOfTravel"] = directionDropField.text
+            //post["ect"] = ect
+            
+            if let imageData = mapImageView.image!.pngData() {
+                let file = PFFileObject(data: imageData)
+                post["image"] = file
+            }
+            
+            post["modeOfTrans"] = transportationDropField.text
+            post["date"] = datePickerTextField.text
+            post["time"] = datePickerTextField.text
+            post["street"] = streetTextField.text
+            post["latitude"] = pinLocation?.latitude
+            post["longitude"] = pinLocation?.longitude
+            post["description"] = "none"
+            post["username"] = PFUser.current()?.username
+
+            
+
+            
+
+            
+            
+            post.saveInBackground{ (success, error) in
+                if success {
+                    self.dismiss(animated: true, completion: nil)
+                    print("Saved!")
+                } else {
+                    print("error!")
+                }
+            }
+            // POST
+        } else {
+            print("not all fields valid")
         }
-        if let mot = transportationDropField.text {
-            print(mot)
+        
+    }
+    
+    func requiredFieldsValid() -> Bool {
+        var flag = true
+        
+        for fieldpair in requiredFieldPairs {
+            if (fieldpair.key.text?.isEmpty)! {
+                fieldpair.value.markAsInvalid()
+                fieldpair.key.blink()
+                flag = false
+            } else {
+                fieldpair.value.markAsValid()
+            }
         }
-        if let ncs = streetTextField.text {
-            print(ncs)
-        }
-        if let datetime = datePickerTextField.text {
-            print(datetime)
-        }
+        return flag
     }
     
     /*
@@ -124,6 +184,20 @@ extension UITextField {
         dateFormatter.dateStyle = .medium
         self.text = dateFormatter.string(from: picker.date)
         controller.view.endEditing(true)
+    }
+}
+extension UILabel {
+    func markAsInvalid(){
+        self.textColor = UIColor.red
+    }
+    func markAsValid(){
+        self.textColor = UIColor.black
+    }
+}
+extension UIView{
+    func blink() {
+        self.alpha = 0.2
+        UIView.animate(withDuration: 0.3, delay: 0.0, options: [.curveLinear, .autoreverse], animations: {self.alpha = 1.0}, completion: nil)
     }
 }
 
