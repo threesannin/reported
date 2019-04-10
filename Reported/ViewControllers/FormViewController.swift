@@ -75,6 +75,10 @@ class FormViewController: UIViewController,UIImagePickerControllerDelegate, UINa
     let datePicker = UIDatePicker()
     let timePicker = UIDatePicker()
     
+    
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         requiredFieldPairs[categoryDropField] = categoryLabel
@@ -107,7 +111,7 @@ class FormViewController: UIViewController,UIImagePickerControllerDelegate, UINa
             post["dirOfTravel"] = directionDropField.text
             //post["ect"] = ect
             
-            if let imageData = mapImageView.image!.pngData() {
+            if let imageData = mapImageView.image?.pngData() {
                 let file = PFFileObject(data: imageData)
                 post["image"] = file
             }
@@ -119,14 +123,8 @@ class FormViewController: UIViewController,UIImagePickerControllerDelegate, UINa
             post["latitude"] = pinLocation?.latitude
             post["longitude"] = pinLocation?.longitude
             post["description"] = "none"
-            post["username"] = PFUser.current()?.username
+            post["username"] = PFUser.current()!.username
 
-            
-
-            
-
-            
-            
             post.saveInBackground{ (success, error) in
                 if success {
                     self.dismiss(animated: true, completion: nil)
