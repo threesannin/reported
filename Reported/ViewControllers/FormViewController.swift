@@ -6,6 +6,7 @@
 //  Copyright © 2019 threesannin. All rights reserved.
 //
 
+import AlamofireImage
 import UIKit
 import iOSDropDown
 import MapKit
@@ -14,10 +15,6 @@ import Parse
 class FormViewController: UIViewController,UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate  {
     
     @IBOutlet weak var categoryLabel: UILabel!
-    @IBOutlet weak var directionLabel: UILabel!
-    @IBOutlet weak var transportationLabel: UILabel!
-    @IBOutlet weak var streetLabel: UILabel!
-    @IBOutlet weak var dateTimeLabel: UILabel!
     @IBOutlet weak var categoryDropField: DropDown! {
         didSet {
             categoryDropField.optionArray = ["Roadway - Pothole", "Litter - Trash/Debris", "Graffiti", "Other"]
@@ -27,6 +24,8 @@ class FormViewController: UIViewController,UIImagePickerControllerDelegate, UINa
             }
         }
     }
+    
+    @IBOutlet weak var directionLabel: UILabel!
     @IBOutlet weak var directionDropField: DropDown! {
         didSet {
             directionDropField.optionArray = ["Northbound","Eastbound","Southbound","Westbound"]
@@ -36,6 +35,8 @@ class FormViewController: UIViewController,UIImagePickerControllerDelegate, UINa
             }
         }
     }
+    
+    @IBOutlet weak var transportationLabel: UILabel!
     @IBOutlet weak var transportationDropField: DropDown! {
         didSet {
             transportationDropField.optionArray = ["Car","Bicycle","Walking","Other"]
@@ -44,8 +45,20 @@ class FormViewController: UIViewController,UIImagePickerControllerDelegate, UINa
             }
         }
     }
+    
+    @IBOutlet weak var streetLabel: UILabel!
     @IBOutlet weak var streetTextField: UITextField!
+    @IBOutlet weak var dateTimeLabel: UILabel!
     @IBOutlet weak var datePickerTextField: UITextField!
+    
+    @IBOutlet weak var gpsLabel: UILabel! {
+        didSet {
+            if let lat = pinLocation?.latitude, let long = pinLocation?.longitude {
+                gpsLabel.text = String("\(String(describing: lat)), \(String(describing: long))")
+            }
+        }
+    }
+    
     @IBOutlet weak var mapImageView: UIImageView! {
         didSet {
             if let mapImage = mapSnapshotImage {
@@ -54,13 +67,8 @@ class FormViewController: UIViewController,UIImagePickerControllerDelegate, UINa
             }
         }
     }
-    @IBOutlet weak var gpsLabel: UILabel! {
-        didSet {
-            if let lat = pinLocation?.latitude, let long = pinLocation?.longitude {
-                gpsLabel.text = String("\(String(describing: lat)), \(String(describing: long))")
-            }
-        }
-    }
+    @IBOutlet weak var descriptionTextBox: UITextView!
+
     @IBOutlet weak var addImageButton: UIButton! {
         didSet {
             addImageButton.layer.borderWidth = 1
@@ -69,15 +77,14 @@ class FormViewController: UIViewController,UIImagePickerControllerDelegate, UINa
         }
     }
     
+    @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var followUpSwitch: UISwitch!
+    
     var requiredFieldPairs: [UITextField : UILabel] = [:]
     var mapSnapshotImage: UIImage?
     var pinLocation: CLLocationCoordinate2D?
     let datePicker = UIDatePicker()
     let timePicker = UIDatePicker()
-    
-    
-    
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -94,6 +101,34 @@ class FormViewController: UIViewController,UIImagePickerControllerDelegate, UINa
     @objc func didSelectDate() {
         datePickerTextField.setFormat(picker: datePicker, controller: self)
     }
+    
+    
+    @IBAction func onAddImage(_ sender: Any) {
+        let picker = UIImagePickerController()
+        picker.delegate = self
+        picker.allowsEditing = true
+        
+        if UIImagePickerController.isSourceTypeAvailable(.camera){
+            picker.sourceType = .camera
+        } else {
+            picker.sourceType = .photoLibrary
+        }
+        present(picker, animated: true, completion: nil)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let image = info[.editedImage] as? UIImage{
+            let size = CGSize(width: 300, height: 300)
+            let scaledImage = image.af_imageAspectScaled(toFill: size)
+            
+            imageView.image = scaledImage
+            
+        }
+        dismiss(animated: true, completion: nil)
+    }
+    
+    
+    
     
     @IBAction func cancel(_ sender: UIBarButtonItem) {
         dismiss(animated: true, completion: nil)
@@ -113,7 +148,12 @@ class FormViewController: UIViewController,UIImagePickerControllerDelegate, UINa
             
             if let imageData = mapImageView.image?.pngData() {
                 let file = PFFileObject(data: imageData)
-                post["image"] = file
+                post["mapImage"] = file
+            }
+            
+            if let imageData = imageView.image?.pngData() {
+                let file = PFFileObject(data: imageData)
+                post["issueImage"] = file
             }
             
             post["modeOfTrans"] = transportationDropField.text
@@ -124,6 +164,7 @@ class FormViewController: UIViewController,UIImagePickerControllerDelegate, UINa
             post["longitude"] = pinLocation?.longitude
             post["description"] = "none"
             post["username"] = PFUser.current()!.username
+            post["followUp"] = followUpSwitch.isOn
 
             post.saveInBackground{ (success, error) in
                 if success {
