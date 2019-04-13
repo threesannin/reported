@@ -10,6 +10,19 @@ import UIKit
 import MapKit
 import CoreLocation
 
+final class IssueAnnotation: NSObject, MKAnnotation {
+    var coordinate: CLLocationCoordinate2D
+    var title: String?
+    var subtitle: String?
+    
+    init(coordinate: CLLocationCoordinate2D, title: String?, subtitle: String?) {
+        self.coordinate = coordinate
+        self.title = title
+        self.subtitle = subtitle
+        super.init()
+    }
+}
+
 class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
 
     @IBOutlet weak var mapView: MKMapView!
@@ -24,6 +37,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        mapView.register(MKMarkerAnnotationView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
         
         filterButton.layer.shadowColor = UIColor.black.cgColor
         filterButton.layer.shadowOffset = CGSize(width: 2, height: 2)
@@ -58,10 +73,9 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     }
     
     func addPin(coordinate: CLLocationCoordinate2D) {
-        let annotation = MKPointAnnotation()
-        annotation.coordinate = coordinate
-        annotation.title = "New Location"
+        let annotation = IssueAnnotation(coordinate: coordinate, title: "NewLocation", subtitle: "subtitle")
         mapView.addAnnotation(annotation)
+        // mapView.selectAnnotation(annotation, animated: true)
     }
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
@@ -77,15 +91,25 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         let annotations = [mapView.userLocation]
         mapView.showAnnotations(annotations, animated: true)
         lastLocation = userLocation.coordinate
-        print("1")
+        print("didUpdate")
 
     }
     
     // Update map view to center on user and annotation
     func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
-        let annotations = [mapView.userLocation, view.annotation]
-        mapView.showAnnotations(annotations as! [MKAnnotation], animated: true)
-        print("2")
+        // let annotations = [mapView.userLocation, view.annotation]
+        // mapView.showAnnotations(annotations as! [MKAnnotation], animated: true)
+//        for annotation in mapView.annotations {
+//            if annotation.title == "NewLocation" {
+//                mapView.removeAnnotation(annotation)
+//            }
+//        }
+        
+        if let annotation = view.annotation {
+            self.mapView.removeAnnotation(annotation)
+        }
+       
+        print("deselect")
     }
     
     // Allow updates to location when moving
@@ -93,7 +117,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         if status == CLAuthorizationStatus.authorizedWhenInUse {
             manager.startUpdatingLocation()
         }
-        print("3")
+        print("didChangeAuthStatus")
 
     }
     
@@ -155,6 +179,17 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     }
     
 
+}
+extension ViewController: MKMapViewDelegate {
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        if let issueAnnotation = mapView.dequeueReusableAnnotationView(withIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier) as? MKMarkerAnnotationView {
+            issueAnnotation.animatesWhenAdded = true
+            issueAnnotation.titleVisibility = .adaptive
+            issueAnnotation.subtitleVisibility = .adaptive
+            return issueAnnotation
+        }
+        return nil
+    }
 }
 extension UIView {
     func pbtakesnap() -> UIImage {
