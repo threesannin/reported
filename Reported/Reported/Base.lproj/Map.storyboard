@@ -94,11 +94,6 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="67C-3e-sUh" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="WLY-YN-w52">
-                    <connections>
-                        <action selector="onLongPressAdd:" destination="q2r-jl-TJ1" id="cwJ-lE-FTM"/>
-                    </connections>
-                </pongPressGestureRecognizer>
                 <searchDisplayController id="yAF-u3-tQF">
                     <connections>
                         <outlet property="delegate" destination="q2r-jl-TJ1" id="qr6-Ba-nYG"/>
@@ -108,6 +103,11 @@
                         <outlet property="searchResultsDelegate" destination="q2r-jl-TJ1" id="gsN-ql-tYE"/>
                     </connections>
                 </searchDisplayController>
+                <pongPressGestureRecognizer delaysTouchesBegan="YES" allowableMovement="10" minimumPressDuration="0.5" id="WLY-YN-w52">
+                    <connections>
+                        <action selector="onLongPressAdd:" destination="q2r-jl-TJ1" id="cwJ-lE-FTM"/>
+                    </connections>
+                </pongPressGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="860" y="124.58770614692655"/>
         </scene>
