@@ -389,6 +389,7 @@
                         <outlet property="descriptionTextBox" destination="6Ej-Sa-bZN" id="r6J-GJ-pia"/>
                         <outlet property="directionDropField" destination="xK2-16-IU9" id="X4C-5c-qbQ"/>
                         <outlet property="directionLabel" destination="k9G-pY-7xr" id="IAN-Fo-J3U"/>
+                        <outlet property="doneButton" destination="qUw-4u-dfQ" id="Qcn-2e-PYA"/>
                         <outlet property="followUpSwitch" destination="Tip-IP-qwb" id="d0R-in-XEB"/>
                         <outlet property="gpsLabel" destination="JVw-dR-v02" id="2xN-C7-b3V"/>
                         <outlet property="imageView" destination="e61-73-I0R" id="f8r-ut-bGM"/>

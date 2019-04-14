@@ -14,6 +14,8 @@ import Parse
 
 class FormViewController: UIViewController,UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate  {
     
+    @IBOutlet weak var doneButton: UIBarButtonItem!
+
     @IBOutlet weak var categoryLabel: UILabel!
     @IBOutlet weak var categoryDropField: DropDown! {
         didSet {
@@ -142,7 +144,7 @@ class FormViewController: UIViewController,UIImagePickerControllerDelegate, UINa
             print("submitting")
             let post = PFObject(className: "Posts")
             
-            post["category"] = categoryDropField.text
+            post["issueCategory"] = categoryDropField.text
             post["dirOfTravel"] = directionDropField.text
             //post["ect"] = ect
             
@@ -156,13 +158,13 @@ class FormViewController: UIViewController,UIImagePickerControllerDelegate, UINa
                 post["issueImage"] = file
             }
             
-            post["modeOfTrans"] = transportationDropField.text
+            post["transMode"] = transportationDropField.text
             post["date"] = datePickerTextField.text
             post["time"] = datePickerTextField.text
-            post["street"] = streetTextField.text
+            post["nearestCrossStreet"] = streetTextField.text
             post["latitude"] = pinLocation?.latitude
             post["longitude"] = pinLocation?.longitude
-            post["description"] = "none"
+            post["descripText"] = "none"
             post["username"] = PFUser.current()!.username
             post["followUp"] = followUpSwitch.isOn
 
@@ -196,15 +198,21 @@ class FormViewController: UIViewController,UIImagePickerControllerDelegate, UINa
         return flag
     }
     
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
+        super.prepare(for: segue, sender: sender)
+        guard let button = sender as? UIBarButtonItem, button === doneButton else {
+            print("The done button was not pressed, cancelling")
+            return
+        }
+        print("prepare segue ok")
     }
-    */
+
 
 }
 extension UITextField {

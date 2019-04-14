@@ -14,6 +14,16 @@ final class IssueAnnotation: NSObject, MKAnnotation {
     var coordinate: CLLocationCoordinate2D
     var title: String?
     var subtitle: String?
+    var descripText: String?
+    var issueCategory: String?
+    var dirOfTravel: String?
+    var transMode: String?
+    var nearestCrossStreet: String? // can be geo
+    var date: String?
+    var time: String?
+    /*  The Date type in Parse contains a field iso which contains a UTC timestamp stored in ISO 8601 format with millisecond precision: YYYY-MM-DDTHH:MM:SS.MMMZ*/
+    var issueImage: UIImage?
+    var followUp: Bool?
     
     init(coordinate: CLLocationCoordinate2D, title: String?, subtitle: String?) {
         self.coordinate = coordinate
@@ -157,6 +167,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         print("accessory add touched")
         performSegue(withIdentifier: "addIssue", sender: button)
     }
+    
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         
     }
@@ -190,6 +201,11 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     @IBAction func onLocationPRess(_ sender: UIButton) {
         let annotations = [mapView.userLocation]
         mapView.showAnnotations(annotations, animated: true)
+    }
+    
+    @IBAction func unwindToMapController(sender: UIStoryboardSegue) {
+        if let sourceViewController = sender.source as? FormViewController, meal = sourceViewController.meal {
+        }
     }
     
 
