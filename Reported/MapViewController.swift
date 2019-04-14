@@ -36,6 +36,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     
     var locationManager : CLLocationManager!
     var lastLocation : CLLocationCoordinate2D!
+    var addPinLocation: CLLocationCoordinate2D!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -77,8 +78,9 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     
     func addPin(coordinate: CLLocationCoordinate2D) {
         let annotation = MKPointAnnotation()
-        annotation.title = "NewLocation"
+        annotation.title = "New Issue"
         annotation.coordinate = coordinate
+        addPinLocation = coordinate
         mapView.addAnnotation(annotation)
         print("did add")
         mapView.showAnnotations([annotation], animated: true)
@@ -135,9 +137,10 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
                 issueAnnotation!.canShowCallout = true
                 issueAnnotation!.leftCalloutAccessoryView = UIImageView(frame: CGRect(x:0, y:0, width: 50, height:50))
                 
-                let leftCalloutImageView = issueAnnotation?.leftCalloutAccessoryView as! UIImageView
+//                let leftCalloutImageView = issueAnnotation?.leftCalloutAccessoryView as! UIImageView
                 // leftCalloutImageView.image = self.pickedImage
                 let rightCalloutButton = UIButton(type: .contactAdd)
+                rightCalloutButton.addTarget(self, action: #selector(didClickAddIssue(button:)), for: .touchUpInside)
                 issueAnnotation?.rightCalloutAccessoryView = rightCalloutButton
             } else {
                 issueAnnotation!.annotation = annotation
@@ -148,6 +151,14 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         } else {
             return annotation as? MKAnnotationView
         }
+    }
+    
+    @objc func didClickAddIssue(button: UIButton){
+        print("accessory add touched")
+        performSegue(withIdentifier: "addIssue", sender: button)
+    }
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
@@ -210,7 +221,11 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         
         let mapSnapshotImage = mapView.pbtakesnap()
         formViewController.mapSnapshotImage = mapSnapshotImage
-        formViewController.pinLocation = lastLocation
+        if let passedLocation = addPinLocation {
+            formViewController.pinLocation = passedLocation
+        } else {
+            formViewController.pinLocation = lastLocation
+        }
         
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
