@@ -139,14 +139,16 @@ class loginAndSignupViewController: UIViewController {
     }
     
     @IBAction func postApiCall(_ sender: Any) {
-        var urlComponents = URLComponents()
-        urlComponents.scheme = "https"
-        urlComponents.host = "reportedapi.herokuapp.com"
-        urlComponents.path = "/submitPost"
-        guard let url = urlComponents.url else { fatalError("Could not create URL from components") }
+//        var urlComponents = URLComponents()
+//        urlComponents.scheme = "http"
+//        urlComponents.host = "localhost:8089"
+//        urlComponents.path = "/seleniumTest"
+//        guard let url = urlComponents.url else { fatalError("Could not create URL from components") }
+        
+        let url = URL(string: "http://localhost:8089/seleniumTest")
         
         // Specify this request as being a POST method
-        var request = URLRequest(url: url)
+        var request = URLRequest(url: url!)
         request.httpMethod = "POST"
         // Make sure that we include headers specifying that our request's HTTP body
         // will be JSON encoded
@@ -161,8 +163,8 @@ class loginAndSignupViewController: UIViewController {
         do {
             let jsonData = try encoder.encode(post)
             // ... and set our request's HTTP body
-            request.httpBody = jsonData
-            print("jsonData: ", String(data: request.httpBody!, encoding: .utf8) ?? "no body data")
+            //request.httpBody = jsonData
+            //print("jsonData: ", String(data: request.httpBody!, encoding: .utf8) ?? "no body data")
         } catch {
             print(error.localizedDescription)
         }
