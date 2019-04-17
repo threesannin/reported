@@ -203,6 +203,72 @@ Report issues dealing with city/state infustructure damage/disturbances which in
             }
         }
     ```
+ - Selenium
+     - Body structure
+     ``` swift
+         
+         struct Form: Codable {
+        let category: String
+        let dirOfTravel: String
+        let modeOfTrans: String
+        let crossStreet: String
+        let date: String
+        let time: String
+        let latitude: String
+        let longitude: String
+        let description: String
+        let name: String
+        let email: String
+        let phone: String
+        let descriptionGeoLoc: String
+        let receiveResponse: Bool
+    }
+    ```
+    - APi CAll
+    ``` swift
+        @IBAction func postApiCall(_ sender: Any) {
+        
+        let url = URL(string: "http://localhost:8089/submitPost")
+        
+        // Specify this request as being a POST method
+        var request = URLRequest(url: url!)
+        request.httpMethod = "POST"
+        // Make sure that we include headers specifying that our request's HTTP body
+        // will be JSON encoded
+        var headers = request.allHTTPHeaderFields ?? [:]
+        headers["Content-Type"] = "application/json"
+        request.allHTTPHeaderFields = headers
+        
+        //let post = Response(status: "daniel sampson", error: false)
+        let post = Form() // create your own form
+        
+        let encoder = JSONEncoder()
+        do {
+            let jsonData = try encoder.encode(post)
+            // ... and set our request's HTTP body
+            request.httpBody = jsonData
+            //print("jsonData: ", String(data: request.httpBody!, encoding: .utf8) ?? "no body data")
+        } catch {
+            print(error.localizedDescription)
+        }
+        
+        // Create and run a URLSession data task with our JSON encoded POST request
+        let config = URLSessionConfiguration.default
+        let session = URLSession(configuration: config)
+        let task = session.dataTask(with: request) { data, response, error in
+            if let error = error {
+                print(error.localizedDescription)
+            } else if let data = data {
+                let msg = try! JSONSerialization.jsonObject(with: data, options:[]) as! [String: Any]
+                print(msg)
+
+                print(msg["status"] as! String)
+            }
+        }
+        task.resume()
+        
+    }
+    ```
 - [Add list of network requests by screen ]
 - [Create basic snippets for each Parse network request]
 - [OPTIONAL: List endpoints if using existing API such as Yelp]
