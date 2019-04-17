@@ -134,18 +134,16 @@ class loginAndSignupViewController: UIViewController {
         let latitude: String
         let longitude: String
         let description: String
-        let username: String
+        let name: String
+        let email: String
+        let phone: String
+        let descriptionGeoLoc: String
         let receiveResponse: Bool
     }
     
     @IBAction func postApiCall(_ sender: Any) {
-//        var urlComponents = URLComponents()
-//        urlComponents.scheme = "http"
-//        urlComponents.host = "localhost:8089"
-//        urlComponents.path = "/seleniumTest"
-//        guard let url = urlComponents.url else { fatalError("Could not create URL from components") }
         
-        let url = URL(string: "http://localhost:8089/seleniumTest")
+        let url = URL(string: "http://localhost:8089/submitPost")
         
         // Specify this request as being a POST method
         var request = URLRequest(url: url!)
@@ -157,13 +155,14 @@ class loginAndSignupViewController: UIViewController {
         request.allHTTPHeaderFields = headers
         
         //let post = Response(status: "daniel sampson", error: false)
-        let post = Form(category: "Pothole", dirOfTravel: "South", modeOfTrans: "Car", crossStreet: "fist and second", date: "04/09/2019", time: "14:50", latitude: "12.431.1", longitude: "12.43.1", description: "big pothole", username: "potholeFinder", receiveResponse: false)
+        let post = Form(category: "Pothole", dirOfTravel: "South", modeOfTrans: "Car", crossStreet: "fist and second", date: "04/09/2019", time: "14:50", latitude: "12.431.1", longitude: "12.43.1", description: "big pothole", name: "nameTest", email:"test@gmail.com",
+                        phone:"123-534-132", descriptionGeoLoc:"asdadewwefdsa", receiveResponse: false)
         
         let encoder = JSONEncoder()
         do {
             let jsonData = try encoder.encode(post)
             // ... and set our request's HTTP body
-            //request.httpBody = jsonData
+            request.httpBody = jsonData
             //print("jsonData: ", String(data: request.httpBody!, encoding: .utf8) ?? "no body data")
         } catch {
             print(error.localizedDescription)
