@@ -12,11 +12,35 @@ import iOSDropDown
 import MapKit
 import Parse
 
-class FormViewController: UIViewController,UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate  {
+class FormViewController: UIViewController,UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
     
+    // Buttons
     @IBOutlet weak var doneButton: UIBarButtonItem!
+    @IBOutlet weak var addImageButton: UIButton! {
+        didSet {
+            addImageButton.layer.borderWidth = 1
+            addImageButton.layer.cornerRadius = 5
+            addImageButton.layer.borderColor = #colorLiteral(red: 0.3481200933, green: 0.638322413, blue: 1, alpha: 1)
+        }
+    }
+    @IBOutlet weak var followUpSwitch: UISwitch!
 
+    // Labels
     @IBOutlet weak var categoryLabel: UILabel!
+    @IBOutlet weak var dateTimeLabel: UILabel!
+    @IBOutlet weak var descriptionLabel: UILabel!
+    @IBOutlet weak var directionLabel: UILabel!
+    @IBOutlet weak var gpsLabel: UILabel! {
+        didSet {
+            if let lat = pinLocation?.latitude, let long = pinLocation?.longitude {
+                gpsLabel.text = String("\(String(describing: lat)), \(String(describing: long))")
+            }
+        }
+    }
+    @IBOutlet weak var streetLabel: UILabel!
+    @IBOutlet weak var transportationLabel: UILabel!
+    
+    // TextFields
     @IBOutlet weak var categoryDropField: DropDown! {
         didSet {
             categoryDropField.optionArray = ["Roadway - Pothole", "Litter - Trash/Debris", "Graffiti", "Other"]
@@ -26,8 +50,18 @@ class FormViewController: UIViewController,UIImagePickerControllerDelegate, UINa
             }
         }
     }
-    
-    @IBOutlet weak var directionLabel: UILabel!
+    @IBOutlet weak var datePickerTextField: UITextField!
+    @IBOutlet weak var descriptionTextField: UITextField! {
+        didSet {
+            descriptionTextField.layer.borderWidth = 1
+            descriptionTextField.layer.borderColor = #colorLiteral(red: 0.9136554599, green: 0.9137651324, blue: 0.9136180282, alpha: 1)
+            descriptionTextField.layer.cornerRadius = 5
+            
+            let leftPaddingView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: descriptionTextField.frame.height))
+            descriptionTextField.leftView = leftPaddingView
+            descriptionTextField.leftViewMode = UITextField.ViewMode.always
+        }
+    }
     @IBOutlet weak var directionDropField: DropDown! {
         didSet {
             directionDropField.optionArray = ["Northbound","Eastbound","Southbound","Westbound"]
@@ -37,8 +71,7 @@ class FormViewController: UIViewController,UIImagePickerControllerDelegate, UINa
             }
         }
     }
-    
-    @IBOutlet weak var transportationLabel: UILabel!
+    @IBOutlet weak var streetTextField: UITextField!
     @IBOutlet weak var transportationDropField: DropDown! {
         didSet {
             transportationDropField.optionArray = ["Car","Bicycle","Walking","Other"]
@@ -48,19 +81,8 @@ class FormViewController: UIViewController,UIImagePickerControllerDelegate, UINa
         }
     }
     
-    @IBOutlet weak var streetLabel: UILabel!
-    @IBOutlet weak var streetTextField: UITextField!
-    @IBOutlet weak var dateTimeLabel: UILabel!
-    @IBOutlet weak var datePickerTextField: UITextField!
-    
-    @IBOutlet weak var gpsLabel: UILabel! {
-        didSet {
-            if let lat = pinLocation?.latitude, let long = pinLocation?.longitude {
-                gpsLabel.text = String("\(String(describing: lat)), \(String(describing: long))")
-            }
-        }
-    }
-    
+    // UIImageViews
+    @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var mapImageView: UIImageView! {
         didSet {
             if let mapImage = mapSnapshotImage {
@@ -69,20 +91,11 @@ class FormViewController: UIViewController,UIImagePickerControllerDelegate, UINa
             }
         }
     }
-    @IBOutlet weak var descriptionTextBox: UITextView!
+    
 
-    @IBOutlet weak var addImageButton: UIButton! {
-        didSet {
-            addImageButton.layer.borderWidth = 1
-            addImageButton.layer.cornerRadius = 5
-            addImageButton.layer.borderColor = UIColor.blue.cgColor
-        }
-    }
-    
-    @IBOutlet weak var imageView: UIImageView!
-    @IBOutlet weak var followUpSwitch: UISwitch!
-    
+    // Variables
     var requiredFieldPairs: [UITextField : UILabel] = [:]
+    var issueDateTime: NSDate!
     var mapSnapshotImage: UIImage?
     var pinLocation: CLLocationCoordinate2D?
     let datePicker = UIDatePicker()
@@ -95,16 +108,16 @@ class FormViewController: UIViewController,UIImagePickerControllerDelegate, UINa
         requiredFieldPairs[transportationDropField] = transportationLabel
         requiredFieldPairs[streetTextField] = streetLabel
         requiredFieldPairs[datePickerTextField] = dateTimeLabel
+        requiredFieldPairs[descriptionTextField] = descriptionLabel
         
         datePicker.datePickerMode = UIDatePicker.Mode.dateAndTime
         datePickerTextField.createModalPicker(datePicker: datePicker, selector: #selector(didSelectDate))
     }
     
+    // Actions
     @objc func didSelectDate() {
         datePickerTextField.setFormat(picker: datePicker, controller: self)
     }
-    
-    
     @IBAction func onAddImage(_ sender: Any) {
         let picker = UIImagePickerController()
         picker.delegate = self
@@ -118,6 +131,58 @@ class FormViewController: UIViewController,UIImagePickerControllerDelegate, UINa
         present(picker, animated: true, completion: nil)
     }
     
+    @IBAction func done(_ sender: UIBarButtonItem) {
+        if requiredFieldsValid() {
+            
+            print("submitting")
+            let post = PFObject(className: "Issues")
+            post["issueCategory"] = categoryDropField.text
+            post["dirOfTravel"] = directionDropField.text            
+//            if let imageData = mapImageView.image?.pngData() {
+//                let file = PFFileObject(data: imageData)
+//                post["mapImage"] = file
+//            }
+            post["transMode"] = transportationDropField.text
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "MMM dd, yyyy 'at' h:mm:ss a"
+            
+            post["issueDateTime"] = dateFormatter.date(from: datePickerTextField.text!)
+            
+            post["nearestCrossStreet"] = streetTextField.text
+            post["location"] = PFGeoPoint(latitude: pinLocation!.latitude, longitude: pinLocation!.longitude)
+            if let imageData = imageView.image?.pngData() {
+                let file = PFFileObject(data: imageData)
+                post["issueImage"] = file
+            }
+            post["followUp"] = followUpSwitch.isOn
+            // post["latitude"] = pinLocation?.latitude
+            // post["longitude"] = pinLocation?.longitude
+            post["descripText"] = descriptionTextField.text
+            
+            post["username"] = PFUser.current()!.username
+            
+            post.saveInBackground{ (success, error) in
+                if success {
+                    self.dismiss(animated: true, completion: nil)
+                    print("Saved!")
+                } else {
+                    print("error!")
+                }
+            }
+            // Send to Selenium
+            
+            
+        } else {
+            print("not all fields valid")
+        }
+        
+    }
+    @IBAction func cancel(_ sender: UIBarButtonItem) {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    
+    // Delegate, helper
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let image = info[.editedImage] as? UIImage{
             let size = CGSize(width: 300, height: 300)
@@ -127,60 +192,6 @@ class FormViewController: UIViewController,UIImagePickerControllerDelegate, UINa
             
         }
         dismiss(animated: true, completion: nil)
-    }
-    
-    
-    
-    
-    @IBAction func cancel(_ sender: UIBarButtonItem) {
-        dismiss(animated: true, completion: nil)
-    }
-    
-    
-    @IBAction func done(_ sender: UIBarButtonItem) {
-        // POST
-        if requiredFieldsValid() {
-            
-            print("submitting")
-            let post = PFObject(className: "Posts")
-            
-            post["issueCategory"] = categoryDropField.text
-            post["dirOfTravel"] = directionDropField.text
-            //post["ect"] = ect
-            
-            if let imageData = mapImageView.image?.pngData() {
-                let file = PFFileObject(data: imageData)
-                post["mapImage"] = file
-            }
-            
-            if let imageData = imageView.image?.pngData() {
-                let file = PFFileObject(data: imageData)
-                post["issueImage"] = file
-            }
-            
-            post["transMode"] = transportationDropField.text
-            post["date"] = datePickerTextField.text
-            post["time"] = datePickerTextField.text
-            post["nearestCrossStreet"] = streetTextField.text
-            post["latitude"] = pinLocation?.latitude
-            post["longitude"] = pinLocation?.longitude
-            post["descripText"] = "none"
-            post["username"] = PFUser.current()!.username
-            post["followUp"] = followUpSwitch.isOn
-
-            post.saveInBackground{ (success, error) in
-                if success {
-                    self.dismiss(animated: true, completion: nil)
-                    print("Saved!")
-                } else {
-                    print("error!")
-                }
-            }
-            // POST
-        } else {
-            print("not all fields valid")
-        }
-        
     }
     
     func requiredFieldsValid() -> Bool {

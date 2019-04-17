@@ -270,13 +270,20 @@
                                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Tip-IP-qwb">
                                                 <rect key="frame" x="290" y="954" width="51" height="31"/>
                                             </switch>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Describe the issue:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6on-Rp-uZm">
-                                                <rect key="frame" x="38" y="1068" width="146" height="21"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Situation Description:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6on-Rp-uZm">
+                                                <rect key="frame" x="38" y="1068" width="164" height="21"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleAspectFit" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" placeholder="Describe the nature of the situation..." textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="93J-TO-N18">
+                                                <rect key="frame" x="37" y="1097" width="301" height="196"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <nil key="textColor"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits"/>
+                                            </textField>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <gestureRecognizers/>
@@ -338,14 +345,6 @@
                                             <constraint firstItem="V4x-A9-eGp" firstAttribute="leading" secondItem="X8K-K3-W33" secondAttribute="leadingMargin" constant="30" id="z2n-DX-5rr"/>
                                         </constraints>
                                     </view>
-                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="6Ej-Sa-bZN">
-                                        <rect key="frame" x="38" y="1094" width="299" height="239"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                    </textView>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="X8K-K3-W33" firstAttribute="top" secondItem="Mqe-tW-9bc" secondAttribute="top" id="9J7-gt-g4e"/>
@@ -386,7 +385,8 @@
                         <outlet property="categoryLabel" destination="kOL-pf-HFd" id="U4s-s5-3C4"/>
                         <outlet property="datePickerTextField" destination="44L-b3-POM" id="YY4-1T-N3N"/>
                         <outlet property="dateTimeLabel" destination="pFD-5h-ppz" id="6Bj-ul-Xo1"/>
-                        <outlet property="descriptionTextBox" destination="6Ej-Sa-bZN" id="r6J-GJ-pia"/>
+                        <outlet property="descriptionLabel" destination="6on-Rp-uZm" id="M54-eV-i2o"/>
+                        <outlet property="descriptionTextField" destination="93J-TO-N18" id="lJg-aF-wxz"/>
                         <outlet property="directionDropField" destination="xK2-16-IU9" id="X4C-5c-qbQ"/>
                         <outlet property="directionLabel" destination="k9G-pY-7xr" id="IAN-Fo-J3U"/>
                         <outlet property="doneButton" destination="qUw-4u-dfQ" id="Qcn-2e-PYA"/>
@@ -401,7 +401,7 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OGK-yp-SAQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <tapGestureRecognizer id="UuH-0k-84h">
+                <tapGestureRecognizer id="UuH-0k-84h" userLabel="tapMapRecognizer">
                     <connections>
                         <segue destination="efP-5q-wrq" kind="presentation" id="v42-HO-LbN"/>
                     </connections>

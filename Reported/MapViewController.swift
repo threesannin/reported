@@ -11,24 +11,30 @@ import MapKit
 import CoreLocation
 
 final class IssueAnnotation: NSObject, MKAnnotation {
+    var descripText: String!
+    var dirOfTravel: String!
+    var followUp: Bool!
+    // var issueCategory: String?
+    var issueImage: UIImage?
+    var issueDateTime: NSDate!
+    var nearestCrossStreet: String! // can be geo
+    var transMode: String!
     var coordinate: CLLocationCoordinate2D
     var title: String?
-    var subtitle: String?
-    var descripText: String?
-    var issueCategory: String?
-    var dirOfTravel: String?
-    var transMode: String?
-    var nearestCrossStreet: String? // can be geo
-    var date: String?
-    var time: String?
-    /*  The Date type in Parse contains a field iso which contains a UTC timestamp stored in ISO 8601 format with millisecond precision: YYYY-MM-DDTHH:MM:SS.MMMZ*/
-    var issueImage: UIImage?
-    var followUp: Bool?
-    
-    init(coordinate: CLLocationCoordinate2D, title: String?, subtitle: String?) {
+ 
+    init(descripText: String!, dirOfTravel: String!, followUp: Bool!, issueCategory: String!, issueImage: UIImage?, issueDateTime: NSDate!, nearestCrossStreet: String!, transMode: String!, coordinate: CLLocationCoordinate2D, title: String?) {
+        self.descripText = descripText
+        self.dirOfTravel = dirOfTravel
+        self.followUp = followUp
+        // self.issueCategory = issueCategory
+        if let issueImage = issueImage {
+            self.issueImage = issueImage
+        }
+        self.issueDateTime = issueDateTime
+        self.nearestCrossStreet = nearestCrossStreet
+        self.transMode = transMode
         self.coordinate = coordinate
-        self.title = title
-        self.subtitle = subtitle
+        self.title = issueCategory
         super.init()
     }
 }
@@ -37,55 +43,53 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var mapSearchBar: UISearchBar!
-    @IBOutlet weak var filterButton: UIButton!
-    @IBOutlet weak var locationButton: UIButton!
-    @IBOutlet weak var addButton: UIButton!
+    @IBOutlet weak var filterButton: UIButton! {
+        didSet {
+            filterButton.layer.shadowColor = UIColor.black.cgColor
+            filterButton.layer.shadowOffset = CGSize(width: 2, height: 2)
+            filterButton.layer.shadowRadius = 2
+            filterButton.layer.shadowOpacity = 0.2
+        }
+    }
+    @IBOutlet weak var locationButton: UIButton! {
+        didSet {
+            locationButton.layer.shadowColor = UIColor.black.cgColor
+            locationButton.layer.shadowOffset = CGSize(width: 2, height: 2)
+            locationButton.layer.shadowRadius = 2
+            locationButton.layer.shadowOpacity = 0.2
+        }
+    }
+    @IBOutlet weak var addButton: UIButton! {
+        didSet {
+            addButton.layer.shadowColor = UIColor.black.cgColor
+            addButton.layer.shadowOffset = CGSize(width: 2, height: 2)
+            addButton.layer.shadowRadius = 2
+            addButton.layer.shadowOpacity = 0.2
+            
+        }
+    }
     //    var currentMapSnapShotImage: UIImage?
     
     var pickedImage: UIImage?
-    
-    var locationManager : CLLocationManager!
+    var locationManager : CLLocationManager! {
+        didSet {
+            locationManager = CLLocationManager()
+            locationManager.desiredAccuracy = kCLLocationAccuracyBest
+            locationManager.distanceFilter = 100
+            locationManager.requestWhenInUseAuthorization()
+        }
+    }
     var lastLocation : CLLocationCoordinate2D!
     var addPinLocation: CLLocationCoordinate2D!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
-        filterButton.layer.shadowColor = UIColor.black.cgColor
-        filterButton.layer.shadowOffset = CGSize(width: 2, height: 2)
-        filterButton.layer.shadowRadius = 2
-        filterButton.layer.shadowOpacity = 0.2
-        
-        locationButton.layer.shadowColor = UIColor.black.cgColor
-        locationButton.layer.shadowOffset = CGSize(width: 2, height: 2)
-        locationButton.layer.shadowRadius = 2
-        locationButton.layer.shadowOpacity = 0.2
-        
-        addButton.layer.shadowColor = UIColor.black.cgColor
-        addButton.layer.shadowOffset = CGSize(width: 2, height: 2)
-        addButton.layer.shadowRadius = 2
-        addButton.layer.shadowOpacity = 0.2
-        
-        
         mapView.delegate = self
         mapView.register(MKMarkerAnnotationView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
-        
-        locationManager = CLLocationManager()
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager.distanceFilter = 100
-        locationManager.requestWhenInUseAuthorization()
-        
-        
-        //        let mapCenter = CLLocationCoordinate2D(latitude: <#T##CLLocationDegrees#>, longitude: <#T##CLLocationDegrees#>)
-        //        let mapSpan = MKCoordinateSpan(latitudeDelta: <#T##CLLocationDegrees#>, longitudeDelta: <#T##CLLocationDegrees#>)
-        //        let region = MKCoordinateRegion(center: <#T##CLLocationCoordinate2D#>, span: <#T##MKCoordinateSpan#>)
-        //
-        //        mapView.setRegion(region, animated: false)
-        
-        // Do any additional setup after loading the view.
     }
     
+    
+    // Action
     func addPin(coordinate: CLLocationCoordinate2D) {
         let annotation = MKPointAnnotation()
         annotation.title = "New Issue"
@@ -95,9 +99,37 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         print("did add")
         mapView.showAnnotations([annotation], animated: true)
         mapView.selectAnnotation(annotation, animated: true)
-
     }
     
+    @objc func didClickAddIssue(button: UIButton){
+        print("accessory add touched")
+        performSegue(withIdentifier: "addIssue", sender: button)
+    }
+    
+    @IBAction func onLocationPRess(_ sender: UIButton) {
+        let annotations = [mapView.userLocation]
+        mapView.showAnnotations(annotations, animated: true)
+    }
+    
+    
+    @IBAction func onLongPressAdd(_ sender: UILongPressGestureRecognizer) {
+        if UIGestureRecognizer.State.began == sender.state {
+            for annotation in mapView.annotations {
+                if annotation is MKPointAnnotation {
+                    mapView.deselectAnnotation(annotation, animated: true)
+                }
+            }
+        }
+        
+        if UIGestureRecognizer.State.ended == sender.state {
+            let location = sender.location(in: mapView)
+            let coordinate = mapView.convert(location,toCoordinateFrom: mapView)
+            self.addPin(coordinate: coordinate)
+        }
+    }
+    
+    
+    // Delegate
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         if let annotation = view.annotation {
             if let title = annotation.title as? String{
@@ -130,24 +162,11 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             let issueReuseId = "issueReuse"
             var issueAnnotation = mapView.dequeueReusableAnnotationView(withIdentifier: issueReuseId) as? MKPinAnnotationView
             if issueAnnotation == nil {
-//                let vc = UIImagePickerController()
-//                vc.delegate = self
-//                vc.allowsEditing = true
-//
-//                if UIImagePickerController.isSourceTypeAvailable(.camera) {
-//                    print("Camera is available 📸")
-//                    vc.sourceType = .camera
-//                } else {
-//                    print("Camera 🚫 available so we will use photo library instead")
-//                    vc.sourceType = .photoLibrary
-//                }
-//                self.present(vc, animated: true, completion: nil)
-                
                 issueAnnotation = MKPinAnnotationView(annotation: annotation, reuseIdentifier: issueReuseId)
                 issueAnnotation!.canShowCallout = true
                 issueAnnotation!.leftCalloutAccessoryView = UIImageView(frame: CGRect(x:0, y:0, width: 50, height:50))
                 
-//                let leftCalloutImageView = issueAnnotation?.leftCalloutAccessoryView as! UIImageView
+                // let leftCalloutImageView = issueAnnotation?.leftCalloutAccessoryView as! UIImageView
                 // leftCalloutImageView.image = self.pickedImage
                 let rightCalloutButton = UIButton(type: .contactAdd)
                 rightCalloutButton.addTarget(self, action: #selector(didClickAddIssue(button:)), for: .touchUpInside)
@@ -163,10 +182,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         }
     }
     
-    @objc func didClickAddIssue(button: UIButton){
-        print("accessory add touched")
-        performSegue(withIdentifier: "addIssue", sender: button)
-    }
     
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         
@@ -198,34 +213,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         print("4")
     }
 
-    @IBAction func onLocationPRess(_ sender: UIButton) {
-        let annotations = [mapView.userLocation]
-        mapView.showAnnotations(annotations, animated: true)
-    }
-    
-    @IBAction func unwindToMapController(sender: UIStoryboardSegue) {
-        if let sourceViewController = sender.source as? FormViewController, meal = sourceViewController.meal {
-        }
-    }
-    
-
-    
-    @IBAction func onLongPressAdd(_ sender: UILongPressGestureRecognizer) {
-        if UIGestureRecognizer.State.began == sender.state {
-            for annotation in mapView.annotations {
-                if annotation is MKPointAnnotation {
-                    mapView.deselectAnnotation(annotation, animated: true)
-                }
-            }
-        }
-        
-        if UIGestureRecognizer.State.ended == sender.state {
-            let location = sender.location(in: mapView)
-            let coordinate = mapView.convert(location,toCoordinateFrom: mapView)
-            self.addPin(coordinate: coordinate)
-        }
-    }
-    
+  
 
     // MARK: - Navigation
     
