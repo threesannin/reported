@@ -12,6 +12,67 @@ import iOSDropDown
 import MapKit
 import Parse
 
+
+final class FormObj: Codable {
+    var issueCategory: String
+    var dirOfTravel: String
+    var transMode: String
+    var nearestCrossStreet: String
+    var dateTime: String
+    var latitude: String
+    var longitude: String
+    var descripText: String
+    var name: String
+    var email: String
+    var phone: String
+    var followUp: Bool
+    
+    init(issueCategory: String!, dirOfTravel: String!, transMode: String!, nearestCrossStreet: String!, dateTime: String!, latitude: String!, longitude: String!, descripText: String!, name: String!, email: String!, phone: String!, followUp: Bool!) {
+        self.issueCategory = issueCategory
+        self.dirOfTravel = dirOfTravel
+        self.transMode = transMode
+        self.nearestCrossStreet = nearestCrossStreet
+        self.dateTime = dateTime
+        self.latitude = latitude
+        self.longitude = longitude
+        self.descripText = descripText
+        self.name = name
+        self.email = email
+        self.phone = phone
+        self.followUp = followUp
+    }
+}
+
+struct Form: Codable {
+    var issueCategory: String
+    var dirOfTravel: String
+    var transMode: String
+    var nearestCrossStreet: String
+    var dateTime: String
+    var latitude: Double
+    var longitude: Double
+    var descripText: String
+    var name: String
+    var email: String
+    var phone: String
+    var followUp: Bool
+    
+    init(issueCategory: String!, dirOfTravel: String!, transMode: String!, nearestCrossStreet: String!, dateTime: String!, latitude: Double!, longitude: Double!, descripText: String!, name: String!, email: String!, phone: String!, followUp: Bool!) {
+        self.issueCategory = issueCategory
+        self.dirOfTravel = dirOfTravel
+        self.transMode = transMode
+        self.nearestCrossStreet = nearestCrossStreet
+        self.dateTime = dateTime
+        self.latitude = latitude
+        self.longitude = longitude
+        self.descripText = descripText
+        self.name = name
+        self.email = email
+        self.phone = phone
+        self.followUp = followUp
+    }
+}
+
 class FormViewController: UIViewController,UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
     
     // Buttons
@@ -43,8 +104,8 @@ class FormViewController: UIViewController,UIImagePickerControllerDelegate, UINa
     // TextFields
     @IBOutlet weak var categoryDropField: DropDown! {
         didSet {
-            categoryDropField.optionArray = ["Roadway - Pothole", "Litter - Trash/Debris", "Graffiti", "Other"]
-            categoryDropField.optionIds = [1,2,3,4]
+            categoryDropField.optionArray = ["Roadway - Pothole", "Litter - Trash and Debris", "Graffiti", "Landscaping - Weeds, Trees, Brush", "Illegal Encampment"]
+            categoryDropField.optionIds = [1,2,3,4,5]
             categoryDropField.didSelect {
                 (selectedText , index ,id) in print("Selected String: \(selectedText) \n index: \(index)")
             }
@@ -64,8 +125,8 @@ class FormViewController: UIViewController,UIImagePickerControllerDelegate, UINa
     }
     @IBOutlet weak var directionDropField: DropDown! {
         didSet {
-            directionDropField.optionArray = ["Northbound","Eastbound","Southbound","Westbound"]
-            directionDropField.optionIds = [1,2,3,4]
+            directionDropField.optionArray = ["Northbound","Eastbound","Southbound","Westbound", "Both"]
+            directionDropField.optionIds = [1,2,3,4,5]
             directionDropField.didSelect { (selectedText, index, id) in
                 print("Selected String: \(selectedText) \n index: \(index)")
             }
@@ -133,43 +194,16 @@ class FormViewController: UIViewController,UIImagePickerControllerDelegate, UINa
     
     @IBAction func done(_ sender: UIBarButtonItem) {
         if requiredFieldsValid() {
-            
             print("submitting")
-            let post = PFObject(className: "Issues")
-            post["issueCategory"] = categoryDropField.text
-            post["dirOfTravel"] = directionDropField.text            
-//            if let imageData = mapImageView.image?.pngData() {
-//                let file = PFFileObject(data: imageData)
-//                post["mapImage"] = file
-//            }
-            post["transMode"] = transportationDropField.text
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "MMM dd, yyyy 'at' h:mm:ss a"
             
-            post["issueDateTime"] = dateFormatter.date(from: datePickerTextField.text!)
+            // Form Codable
+            let form = Form(issueCategory: categoryDropField.text!, dirOfTravel: directionDropField.text!, transMode: transportationDropField.text!, nearestCrossStreet: streetTextField.text!, dateTime: datePickerTextField.text!, latitude: pinLocation!.latitude, longitude: pinLocation!.longitude, descripText: descriptionTextField.text!, name: "test", email: "email", phone: "phone", followUp: followUpSwitch.isOn)
             
-            post["nearestCrossStreet"] = streetTextField.text
-            post["location"] = PFGeoPoint(latitude: pinLocation!.latitude, longitude: pinLocation!.longitude)
-            if let imageData = imageView.image?.pngData() {
-                let file = PFFileObject(data: imageData)
-                post["issueImage"] = file
-            }
-            post["followUp"] = followUpSwitch.isOn
-            // post["latitude"] = pinLocation?.latitude
-            // post["longitude"] = pinLocation?.longitude
-            post["descripText"] = descriptionTextField.text
+            // Send to Parse
+            postParse(form: form)
             
-            post["username"] = PFUser.current()!.username
-            
-            post.saveInBackground{ (success, error) in
-                if success {
-                    self.dismiss(animated: true, completion: nil)
-                    print("Saved!")
-                } else {
-                    print("error!")
-                }
-            }
             // Send to Selenium
+            postSelenium(form: form)
             
             
         } else {
@@ -209,6 +243,77 @@ class FormViewController: UIViewController,UIImagePickerControllerDelegate, UINa
         return flag
     }
     
+    
+    func postParse(form : Form) {
+        let post = PFObject(className: "Issues")
+        post["issueCategory"] = form.issueCategory
+        post["dirOfTravel"] = form.dirOfTravel
+        post["transMode"] = form.transMode
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MMM dd, yyyy 'at' h:mm:ss a"
+        post["issueDateTime"] = dateFormatter.date(from: form.dateTime)
+        
+        post["nearestCrossStreet"] = form.nearestCrossStreet
+        post["location"] = PFGeoPoint(latitude: form.latitude, longitude: form.longitude)
+        
+        if let imageData = imageView.image?.pngData() {
+            let file = PFFileObject(data: imageData)
+            post["issueImage"] = file
+        }
+        post["followUp"] = form.followUp
+        post["descripText"] = form.descripText
+        post["username"] = PFUser.current()!.username
+        
+        post.saveInBackground{ (success, error) in
+            if success {
+                self.dismiss(animated: true, completion: nil)
+                print("Saved!")
+            } else {
+                print("error!")
+            }
+        }
+    }
+    
+    func postSelenium(form: Form) {
+        let url = URL(string: "http://localhost:8089/submitPost")
+        // Specify this request as being a POST method
+        var request = URLRequest(url: url!)
+        request.httpMethod = "POST"
+        // Make sure that we include headers specifying that our request's HTTP body
+        // will be JSON encoded
+        var headers = request.allHTTPHeaderFields ?? [:]
+        headers["Content-Type"] = "application/json"
+        request.allHTTPHeaderFields = headers
+        
+        //let post = Response(status: "daniel sampson", error: false)
+         // create your own form
+        
+        let encoder = JSONEncoder()
+        do {
+            let jsonData = try encoder.encode(form)
+            // ... and set our request's HTTP body
+            request.httpBody = jsonData
+            //print("jsonData: ", String(data: request.httpBody!, encoding: .utf8) ?? "no body data")
+        } catch {
+            print(error.localizedDescription)
+        }
+        
+        // Create and run a URLSession data task with our JSON encoded POST request
+        let config = URLSessionConfiguration.default
+        let session = URLSession(configuration: config)
+        let task = session.dataTask(with: request) { data, response, error in
+            if let error = error {
+                print(error.localizedDescription)
+            } else if let data = data {
+                let msg = try! JSONSerialization.jsonObject(with: data, options:[]) as! [String: Any]
+                print(msg)
+                
+                print(msg["status"] as! String)
+            }
+        }
+        task.resume()
+    }
     
     // MARK: - Navigation
 
