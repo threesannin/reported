@@ -94,17 +94,15 @@ Report issues dealing with city/state infustructure damage/disturbances which in
 #### Post
 |Property|Type|Description|
 |---|---|---|
-|category|string|type of issue to be reported|
-|dirOfTravel|string|direction defined by N,S,E,W|
-|modeOfTrans|string|type of transportation like car, boat, walking, ect  |
-|crossStreet|string|nearest intersection to issue|
-|date|string|date issue was created|
-|time|string|time issue was created|
+|issueCategory|string|type of issue to be reported|
+|dirOfTravel|string|direction defined by Northbound, Southbound, Eastbound, Westbound|
+|transMode|string|type of transportation like car, boat, walking, etc  |
+|nearestStreet|string|nearest intersection to issue|
+|dateTime|Date|time issue was created|
 |image|File|image related to issue|
-|latitude|string|latitude coordinate of issue|
-|longitude|string|longitude coordinate of issue|
-|description|string|description of issue|
-|receiveResponse|boolean|whether or not follow up response is needed|
+|location|GeoPoint|coordinate of issue|
+|descripText|string|description of issue|
+|followUp|boolean|whether or not follow up response is needed|
 |username|string|author of post|
 
 #### User
@@ -208,20 +206,20 @@ Report issues dealing with city/state infustructure damage/disturbances which in
      ``` swift
          
          struct Form: Codable {
-        let category: String
+        let issueCategory: String
         let dirOfTravel: String
-        let modeOfTrans: String
-        let crossStreet: String
+        let transMode: String
+        let nearestCrossStreet: String
         let date: String
         let time: String
         let latitude: String
         let longitude: String
-        let description: String
+        let descripText: String
         let name: String
         let email: String
         let phone: String
         let descriptionGeoLoc: String
-        let receiveResponse: Bool
+        let followUp: Bool
     }
     ```
     - APi CAll
