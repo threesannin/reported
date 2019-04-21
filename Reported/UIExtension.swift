@@ -9,20 +9,6 @@
 import UIKit
 import DropDown
 
-@IBDesignable
-class DesignableView: UIView {
-}
-@IBDesignable
-class DesignableButton: UIButton {
-}
-
-@IBDesignable
-class DesignableLabel: UILabel {
-}
-
-@IBDesignable
-class DesignableTextField: UITextField {
-}
 extension UIView{
     func blink() {
         self.alpha = 0.2
@@ -136,7 +122,9 @@ extension DropDown {
         self.bottomOffset = CGPoint(x: 0, y:(self.anchorView?.plainView.bounds.height)!)
         self.topOffset = CGPoint(x: 0, y:-(self.anchorView?.plainView.bounds.height)!)
         self.dismissMode = .automatic
-        //self.shadowOffset=CGSize(width:0 , height: 4)
-        //self.shadowRadius=3
+        (self as UIView).cornerRadius = 1
+        (self as UIView).shadowOpacity = 0.5
+        (self as UIView).shadowOffset=CGSize(width:0 , height: 2)
+        (self as UIView).shadowRadius=3
     }
 }
