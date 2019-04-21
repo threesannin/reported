@@ -32,6 +32,7 @@
 		B3F048C822507E19001ADDBB /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3F048C722507E19001ADDBB /* MapKit.framework */; };
 		B3F048CA22507E20001ADDBB /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3F048C922507E20001ADDBB /* CoreLocation.framework */; };
 		B3F048CC22507F20001ADDBB /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3F048CB22507F20001ADDBB /* MapViewController.swift */; };
+		B3F17B71226C10C200A7C04D /* DropDown.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3F17B70226C10C200A7C04D /* DropDown.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -84,6 +85,7 @@
 		B3F048C722507E19001ADDBB /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		B3F048C922507E20001ADDBB /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		B3F048CB22507F20001ADDBB /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		B3F17B70226C10C200A7C04D /* DropDown.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DropDown.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B6CC965DB842F81EF1CC3F36 /* Pods-ReportedUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReportedUITests.debug.xcconfig"; path = "Target Support Files/Pods-ReportedUITests/Pods-ReportedUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		BDD373C8929FC0B46A934C56 /* Pods-ReportedTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReportedTests.release.xcconfig"; path = "Target Support Files/Pods-ReportedTests/Pods-ReportedTests.release.xcconfig"; sourceTree = "<group>"; };
 		C717494C07E9873DF27E775F /* Pods-ReportedUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReportedUITests.release.xcconfig"; path = "Target Support Files/Pods-ReportedUITests/Pods-ReportedUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -96,6 +98,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B3F17B71226C10C200A7C04D /* DropDown.framework in Frameworks */,
 				B3B51C94225151BB00201955 /* iOSDropDown.framework in Frameworks */,
 				B3F048CA22507E20001ADDBB /* CoreLocation.framework in Frameworks */,
 				B3F048C822507E19001ADDBB /* MapKit.framework in Frameworks */,
@@ -205,6 +208,7 @@
 		B3ADAF7E67C7FA6601B63B68 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B3F17B70226C10C200A7C04D /* DropDown.framework */,
 				B3B51C93225151BB00201955 /* iOSDropDown.framework */,
 				B3F048C922507E20001ADDBB /* CoreLocation.framework */,
 				B3F048C722507E19001ADDBB /* MapKit.framework */,
