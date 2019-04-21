@@ -449,7 +449,7 @@
                                 <action selector="cancel:" destination="Icw-Yt-UwX" id="JBw-iT-8R6"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="qUw-4u-dfQ">
+                        <barButtonItem key="rightBarButtonItem" title="Submit" id="qUw-4u-dfQ">
                             <connections>
                                 <action selector="done:" destination="Icw-Yt-UwX" id="0ZO-zN-JiI"/>
                             </connections>

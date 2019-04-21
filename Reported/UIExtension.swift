@@ -108,7 +108,22 @@ extension UIButton {
 }
 
 extension UITextField {
+    func createModalPicker(datePicker: UIDatePicker, selector: Selector) {
+        self.inputView = datePicker
+        let dpToolbar = UIToolbar()
+        dpToolbar.sizeToFit()
+        let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: nil, action: selector)
+        dpToolbar.setItems([doneButton], animated: true)
+        self.inputAccessoryView = dpToolbar
+    }
     
+    @objc func setFormat(picker: UIDatePicker, controller: FormViewController) {
+        let dateFormatter = DateFormatter()
+        dateFormatter.timeStyle = .medium
+        dateFormatter.dateStyle = .medium
+        self.text = dateFormatter.string(from: picker.date)
+        controller.view.endEditing(true)
+    }
 }
 
 extension DropDown {
