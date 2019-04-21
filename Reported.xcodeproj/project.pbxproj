@@ -27,7 +27,6 @@
 		9850E9369924E42783FAB5E3 /* Pods_ReportedTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BE13C4E7D7F6ADE4E88A87A /* Pods_ReportedTests.framework */; };
 		9D8B9D9F4933E671B65E8894 /* Pods_ReportedUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F26188474FB297516CE369E3 /* Pods_ReportedUITests.framework */; };
 		B370B9152252F9FC007D42AD /* MapUpdateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B370B9142252F9FC007D42AD /* MapUpdateViewController.swift */; };
-		B3B51C94225151BB00201955 /* iOSDropDown.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3B51C93225151BB00201955 /* iOSDropDown.framework */; };
 		B3B51C962251520D00201955 /* FormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3B51C952251520D00201955 /* FormViewController.swift */; };
 		B3F048C822507E19001ADDBB /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3F048C722507E19001ADDBB /* MapKit.framework */; };
 		B3F048CA22507E20001ADDBB /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3F048C922507E20001ADDBB /* CoreLocation.framework */; };
@@ -99,7 +98,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				B3F17B71226C10C200A7C04D /* DropDown.framework in Frameworks */,
-				B3B51C94225151BB00201955 /* iOSDropDown.framework in Frameworks */,
 				B3F048CA22507E20001ADDBB /* CoreLocation.framework in Frameworks */,
 				B3F048C822507E19001ADDBB /* MapKit.framework in Frameworks */,
 				77E0B6E7657258813BB32CEF /* Pods_Reported.framework in Frameworks */,
@@ -403,7 +401,6 @@
 				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
 				"${BUILT_PRODUCTS_DIR}/DropDown/DropDown.framework",
 				"${BUILT_PRODUCTS_DIR}/Parse/Parse.framework",
-				"${BUILT_PRODUCTS_DIR}/iOSDropDown/iOSDropDown.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
@@ -414,7 +411,6 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bolts.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DropDown.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Parse.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/iOSDropDown.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;

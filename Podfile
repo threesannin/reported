@@ -8,7 +8,6 @@ target 'Reported' do
   # Pods for Reported
   pod "Parse"
   pod "AlamofireImage"
-  pod "iOSDropDown"
   pod 'DropDown', '2.3.12'
 
   target 'ReportedTests' do
