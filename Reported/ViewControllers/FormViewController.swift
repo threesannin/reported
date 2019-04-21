@@ -8,10 +8,9 @@
 
 import AlamofireImage
 import UIKit
-import iOSDropDown
 import MapKit
 import Parse
-
+import DropDown
 
 final class FormObj: Codable {
     var issueCategory: String
@@ -102,13 +101,10 @@ class FormViewController: UIViewController,UIImagePickerControllerDelegate, UINa
     @IBOutlet weak var transportationLabel: UILabel!
     
     // TextFields
-    @IBOutlet weak var categoryDropField: DropDown! {
+    @IBOutlet weak var categoryDropField: UITextField! {
         didSet {
-            categoryDropField.optionArray = ["Roadway - Pothole", "Litter - Trash and Debris", "Graffiti", "Landscaping - Weeds, Trees, Brush", "Illegal Encampment"]
-            categoryDropField.optionIds = [1,2,3,4,5]
-            categoryDropField.didSelect {
-                (selectedText , index ,id) in print("Selected String: \(selectedText) \n index: \(index)")
-            }
+            //["Roadway - Pothole", "Litter - Trash and Debris", "Graffiti", "Landscaping - Weeds, Trees, Brush", "Illegal Encampment"]
+            
         }
     }
     @IBOutlet weak var datePickerTextField: UITextField!
@@ -123,22 +119,16 @@ class FormViewController: UIViewController,UIImagePickerControllerDelegate, UINa
             descriptionTextField.leftViewMode = UITextField.ViewMode.always
         }
     }
-    @IBOutlet weak var directionDropField: DropDown! {
+    @IBOutlet weak var directionDropField: UITextField! {
         didSet {
-            directionDropField.optionArray = ["Northbound","Eastbound","Southbound","Westbound", "Both"]
-            directionDropField.optionIds = [1,2,3,4,5]
-            directionDropField.didSelect { (selectedText, index, id) in
-                print("Selected String: \(selectedText) \n index: \(index)")
-            }
+           // ["Northbound","Eastbound","Southbound","Westbound", "Both"]
+            
         }
     }
     @IBOutlet weak var streetTextField: UITextField!
-    @IBOutlet weak var transportationDropField: DropDown! {
+    @IBOutlet weak var transportationDropField: UITextField! {
         didSet {
-            transportationDropField.optionArray = ["Car","Bicycle","Walking","Other"]
-            transportationDropField.didSelect { (selectedText, index, id) in
-                print("Selected String: \(selectedText) \n index: \(index)")
-            }
+            // ["Car","Bicycle","Walking","Other"]
         }
     }
     
