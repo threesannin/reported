@@ -47,13 +47,6 @@
                                     <action selector="onLocationPRess:" destination="q2r-jl-TJ1" eventType="touchUpInside" id="spm-5j-snn"/>
                                 </connections>
                             </button>
-                            <searchBar alpha="0.90000000000000002" contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="A2m-5b-l8U">
-                                <rect key="frame" x="0.0" y="28" width="375" height="56"/>
-                                <textInputTraits key="textInputTraits"/>
-                                <connections>
-                                    <outlet property="delegate" destination="q2r-jl-TJ1" id="rBC-7X-wa1"/>
-                                </connections>
-                            </searchBar>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b6c-HF-7Z3">
                                 <rect key="frame" x="309" y="92" width="50" height="50"/>
                                 <constraints>
@@ -62,6 +55,17 @@
                                 </constraints>
                                 <state key="normal" image="filter-icon"/>
                             </button>
+                            <searchBar alpha="0.90000000000000002" contentMode="redraw" placeholder="Search for an issue" showsSearchResultsButton="YES" translatesAutoresizingMaskIntoConstraints="NO" id="A2m-5b-l8U">
+                                <rect key="frame" x="0.0" y="20" width="375" height="56"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <scopeButtonTitles>
+                                    <string>Title</string>
+                                    <string>Title</string>
+                                </scopeButtonTitles>
+                                <connections>
+                                    <outlet property="delegate" destination="q2r-jl-TJ1" id="rBC-7X-wa1"/>
+                                </connections>
+                            </searchBar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -74,11 +78,11 @@
                             <constraint firstItem="A2m-5b-l8U" firstAttribute="leading" secondItem="xkQ-vQ-hYE" secondAttribute="leading" id="cO6-1t-qGA"/>
                             <constraint firstItem="Hcd-Uf-z3N" firstAttribute="bottom" secondItem="xkQ-vQ-hYE" secondAttribute="bottom" id="fHY-o4-Nnw"/>
                             <constraint firstItem="Hcd-Uf-z3N" firstAttribute="top" secondItem="cKm-Jc-GDR" secondAttribute="top" id="gjp-4M-IBV"/>
-                            <constraint firstItem="b6c-HF-7Z3" firstAttribute="top" secondItem="A2m-5b-l8U" secondAttribute="bottom" constant="8" id="h2R-g8-IKS"/>
+                            <constraint firstItem="b6c-HF-7Z3" firstAttribute="top" secondItem="A2m-5b-l8U" secondAttribute="bottom" constant="16" id="h2R-g8-IKS"/>
                             <constraint firstItem="zgB-dm-PRg" firstAttribute="leading" secondItem="b6c-HF-7Z3" secondAttribute="leading" id="mwC-uA-7o4"/>
                             <constraint firstItem="xkQ-vQ-hYE" firstAttribute="trailing" secondItem="b6c-HF-7Z3" secondAttribute="trailing" constant="16" id="rxn-Qb-aPj"/>
                             <constraint firstItem="Hcd-Uf-z3N" firstAttribute="leading" secondItem="xkQ-vQ-hYE" secondAttribute="leading" id="vEM-0f-wOW"/>
-                            <constraint firstItem="A2m-5b-l8U" firstAttribute="top" secondItem="xkQ-vQ-hYE" secondAttribute="top" constant="8" id="vHu-UE-D0x"/>
+                            <constraint firstItem="A2m-5b-l8U" firstAttribute="top" secondItem="xkQ-vQ-hYE" secondAttribute="top" id="vHu-UE-D0x"/>
                             <constraint firstItem="MUT-NB-Um4" firstAttribute="top" secondItem="zgB-dm-PRg" secondAttribute="bottom" constant="8" id="zdM-XC-x6k"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="xkQ-vQ-hYE"/>
@@ -233,6 +237,12 @@
                                                         <color key="value" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
+                                                <connections>
+                                                    <action selector="onDropEditBegin:" destination="Icw-Yt-UwX" eventType="editingDidBegin" id="jJR-2J-DbI"/>
+                                                    <action selector="onDropEditingEnd:" destination="Icw-Yt-UwX" eventType="editingDidEnd" id="Z54-kA-hYV"/>
+                                                    <action selector="onDropSearch:" destination="Icw-Yt-UwX" eventType="editingChanged" id="aIF-8A-vBz"/>
+                                                    <action selector="touchTextField:" destination="Icw-Yt-UwX" eventType="touchDown" id="2fI-9h-N4z"/>
+                                                </connections>
                                             </textField>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Select Direction" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="xK2-16-IU9">
                                                 <rect key="frame" x="38" y="149" width="299" height="30"/>
@@ -245,6 +255,12 @@
                                                         <color key="value" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
+                                                <connections>
+                                                    <action selector="onDropEditBegin:" destination="Icw-Yt-UwX" eventType="editingDidBegin" id="g8D-zJ-gcQ"/>
+                                                    <action selector="onDropEditingEnd:" destination="Icw-Yt-UwX" eventType="editingDidEnd" id="1Yy-iB-9hZ"/>
+                                                    <action selector="onDropSearch:" destination="Icw-Yt-UwX" eventType="editingChanged" id="BYu-Us-yGy"/>
+                                                    <action selector="touchTextField:" destination="Icw-Yt-UwX" eventType="touchDown" id="Nl3-Ek-Zcz"/>
+                                                </connections>
                                             </textField>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Select Issue" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="V4x-A9-eGp">
                                                 <rect key="frame" x="38" y="71" width="299" height="30"/>
@@ -257,6 +273,12 @@
                                                         <color key="value" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
+                                                <connections>
+                                                    <action selector="onDropEditBegin:" destination="Icw-Yt-UwX" eventType="editingDidBegin" id="QsY-cX-XkE"/>
+                                                    <action selector="onDropEditingEnd:" destination="Icw-Yt-UwX" eventType="editingDidEnd" id="3ak-cd-8zD"/>
+                                                    <action selector="onDropSearch:" destination="Icw-Yt-UwX" eventType="editingChanged" id="4iW-7G-RcN"/>
+                                                    <action selector="touchTextField:" destination="Icw-Yt-UwX" eventType="touchDown" id="hv1-5p-c9X"/>
+                                                </connections>
                                             </textField>
                                             <imageView clipsSubviews="YES" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="e61-73-I0R">
                                                 <rect key="frame" x="38" y="701" width="299" height="211"/>
@@ -344,6 +366,9 @@
                                             <constraint firstItem="WXa-vV-Bdl" firstAttribute="top" secondItem="N7a-7B-cB0" secondAttribute="bottom" constant="8" symbolic="YES" id="xDa-9e-x2T"/>
                                             <constraint firstItem="V4x-A9-eGp" firstAttribute="leading" secondItem="X8K-K3-W33" secondAttribute="leadingMargin" constant="30" id="z2n-DX-5rr"/>
                                         </constraints>
+                                        <connections>
+                                            <outletCollection property="gestureRecognizers" destination="xh7-6m-nDg" appends="YES" id="Dp1-zD-PYt"/>
+                                        </connections>
                                     </view>
                                 </subviews>
                                 <constraints>
@@ -381,29 +406,34 @@
                     <size key="freeformSize" width="375" height="1500"/>
                     <connections>
                         <outlet property="addImageButton" destination="xJd-WC-i4c" id="fvI-Oi-Sgm"/>
-                        <outlet property="categoryDropField" destination="V4x-A9-eGp" id="fqj-ei-Dtm"/>
-                        <outlet property="categoryLabel" destination="kOL-pf-HFd" id="U4s-s5-3C4"/>
                         <outlet property="datePickerTextField" destination="44L-b3-POM" id="YY4-1T-N3N"/>
                         <outlet property="dateTimeLabel" destination="pFD-5h-ppz" id="6Bj-ul-Xo1"/>
-                        <outlet property="descriptionLabel" destination="6on-Rp-uZm" id="M54-eV-i2o"/>
-                        <outlet property="descriptionTextField" destination="93J-TO-N18" id="lJg-aF-wxz"/>
-                        <outlet property="directionDropField" destination="xK2-16-IU9" id="X4C-5c-qbQ"/>
-                        <outlet property="directionLabel" destination="k9G-pY-7xr" id="IAN-Fo-J3U"/>
+                        <outlet property="descipTextField" destination="93J-TO-N18" id="lJg-aF-wxz"/>
+                        <outlet property="descripLabel" destination="6on-Rp-uZm" id="M54-eV-i2o"/>
+                        <outlet property="dirLabel" destination="k9G-pY-7xr" id="IAN-Fo-J3U"/>
+                        <outlet property="dirTextField" destination="xK2-16-IU9" id="X4C-5c-qbQ"/>
                         <outlet property="doneButton" destination="qUw-4u-dfQ" id="Qcn-2e-PYA"/>
                         <outlet property="followUpSwitch" destination="Tip-IP-qwb" id="d0R-in-XEB"/>
                         <outlet property="gpsLabel" destination="JVw-dR-v02" id="2xN-C7-b3V"/>
                         <outlet property="imageView" destination="e61-73-I0R" id="f8r-ut-bGM"/>
+                        <outlet property="issueLabel" destination="kOL-pf-HFd" id="U4s-s5-3C4"/>
+                        <outlet property="issueTextField" destination="V4x-A9-eGp" id="fqj-ei-Dtm"/>
                         <outlet property="mapImageView" destination="tqm-Q1-1q6" id="F0D-0A-pJx"/>
                         <outlet property="streetLabel" destination="N7a-7B-cB0" id="YxF-KL-FDB"/>
                         <outlet property="streetTextField" destination="WXa-vV-Bdl" id="AQR-X2-sam"/>
-                        <outlet property="transportationDropField" destination="LdF-te-gEm" id="kLN-34-MWB"/>
-                        <outlet property="transportationLabel" destination="udi-8t-gsT" id="LQq-II-SIh"/>
+                        <outlet property="transLabel" destination="udi-8t-gsT" id="LQq-II-SIh"/>
+                        <outlet property="transTextField" destination="LdF-te-gEm" id="kLN-34-MWB"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OGK-yp-SAQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <tapGestureRecognizer id="UuH-0k-84h" userLabel="tapMapRecognizer">
                     <connections>
                         <segue destination="efP-5q-wrq" kind="presentation" id="v42-HO-LbN"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <tapGestureRecognizer id="xh7-6m-nDg" userLabel="tapOut">
+                    <connections>
+                        <action selector="tappedOut:" destination="Icw-Yt-UwX" id="Stb-N2-3j7"/>
                     </connections>
                 </tapGestureRecognizer>
             </objects>

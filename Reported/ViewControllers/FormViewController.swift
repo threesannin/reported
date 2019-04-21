@@ -86,10 +86,10 @@ class FormViewController: UIViewController,UIImagePickerControllerDelegate, UINa
     @IBOutlet weak var followUpSwitch: UISwitch!
 
     // Labels
-    @IBOutlet weak var categoryLabel: UILabel!
+    @IBOutlet weak var issueLabel: UILabel!
     @IBOutlet weak var dateTimeLabel: UILabel!
-    @IBOutlet weak var descriptionLabel: UILabel!
-    @IBOutlet weak var directionLabel: UILabel!
+    @IBOutlet weak var descripLabel: UILabel!
+    @IBOutlet weak var dirLabel: UILabel!
     @IBOutlet weak var gpsLabel: UILabel! {
         didSet {
             if let lat = pinLocation?.latitude, let long = pinLocation?.longitude {
@@ -98,35 +98,35 @@ class FormViewController: UIViewController,UIImagePickerControllerDelegate, UINa
         }
     }
     @IBOutlet weak var streetLabel: UILabel!
-    @IBOutlet weak var transportationLabel: UILabel!
+    @IBOutlet weak var transLabel: UILabel!
     
     // TextFields
-    @IBOutlet weak var categoryDropField: UITextField! {
+    @IBOutlet weak var issueTextField: UITextField! {
         didSet {
-            //["Roadway - Pothole", "Litter - Trash and Debris", "Graffiti", "Landscaping - Weeds, Trees, Brush", "Illegal Encampment"]
+            //[
             
         }
     }
     @IBOutlet weak var datePickerTextField: UITextField!
-    @IBOutlet weak var descriptionTextField: UITextField! {
+    @IBOutlet weak var descipTextField: UITextField! {
         didSet {
-            descriptionTextField.layer.borderWidth = 1
-            descriptionTextField.layer.borderColor = #colorLiteral(red: 0.9136554599, green: 0.9137651324, blue: 0.9136180282, alpha: 1)
-            descriptionTextField.layer.cornerRadius = 5
+            descipTextField.layer.borderWidth = 1
+            descipTextField.layer.borderColor = #colorLiteral(red: 0.9136554599, green: 0.9137651324, blue: 0.9136180282, alpha: 1)
+            descipTextField.layer.cornerRadius = 5
             
-            let leftPaddingView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: descriptionTextField.frame.height))
-            descriptionTextField.leftView = leftPaddingView
-            descriptionTextField.leftViewMode = UITextField.ViewMode.always
+            let leftPaddingView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: descipTextField.frame.height))
+            descipTextField.leftView = leftPaddingView
+            descipTextField.leftViewMode = UITextField.ViewMode.always
         }
     }
-    @IBOutlet weak var directionDropField: UITextField! {
+    @IBOutlet weak var dirTextField: UITextField! {
         didSet {
            // ["Northbound","Eastbound","Southbound","Westbound", "Both"]
             
         }
     }
     @IBOutlet weak var streetTextField: UITextField!
-    @IBOutlet weak var transportationDropField: UITextField! {
+    @IBOutlet weak var transTextField: UITextField! {
         didSet {
             // ["Car","Bicycle","Walking","Other"]
         }
@@ -143,7 +143,12 @@ class FormViewController: UIViewController,UIImagePickerControllerDelegate, UINa
         }
     }
     
-
+    let issueDropDown = DropDown()
+    let dirDropDown = DropDown()
+    let transDropDown = DropDown()
+    
+    var fieldMenuPair = [UITextField: DropDown]()
+    
     // Variables
     var requiredFieldPairs: [UITextField : UILabel] = [:]
     var issueDateTime: NSDate!
@@ -154,18 +159,92 @@ class FormViewController: UIViewController,UIImagePickerControllerDelegate, UINa
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        requiredFieldPairs[categoryDropField] = categoryLabel
-        requiredFieldPairs[directionDropField] = directionLabel
-        requiredFieldPairs[transportationDropField] = transportationLabel
+        issueTextField.delegate = self
+        dirTextField.delegate = self
+        transTextField.delegate = self
+        
+        issueDropDown.setDefault(textField: issueTextField, data: ["Roadway - Pothole", "Litter - Trash and Debris", "Graffiti", "Landscaping - Weeds, Trees, Brush", "Illegal Encampment"])
+        
+        dirDropDown.setDefault(textField: dirTextField, data: ["Northbound","Eastbound","Southbound","Westbound", "Both"])
+        
+        transDropDown.setDefault(textField: transTextField, data: ["Car","Bicycle","Walking","Other"])
+        
+        fieldMenuPair[issueTextField] = issueDropDown
+        fieldMenuPair[dirTextField] = dirDropDown
+        fieldMenuPair[transTextField] = transDropDown
+
+        requiredFieldPairs[issueTextField] = issueLabel
+        requiredFieldPairs[dirTextField] = dirLabel
+        requiredFieldPairs[transTextField] = transLabel
         requiredFieldPairs[streetTextField] = streetLabel
         requiredFieldPairs[datePickerTextField] = dateTimeLabel
-        requiredFieldPairs[descriptionTextField] = descriptionLabel
+        requiredFieldPairs[descipTextField] = descripLabel
+        
+        
         
         datePicker.datePickerMode = UIDatePicker.Mode.dateAndTime
         datePickerTextField.createModalPicker(datePicker: datePicker, selector: #selector(didSelectDate))
     }
     
     // Actions
+    @IBAction func onDropSearch(_ sender: UITextField) {
+        if let dropDown = fieldMenuPair[sender] {
+            if let found = dropDown.dataSource.firstIndex(where: {
+                $0.contains(sender.text!)
+            }){
+                dropDown.selectRow(found)
+                //topTextField.text = dropDown.selectedItem
+            } else {
+                if let index = dropDown.indexForSelectedRow {
+                    dropDown.deselectRow(at: index)
+                }
+            }
+        }
+        
+    }
+    @IBAction func onDropEditBegin(_ sender: UITextField) {
+        if let dropDown = fieldMenuPair[sender] {
+            dropDown.show()
+        }
+    }
+    
+    @IBAction func tappedOut(_ sender: Any) {
+        self.view.endEditing(true)
+    }
+    
+    
+    @IBAction func onDropEditingEnd(_ sender: UITextField) {
+        if let dropDown = fieldMenuPair[sender] {
+            if let found = dropDown.dataSource.firstIndex(where: {
+                $0.contains(sender.text!)
+            }){
+                dropDown.selectRow(found)
+                sender.text = dropDown.selectedItem
+                //topTextField.text = dropDown.selectedItem
+            } else {
+                sender.text = nil
+            }
+        }
+        
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if fieldMenuPair[textField] != nil {
+            onDropEditingEnd(textField)
+        }
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    
+    @IBAction func touchTextField(_ sender: UITextField) {
+        if let dropDown = fieldMenuPair[sender] {
+            dropDown.show()
+        }
+    }
+    
+    
+    
     @objc func didSelectDate() {
         datePickerTextField.setFormat(picker: datePicker, controller: self)
     }
@@ -187,7 +266,7 @@ class FormViewController: UIViewController,UIImagePickerControllerDelegate, UINa
             print("submitting")
             
             // Form Codable
-            let form = Form(issueCategory: categoryDropField.text!, dirOfTravel: directionDropField.text!, transMode: transportationDropField.text!, nearestCrossStreet: streetTextField.text!, dateTime: datePickerTextField.text!, latitude: pinLocation!.latitude, longitude: pinLocation!.longitude, descripText: descriptionTextField.text!, name: "test", email: "email", phone: "phone", followUp: followUpSwitch.isOn)
+            let form = Form(issueCategory: issueTextField.text!, dirOfTravel: dirTextField.text!, transMode: transTextField.text!, nearestCrossStreet: streetTextField.text!, dateTime: datePickerTextField.text!, latitude: pinLocation!.latitude, longitude: pinLocation!.longitude, descripText: descipTextField.text!, name: "test", email: "email", phone: "phone", followUp: followUpSwitch.isOn)
             
             // Send to Parse
             postParse(form: form)
@@ -353,4 +432,21 @@ extension UIView{
         UIView.animate(withDuration: 0.3, delay: 0.0, options: [.curveLinear, .autoreverse], animations: {self.alpha = 1.0}, completion: nil)
     }
 }
+extension DropDown {
+    func setDefault(textField: UITextField, data: [String]){
+        self.anchorView = textField
+        self.dataSource = data
+        self.selectionAction = { (index: Int, item: String) in
+            print("Selected item: \(item) at index: \(index)")
+            textField.text = item
+        }
+        self.bottomOffset = CGPoint(x: 0, y:(self.anchorView?.plainView.bounds.height)!)
+        self.topOffset = CGPoint(x: 0, y:-(self.anchorView?.plainView.bounds.height)!)
+        self.dismissMode = .automatic
+        self.shadowOffset=CGSize(width:0 , height: 4)
+        self.shadowRadius=3
+        self.cornerRadius=1
+    }
+}
+
 
