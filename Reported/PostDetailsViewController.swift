@@ -36,9 +36,16 @@ class PostDetailsViewController: UIViewController {
         
         
         let dat = post["issueDateTime"] as? Date
+        let dateFormatterGet = DateFormatter()
+        dateFormatterGet.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
         let dateFormatterPrint = DateFormatter()
         dateFormatterPrint.dateFormat = "MMM dd,yyyy"
         let dateString = dat.debugDescription
+        if let date = dateFormatterGet.date(from: (dat?.description)!) {
+            print(dateFormatterPrint.string(from: date))
+        } else {
+            print("There was an error decoding the string")
+        }
         dateLabel.text = dateString
         
         
