@@ -28,7 +28,7 @@ class AlertViewController: UIViewController, UITableViewDataSource, UITableViewD
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        let query = PFQuery(className: "Post")
+        let query = PFQuery(className: "Issues")
         query.limit = 20
         
         query.findObjectsInBackground{ (posts, error) in
@@ -47,14 +47,14 @@ class AlertViewController: UIViewController, UITableViewDataSource, UITableViewD
         let post = posts[indexPath.row]
         let cell = alertsTableView.dequeueReusableCell(withIdentifier: "AlertCell") as! AlertCell
         
-        let reportType = post["category"] as! String
-        let reportDesc = post["description"] as! String
+        let reportType = post["issueCategory"] as! String
+        let reportDesc = post["descripText"] as! String
         
-        let finalString = "new " + reportType + " Reported: '" + reportDesc + "'"
+        let finalString = "Issue Type: <" + reportType + "> Reported: '" + reportDesc + "'"
         
         cell.alertLabel.text = finalString
         
-        let imageFile = post["image"] as! PFFileObject
+        let imageFile = post["issueImage"] as! PFFileObject
         let urlString = imageFile.url!
         let url = URL(string: urlString)!
         
@@ -63,6 +63,16 @@ class AlertViewController: UIViewController, UITableViewDataSource, UITableViewD
         return cell
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let cell = sender as! UITableViewCell
+        let indexPath = alertsTableView.indexPath(for: cell)!
+        let post = posts[indexPath.row]
+        
+        let postDetailsViewController = segue.destination as! PostDetailsViewController
+        postDetailsViewController.post = post
+        
+        alertsTableView.deselectRow(at: indexPath, animated: true)
+    }
 
     /*
     // MARK: - Navigation
