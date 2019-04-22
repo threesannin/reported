@@ -207,22 +207,19 @@ Report issues dealing with city/state infustructure damage/disturbances which in
      - Body structure
      ``` swift
          
-         struct Form: Codable {
-        let issueCategory: String
-        let dirOfTravel: String
-        let transMode: String
-        let nearestCrossStreet: String
-        let date: String
-        let time: String
-        let latitude: String
-        let longitude: String
-        let descripText: String
-        let name: String
-        let email: String
-        let phone: String
-        let descriptionGeoLoc: String
-        let followUp: Bool
-    }
+      Form: Codable
+      var issueCategory: String
+      var dirOfTravel: String
+      var transMode: String
+      var nearestCrossStreet: String
+      var dateTime: String
+      var latitude: String
+      var longitude: String
+      var descripText: String
+      var name: String
+      var email: String
+      var phone: String
+      var followUp: Bool
     ```
     - APi CAll
     ``` swift
