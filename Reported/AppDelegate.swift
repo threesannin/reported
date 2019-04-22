@@ -9,10 +9,22 @@
 import UIKit
 import Parse
 
+import Intents
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    
+    func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([Any]?) -> Void) -> Bool {
+        guard let intent = userActivity.interaction?.intent as? INStartWorkoutIntent else {
+            print("AppDelegate: Start Workout Intent - FALSE")
+            return false
+        }
+        print("AppDelegate: Start Workout Intent - TRUE")
+        print(intent)
+        return true
+    }
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {

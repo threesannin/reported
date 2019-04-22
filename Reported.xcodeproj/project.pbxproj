@@ -12,6 +12,8 @@
 		22652F2C22547CDF00960AEF /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22652F2B22547CDF00960AEF /* ProfileViewController.swift */; };
 		22652F2E2254804900960AEF /* ProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22652F2D2254804900960AEF /* ProfileTableViewCell.swift */; };
 		22652F3022548EE300960AEF /* ReportTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22652F2F22548EE300960AEF /* ReportTableViewCell.swift */; };
+		2270200F226E6F2300F9F9CD /* IntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2270200E226E6F2300F9F9CD /* IntentHandler.swift */; };
+		22702013226E6F2300F9F9CD /* Intents Handler.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 2270200C226E6F2200F9F9CD /* Intents Handler.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		22B123ED224C296A00FE40C7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B123EC224C296A00FE40C7 /* AppDelegate.swift */; };
 		22B123EF224C296A00FE40C7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B123EE224C296A00FE40C7 /* ViewController.swift */; };
 		22B123F2224C296A00FE40C7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 22B123F0224C296A00FE40C7 /* Main.storyboard */; };
@@ -35,6 +37,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		22702011226E6F2300F9F9CD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 22B123E1224C296A00FE40C7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2270200B226E6F2200F9F9CD;
+			remoteInfo = "Intents Handler";
+		};
 		22B123FE224C296C00FE40C7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 22B123E1224C296A00FE40C7 /* Project object */;
@@ -51,12 +60,30 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		22702017226E6F2300F9F9CD /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				22702013226E6F2300F9F9CD /* Intents Handler.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		220108AA224C31B800C1EDD0 /* Alert.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Alert.storyboard; sourceTree = "<group>"; };
 		220108AD224C330500C1EDD0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Reported/Base.lproj/Profile.storyboard; sourceTree = "<group>"; };
 		22652F2B22547CDF00960AEF /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		22652F2D2254804900960AEF /* ProfileTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTableViewCell.swift; sourceTree = "<group>"; };
 		22652F2F22548EE300960AEF /* ReportTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportTableViewCell.swift; sourceTree = "<group>"; };
+		22702007226E6C5000F9F9CD /* Reported.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Reported.entitlements; sourceTree = "<group>"; };
+		2270200C226E6F2200F9F9CD /* Intents Handler.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Intents Handler.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2270200E226E6F2300F9F9CD /* IntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentHandler.swift; sourceTree = "<group>"; };
+		22702010226E6F2300F9F9CD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		22B123E9224C296A00FE40C7 /* Reported.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Reported.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		22B123EC224C296A00FE40C7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		22B123EE224C296A00FE40C7 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -92,6 +119,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		22702009226E6F2200F9F9CD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		22B123E6224C296A00FE40C7 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -122,12 +156,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2270200D226E6F2300F9F9CD /* Intents Handler */ = {
+			isa = PBXGroup;
+			children = (
+				2270200E226E6F2300F9F9CD /* IntentHandler.swift */,
+				22702010226E6F2300F9F9CD /* Info.plist */,
+			);
+			path = "Intents Handler";
+			sourceTree = "<group>";
+		};
 		22B123E0224C296A00FE40C7 = {
 			isa = PBXGroup;
 			children = (
 				22B123EB224C296A00FE40C7 /* Reported */,
 				22B12400224C296C00FE40C7 /* ReportedTests */,
 				22B1240B224C296C00FE40C7 /* ReportedUITests */,
+				2270200D226E6F2300F9F9CD /* Intents Handler */,
 				22B123EA224C296A00FE40C7 /* Products */,
 				6AD2C39BDF47D1CD3B84086A /* Pods */,
 				B3ADAF7E67C7FA6601B63B68 /* Frameworks */,
@@ -140,6 +184,7 @@
 				22B123E9224C296A00FE40C7 /* Reported.app */,
 				22B123FD224C296C00FE40C7 /* ReportedTests.xctest */,
 				22B12408224C296C00FE40C7 /* ReportedUITests.xctest */,
+				2270200C226E6F2200F9F9CD /* Intents Handler.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -147,6 +192,7 @@
 		22B123EB224C296A00FE40C7 /* Reported */ = {
 			isa = PBXGroup;
 			children = (
+				22702007226E6C5000F9F9CD /* Reported.entitlements */,
 				B3F048CE225080D5001ADDBB /* ViewControllers */,
 				B3F048CD225080CD001ADDBB /* View */,
 				22B123EC224C296A00FE40C7 /* AppDelegate.swift */,
@@ -232,6 +278,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		2270200B226E6F2200F9F9CD /* Intents Handler */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 22702014226E6F2300F9F9CD /* Build configuration list for PBXNativeTarget "Intents Handler" */;
+			buildPhases = (
+				22702008226E6F2200F9F9CD /* Sources */,
+				22702009226E6F2200F9F9CD /* Frameworks */,
+				2270200A226E6F2200F9F9CD /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Intents Handler";
+			productName = "Intents Handler";
+			productReference = 2270200C226E6F2200F9F9CD /* Intents Handler.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		22B123E8224C296A00FE40C7 /* Reported */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 22B12411224C296C00FE40C7 /* Build configuration list for PBXNativeTarget "Reported" */;
@@ -241,10 +304,12 @@
 				22B123E6224C296A00FE40C7 /* Frameworks */,
 				22B123E7224C296A00FE40C7 /* Resources */,
 				4496FC07F352F20D16041428 /* [CP] Embed Pods Frameworks */,
+				22702017226E6F2300F9F9CD /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				22702012226E6F2300F9F9CD /* PBXTargetDependency */,
 			);
 			name = Reported;
 			productName = Reported;
@@ -299,8 +364,16 @@
 				LastUpgradeCheck = 1010;
 				ORGANIZATIONNAME = threesannin;
 				TargetAttributes = {
+					2270200B226E6F2200F9F9CD = {
+						CreatedOnToolsVersion = 10.1;
+					};
 					22B123E8224C296A00FE40C7 = {
 						CreatedOnToolsVersion = 10.1;
+						SystemCapabilities = {
+							com.apple.Siri = {
+								enabled = 1;
+							};
+						};
 					};
 					22B123FC224C296C00FE40C7 = {
 						CreatedOnToolsVersion = 10.1;
@@ -328,11 +401,19 @@
 				22B123E8224C296A00FE40C7 /* Reported */,
 				22B123FC224C296C00FE40C7 /* ReportedTests */,
 				22B12407224C296C00FE40C7 /* ReportedUITests */,
+				2270200B226E6F2200F9F9CD /* Intents Handler */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		2270200A226E6F2200F9F9CD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		22B123E7224C296A00FE40C7 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -462,6 +543,14 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		22702008226E6F2200F9F9CD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2270200F226E6F2300F9F9CD /* IntentHandler.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		22B123E5224C296A00FE40C7 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -499,6 +588,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		22702012226E6F2300F9F9CD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2270200B226E6F2200F9F9CD /* Intents Handler */;
+			targetProxy = 22702011226E6F2300F9F9CD /* PBXContainerItemProxy */;
+		};
 		22B123FF224C296C00FE40C7 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 22B123E8224C296A00FE40C7 /* Reported */;
@@ -547,6 +641,44 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		22702015226E6F2300F9F9CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 7GR7A27J66;
+				INFOPLIST_FILE = "Intents Handler/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "cst495.Reported.Intents-Handler";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		22702016226E6F2300F9F9CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 7GR7A27J66;
+				INFOPLIST_FILE = "Intents Handler/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "cst495.Reported.Intents-Handler";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		22B1240F224C296C00FE40C7 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -667,9 +799,11 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A171BD004EC04CC461883501 /* Pods-Reported.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Reported/Reported.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 7GR7A27J66;
 				INFOPLIST_FILE = Reported/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -688,9 +822,11 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = EA072D9D056D90F929D17331 /* Pods-Reported.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Reported/Reported.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 7GR7A27J66;
 				INFOPLIST_FILE = Reported/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -794,6 +930,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		22702014226E6F2300F9F9CD /* Build configuration list for PBXNativeTarget "Intents Handler" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				22702015226E6F2300F9F9CD /* Debug */,
+				22702016226E6F2300F9F9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		22B123E4224C296A00FE40C7 /* Build configuration list for PBXProject "Reported" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
