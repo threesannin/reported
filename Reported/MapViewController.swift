@@ -9,126 +9,303 @@
 import UIKit
 import MapKit
 import CoreLocation
+import Parse
+import AlamofireImage
 
-class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
+final class IssueAnnotation: NSObject, MKAnnotation {
+    var descripText: String!
+    var dirOfTravel: String!
+    var followUp: Bool!
+    var issueImageURL: URL?
+    var issueDateTime: NSDate!
+    var nearestCrossStreet: String! // can be geo
+    var transMode: String!
+    var location: PFGeoPoint
+    var coordinate: CLLocationCoordinate2D
+    var title: String?
+    
+    init(descripText: String!, dirOfTravel: String!, followUp: Bool!, issueCategory: String!, issueImageFile: PFFileObject?, issueDateTime: NSDate!, nearestCrossStreet: String!, transMode: String!, location: PFGeoPoint) {
+        self.descripText = descripText
+        self.dirOfTravel = dirOfTravel
+        self.followUp = followUp
+        // self.issueCategory = issueCategory
+        self.issueDateTime = issueDateTime
+        self.nearestCrossStreet = nearestCrossStreet
+        self.transMode = transMode
+        self.location = location
+        self.title = issueCategory
+        self.coordinate = CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)
+        super.init()
+        processImage()
+        if let urlString = issueImageFile?.url{
+            let url = URL(string: urlString)!
+            self.issueImageURL = url
+        }
+    }
+    
+    func processImage() {
+        
+    }
+    
+}
 
+class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var mapSearchBar: UISearchBar!
     @IBOutlet weak var filterButton: UIButton!
     @IBOutlet weak var locationButton: UIButton!
     @IBOutlet weak var addButton: UIButton!
-//    var currentMapSnapShotImage: UIImage?
+    //    var currentMapSnapShotImage: UIImage?
     
-    var locationManager : CLLocationManager!
+    var pickedImage: UIImage?
+    var locationManager : CLLocationManager! {
+        didSet {
+            locationManager = CLLocationManager()
+            locationManager.desiredAccuracy = kCLLocationAccuracyBest
+            locationManager.distanceFilter = 100
+            locationManager.requestWhenInUseAuthorization()
+        }
+    }
     var lastLocation : CLLocationCoordinate2D!
+    var centerLocation: CLLocationCoordinate2D!
+    var addPinLocation: CLLocationCoordinate2D!
+    var issues = [PFObject]()
+    var selectedIssue : PFObject!
+    //    let refreshController = UIRefreshControl()
+    
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        filterButton.layer.shadowColor = UIColor.black.cgColor
-        filterButton.layer.shadowOffset = CGSize(width: 2, height: 2)
-        filterButton.layer.shadowRadius = 2
-        filterButton.layer.shadowOpacity = 0.2
-        
-        locationButton.layer.shadowColor = UIColor.black.cgColor
-        locationButton.layer.shadowOffset = CGSize(width: 2, height: 2)
-        locationButton.layer.shadowRadius = 2
-        locationButton.layer.shadowOpacity = 0.2
-        
-        addButton.layer.shadowColor = UIColor.black.cgColor
-        addButton.layer.shadowOffset = CGSize(width: 2, height: 2)
-        addButton.layer.shadowRadius = 2
-        addButton.layer.shadowOpacity = 0.2
-        
-        
         mapView.delegate = self
-        locationManager = CLLocationManager()
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager.distanceFilter = 100
-        locationManager.requestWhenInUseAuthorization()
+        mapView.register(MKMarkerAnnotationView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
+        //        self.refreshController.addTarget(self, action: #selector(loadIssues), for: .valueChanged)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        refreshData()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+//        refreshData()
 
-        
-//        let mapCenter = CLLocationCoordinate2D(latitude: <#T##CLLocationDegrees#>, longitude: <#T##CLLocationDegrees#>)
-//        let mapSpan = MKCoordinateSpan(latitudeDelta: <#T##CLLocationDegrees#>, longitudeDelta: <#T##CLLocationDegrees#>)
-//        let region = MKCoordinateRegion(center: <#T##CLLocationCoordinate2D#>, span: <#T##MKCoordinateSpan#>)
-//
-//        mapView.setRegion(region, animated: false)
-        
-        // Do any additional setup after loading the view.
     }
     
-    func addPin(coordinate: CLLocationCoordinate2D) {
+    // Action
+    func createNewIssueAnnotation(coordinate: CLLocationCoordinate2D) {
         let annotation = MKPointAnnotation()
+        annotation.title = "New Issue"
         annotation.coordinate = coordinate
-        annotation.title = "New Location"
+        addPinLocation = coordinate
         mapView.addAnnotation(annotation)
+        print("did add")
+        mapView.showAnnotations([annotation], animated: true)
+        mapView.selectAnnotation(annotation, animated: true)
     }
     
+    
+    func createIssueAnnotation() {
+        var annotations: [IssueAnnotation] = []
+        print("number of issues: \(issues.count)")
+        for issue in self.issues {
+            print("createIssueAnnotation")
+            let annotation = IssueAnnotation(
+                descripText: issue["descripText"] as? String, dirOfTravel: issue["dirOfTravel"] as? String, followUp: issue["followUp"] as? Bool, issueCategory: issue["issueCategory"] as? String, issueImageFile: issue["issueImage"] as? PFFileObject, issueDateTime: issue["issueDateTime"] as? NSDate, nearestCrossStreet: issue["nearestCrossStreet"] as? String, transMode: issue["transMode"] as? String, location: issue["location"] as! PFGeoPoint
+            )
+            annotations.append(annotation)
+            mapView.addAnnotation(annotation)
+        }
+        mapView.showAnnotations(annotations, animated: true)
+    }
+    
+    @objc func clearIssueAnnotations() {
+        mapView.removeAnnotations(mapView.annotations.filter {$0 is IssueAnnotation})
+    }
+    
+    @objc func refreshData() {
+        // temp link to filter button
+        clearIssueAnnotations()
+        loadIssues()
+        
+    }
+    
+    @objc func didClickAddIssue(button: UIButton){
+        print("accessory add touched")
+        performSegue(withIdentifier: "addIssue", sender: button)
+    }
+    
+    @objc func didClickIssueDetail(button: UIButton) {
+        print("accessory detail touched")
+    }
+    
+    @objc func loadIssues() {
+        let numberOfIssues = 20
+        
+        let centerGeoPoint = PFGeoPoint(latitude: centerLocation.latitude, longitude: centerLocation.longitude)
+        let query = PFQuery(className: "Issues")
+        query.includeKeys(["transMode", "issueDateTime", "descripText", "location", "issueCategory", "dirOfTravel", "nearestCrossStreet", "image"])
+        query.whereKey("location", nearGeoPoint:centerGeoPoint, withinKilometers: mapView.currentRadius())
+        query.limit = numberOfIssues
+        query.findObjectsInBackground { (issues, error) in
+            if issues != nil {
+                self.issues = issues!
+                self.createIssueAnnotation()
+            }
+        }
+    }
+    
+    @IBAction func onLongPressAdd(_ sender: UILongPressGestureRecognizer) {
+        if UIGestureRecognizer.State.began == sender.state {
+            for annotation in mapView.annotations {
+                if annotation is MKPointAnnotation {
+                    mapView.deselectAnnotation(annotation, animated: true)
+                }
+            }
+        }
+        
+        if UIGestureRecognizer.State.ended == sender.state {
+            let location = sender.location(in: mapView)
+            let coordinate = mapView.convert(location,toCoordinateFrom: mapView)
+            self.createNewIssueAnnotation(coordinate: coordinate)
+        }
+    }
+    
+    @IBAction func onLocationPRess(_ sender: UIButton) {
+        let annotations = [mapView.userLocation]
+        mapView.showAnnotations(annotations, animated: true)
+    }
+    
+    @IBAction func onTapRefresh(_ sender: Any) {
+        refreshData()
+    }
+    
+    @IBAction func onLongPressRefresh(_ sender: UILongPressGestureRecognizer) {
+        if UIGestureRecognizer.State.ended == sender.state {
+            print("clear annotations")
+            clearIssueAnnotations()
+        }
+        
+    }
+    
+    // Map Delegates
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         if let annotation = view.annotation {
-            if let title = annotation.title {
+            if let title = annotation.title as? String{
                 print("Tapped \(String(describing: title)) pin")
             }
         }
     }
     
-    func mapView(mapView: MKMapView!, didUpdateUserLocation userLocation: MKUserLocation!) {
-        var annotations = [mapView.userLocation]
+    func mapView(_ mapView: MKMapView, didAdd views: [MKAnnotationView]) {
+        // get annotations in area
+    }
+    
+    func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
+        let annotations = [mapView.userLocation]
         mapView.showAnnotations(annotations, animated: true)
+        lastLocation = userLocation.coordinate
     }
     
-    func mapView(mapView: MKMapView!, didSelectAnnotationView view: MKAnnotationView!) {
-        var annotations = [mapView.userLocation, view.annotation]
-        mapView.showAnnotations(annotations as! [MKAnnotation], animated: true)
+    func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
+        if let annotation = view.annotation, !(annotation is IssueAnnotation) {
+            self.mapView.removeAnnotation(annotation)
+        }
     }
     
-    func locationManager(manager: CLLocationManager!, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
+    func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
+        centerLocation = mapView.centerCoordinate
+        print("changed region: \(centerLocation.latitude), \(centerLocation.longitude)")
+    }
+    
+    
+    
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        
+        if annotation is IssueAnnotation {
+            print("viewFor Issue Annotation")
+            
+            let reportReuse = "reportReuse"
+            var issueAnnotationView = mapView.dequeueReusableAnnotationView(withIdentifier: reportReuse) as? MKPinAnnotationView
+            if issueAnnotationView == nil {
+                issueAnnotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reportReuse)
+                issueAnnotationView!.canShowCallout = true
+                
+                if let url = (annotation as!
+                    IssueAnnotation).issueImageURL {
+                    issueAnnotationView!.leftCalloutAccessoryView = UIImageView(frame: CGRect(x:0, y:0, width: 50, height:50))
+                    
+                    let leftCalloutImageView = issueAnnotationView?.leftCalloutAccessoryView as! UIImageView
+                    leftCalloutImageView.af_setImage(withURL: url)
+                      issueAnnotationView?.leftCalloutAccessoryView = leftCalloutImageView
+                    print("valid image")
+                } else {
+                    print("invalid image")
+                }
+                
+                let rightCalloutButton = UIButton(type: .detailDisclosure)
+                
+                rightCalloutButton.addTarget(self, action: #selector(didClickIssueDetail(button:)), for: .touchUpInside)
+                
+                issueAnnotationView?.rightCalloutAccessoryView = rightCalloutButton
+            } else {
+                issueAnnotationView!.annotation = annotation
+            }
+            return issueAnnotationView
+        } else if annotation is MKPointAnnotation {
+            print("is not IssueAnnotation")
+            let newIssueReuse = "newIssueReuse"
+            var newIssueAnnotationView = mapView.dequeueReusableAnnotationView(withIdentifier: newIssueReuse) as? MKPinAnnotationView
+            if newIssueAnnotationView == nil {
+                newIssueAnnotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: newIssueReuse)
+                newIssueAnnotationView!.canShowCallout = true
+                newIssueAnnotationView!.leftCalloutAccessoryView = UIImageView(frame: CGRect(x:0, y:0, width: 25, height:25))
+                 let leftCalloutImageView = newIssueAnnotationView?.leftCalloutAccessoryView as! UIImageView
+                 leftCalloutImageView.image = #imageLiteral(resourceName: "danger")
+                leftCalloutImageView.contentMode = UIView.ContentMode.scaleAspectFit
+                let rightCalloutButton = UIButton(type: .contactAdd)
+                rightCalloutButton.addTarget(self, action: #selector(didClickAddIssue(button:)), for: .touchUpInside)
+                newIssueAnnotationView?.rightCalloutAccessoryView = rightCalloutButton
+            } else {
+                newIssueAnnotationView!.annotation = annotation
+            }
+            return newIssueAnnotationView
+        } else {
+            return annotation as? MKAnnotationView
+        }
+    }
+    
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        
+    }
+    
+    // Allow updates to location when moving
+    private func locationManager(manager: CLLocationManager!, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
         if status == CLAuthorizationStatus.authorizedWhenInUse {
             manager.startUpdatingLocation()
         }
     }
     
+    // get last location when location is updated
     func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
-        var location = locations.first as? CLLocation
+        let location = locations.first as? CLLocation
         lastLocation = location?.coordinate
     }
     
-//    func takeSnapshot() {
-//        let snapOption = MKMapSnapshotter.Options()
-//        var mapRegion = MKCoordinateRegion()
-//        mapRegion.center = mapView.centerCoordinate
-//        snapOption.region = mapRegion
-//        let snapshotter = MKMapSnapshotter(options: snapOption)
-//        snapshotter.start {snapshot,error in
-//            DispatchQueue.main.async {
-//                self.currentMapSnapShotImage = snapshot?.image
-//            }
-//        }
-//    }
-   
-    
-    
-    @IBAction func onLocationPRess(_ sender: UIButton) {
-        var annotations = [mapView.userLocation]
-        mapView.showAnnotations(annotations, animated: true)
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        let editedImage = info[UIImagePickerController.InfoKey.editedImage] as! UIImage
+        
+        // Do something with the images (based on your use case)
+        self.pickedImage = editedImage
+        
+        // Dismiss UIImagePickerController to go back to your original view controller
+        dismiss(animated: true, completion: nil)
     }
-    
-    
-    @IBAction func onLongPressAdd(_ sender: UILongPressGestureRecognizer) {
-        let location = sender.location(in: mapView)
-        let coordinate = mapView.convert(location,toCoordinateFrom: mapView)
-        // Add annotation:
-        let annotation = MKPointAnnotation()
-        annotation.coordinate = coordinate
-        mapView.addAnnotation(annotation)
-        self.addPin(coordinate: coordinate)
-    }
-    
-  
-    
-    
     // MARK: - Navigation
-
+    
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
@@ -137,13 +314,19 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         
         let mapSnapshotImage = mapView.pbtakesnap()
         formViewController.mapSnapshotImage = mapSnapshotImage
+        if let passedLocation = addPinLocation {
+            formViewController.pinLocation = passedLocation
+        } else {
+            formViewController.pinLocation = lastLocation
+        }
         
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
     }
     
-
+    
 }
+
 extension UIView {
     func pbtakesnap() -> UIImage {
         UIGraphicsBeginImageContextWithOptions(bounds.size, false, UIScreen.main.scale)
@@ -154,4 +337,17 @@ extension UIView {
         UIGraphicsEndImageContext()
         return image
     }
+}
+extension MKMapView {
+    func topCenterCoordinate() -> CLLocationCoordinate2D {
+        return self.convert(CGPoint(x: self.frame.size.width / 2.0, y: 0), toCoordinateFrom: self)
+    }
+    
+    func currentRadius() -> Double {
+        let centerLocation = CLLocation(latitude: self.centerCoordinate.latitude, longitude: self.centerCoordinate.longitude)
+        let topCenterCoordinate = self.topCenterCoordinate()
+        let topCenterLocation = CLLocation(latitude: topCenterCoordinate.latitude, longitude: topCenterCoordinate.longitude)
+        return centerLocation.distance(from: topCenterLocation)
+    }
+    
 }
