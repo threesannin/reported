@@ -9,8 +9,10 @@
 import UIKit
 
 class AlertCell: UITableViewCell {
-
+    
     @IBOutlet weak var alertLabel: UILabel!
+    @IBOutlet weak var alertImage: UIImageView!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

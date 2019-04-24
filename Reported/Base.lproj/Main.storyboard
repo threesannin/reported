@@ -358,7 +358,7 @@
         <scene sceneID="hcS-sk-dJI">
             <objects>
                 <viewControllerPlaceholder storyboardName="Alert" id="He7-4I-PMv" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="c3U-6k-BRO"/>
+                    <tabBarItem key="tabBarItem" title="Alerts" image="attention" badgeValue="3" id="c3U-6k-BRO"/>
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Cio-Yd-8ba" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -375,6 +375,9 @@
             <point key="canvasLocation" x="2338" y="125"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="attention" width="30" height="30"/>
+    </resources>
     <inferredMetricsTieBreakers>
         <segue reference="SSv-2H-B0M"/>
     </inferredMetricsTieBreakers>
