@@ -30,7 +30,9 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         super.viewDidAppear(animated)
 
         var query = PFQuery(className: "Issues")
+        query.whereKey("username", equalTo: PFUser.current()?.username)
         query.limit = 20
+    
 
         query.findObjectsInBackground{ (posts, error) in
             if posts != nil{
@@ -40,7 +42,8 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         }
 
         query = PFQuery(className: "Profile")
-        query.limit = 2;
+        query.whereKey("username", equalTo: PFUser.current()?.username)
+        query.limit = 1;
         
         query.findObjectsInBackground{ (posts, error) in
             if posts != nil{
