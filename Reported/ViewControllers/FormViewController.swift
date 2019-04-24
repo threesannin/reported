@@ -222,7 +222,7 @@ class FormViewController: UIViewController,UIImagePickerControllerDelegate, UINa
             postParse(form: form)
             
             // Send to Selenium
-            postSelenium(form: form)
+//            postSelenium(form: form)
         } else {
             print("not all fields valid")
         }
@@ -281,9 +281,11 @@ class FormViewController: UIViewController,UIImagePickerControllerDelegate, UINa
             let file = PFFileObject(data: imageData)
             post["issueImage"] = file
         }
+
         post["followUp"] = form.followUp
         post["descripText"] = form.descripText
         post["username"] = PFUser.current()!.username
+        post["upVote"] = 1
         
         post.saveInBackground{ (success, error) in
             if success {
