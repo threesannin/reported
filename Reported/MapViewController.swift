@@ -221,23 +221,19 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         print("changed region: \(centerLocation.latitude), \(centerLocation.longitude)")
     }
     
-    
-    
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         
         if annotation is IssueAnnotation {
             print("viewFor Issue Annotation")
-            
             let reportReuse = "reportReuse"
             var issueAnnotationView = mapView.dequeueReusableAnnotationView(withIdentifier: reportReuse) as? MKPinAnnotationView
             if issueAnnotationView == nil {
                 issueAnnotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reportReuse)
                 issueAnnotationView!.canShowCallout = true
-                
                 if let url = (annotation as!
                     IssueAnnotation).issueImageURL {
                     issueAnnotationView!.leftCalloutAccessoryView = UIImageView(frame: CGRect(x:0, y:0, width: 50, height:50))
-                    
+
                     let leftCalloutImageView = issueAnnotationView?.leftCalloutAccessoryView as! UIImageView
                     leftCalloutImageView.af_setImage(withURL: url)
                       issueAnnotationView?.leftCalloutAccessoryView = leftCalloutImageView
@@ -245,11 +241,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
                 } else {
                     print("invalid image")
                 }
-                
                 let rightCalloutButton = UIButton(type: .detailDisclosure)
-                
                 rightCalloutButton.addTarget(self, action: #selector(didClickIssueDetail(button:)), for: .touchUpInside)
-                
                 issueAnnotationView?.rightCalloutAccessoryView = rightCalloutButton
             } else {
                 issueAnnotationView!.annotation = annotation
@@ -277,7 +270,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             return annotation as? MKAnnotationView
         }
     }
-    
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         
     }
