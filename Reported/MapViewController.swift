@@ -12,43 +12,6 @@ import CoreLocation
 import Parse
 import AlamofireImage
 
-final class IssueAnnotation: NSObject, MKAnnotation {
-    var descripText: String!
-    var dirOfTravel: String!
-    var followUp: Bool!
-    var issueImageURL: URL?
-    var issueDateTime: NSDate!
-    var nearestCrossStreet: String! // can be geo
-    var transMode: String!
-    var location: PFGeoPoint
-    var coordinate: CLLocationCoordinate2D
-    var title: String?
-    
-    init(descripText: String!, dirOfTravel: String!, followUp: Bool!, issueCategory: String!, issueImageFile: PFFileObject?, issueDateTime: NSDate!, nearestCrossStreet: String!, transMode: String!, location: PFGeoPoint) {
-        self.descripText = descripText
-        self.dirOfTravel = dirOfTravel
-        self.followUp = followUp
-        // self.issueCategory = issueCategory
-        self.issueDateTime = issueDateTime
-        self.nearestCrossStreet = nearestCrossStreet
-        self.transMode = transMode
-        self.location = location
-        self.title = issueCategory
-        self.coordinate = CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)
-        super.init()
-        processImage()
-        if let urlString = issueImageFile?.url{
-            let url = URL(string: urlString)!
-            self.issueImageURL = url
-        }
-    }
-    
-    func processImage() {
-        
-    }
-    
-}
-
 class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     @IBOutlet weak var mapView: MKMapView!
@@ -74,9 +37,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     var selectedIssue : PFObject!
     //    let refreshController = UIRefreshControl()
     
-    
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         mapView.delegate = self
@@ -92,7 +52,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 //        refreshData()
-
     }
     
     // Action
@@ -106,7 +65,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         mapView.showAnnotations([annotation], animated: true)
         mapView.selectAnnotation(annotation, animated: true)
     }
-    
     
     func createIssueAnnotation() {
         var annotations: [IssueAnnotation] = []
@@ -270,6 +228,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             return annotation as? MKAnnotationView
         }
     }
+    
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         
     }
