@@ -10,7 +10,6 @@ import UIKit
 
 class ProfileTableViewCell: UITableViewCell {
     
-    @IBOutlet weak var username: UILabel!
     @IBOutlet weak var firstName: UILabel!
     @IBOutlet weak var email: UILabel!
     @IBOutlet weak var lastName: UILabel!

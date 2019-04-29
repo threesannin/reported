@@ -12,6 +12,7 @@ import AlamofireImage
 
 class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewDataSource{
 
+    @IBOutlet weak var navBar: UINavigationItem!
     @IBOutlet weak var tableView: UITableView!
     var posts = [PFObject]()
     var profileData = [PFObject]()
@@ -60,6 +61,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         if(profileData.count == 0){
             return 0
         } else{
+            //return 0
             return posts.count + 1;
         }
     }
@@ -73,7 +75,9 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
             let email = post["email"] as! String
             let firstName = post["firstName"] as! String
             let lastName = post["lastName"] as! String
-            cell.username.text = userName
+            print(userName)
+            //self.navBar.title = "this title"
+            
             cell.email.text = email
             cell.firstName.text = firstName
             cell.lastName.text = lastName
