@@ -33,22 +33,11 @@ class PostDetailsViewController: UIViewController {
         usernameLabel.text = post["username"] as? String
         descriptionLabel.text = post["descripText"] as? String
         
-        
-        
-        let dat = post["issueDateTime"] as? Date
-        let dateFormatterGet = DateFormatter()
-        dateFormatterGet.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+        let date = post["issueDateTime"] as? Date
         let dateFormatterPrint = DateFormatter()
-        dateFormatterPrint.dateFormat = "MMM dd,yyyy"
-        let dateString = dat.debugDescription
-        if let date = dateFormatterGet.date(from: (dat?.description)!) {
-            print(dateFormatterPrint.string(from: date))
-        } else {
-            print("There was an error decoding the string")
-        }
+        dateFormatterPrint.dateFormat = "MMM d, YYYY h:mm a"
+        let dateString = dateFormatterPrint.string(from: date!)
         dateLabel.text = dateString
-        
-        
         
         nearestCrossStreetLabel.text = post["nearestCrossStreet"] as? String
         directionOfTravelLabel.text = post["dirOfTravel"] as? String
