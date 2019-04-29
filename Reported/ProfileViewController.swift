@@ -12,7 +12,6 @@ import AlamofireImage
 
 class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewDataSource{
 
-    @IBOutlet weak var navBar: UINavigationItem!
     @IBOutlet weak var tableView: UITableView!
     var posts = [PFObject]()
     var profileData = [PFObject]()
@@ -68,7 +67,6 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if(indexPath.row == 0){
-            print(profileData.count)
             let cell = tableView.dequeueReusableCell(withIdentifier: "ProfileTableViewCell") as! ProfileTableViewCell
             let post = profileData[0]
             let userName = post["username"] as! String
@@ -102,7 +100,28 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
             return cell
         }
     }
-
+    
+    
+    @IBAction func logOut(_ sender: Any) {
+        PFUser.logOut()
+         dismiss(animated: true, completion: nil)
+        UserDefaults.standard.set(false, forKey: "userLoggedIn")
+        print("logout")
+    }
+    
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        print("touche me")
+        let cell = sender as! UITableViewCell
+        let indexPath = tableView.indexPath(for: cell)!
+        let post = posts[indexPath.row]
+        
+        let postDetailsViewController = segue.destination as! PostDetailsViewController
+        postDetailsViewController.post = post
+        
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
     /*
     // MARK: - Navigation
 

@@ -27,11 +27,13 @@
 		9850E9369924E42783FAB5E3 /* Pods_ReportedTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BE13C4E7D7F6ADE4E88A87A /* Pods_ReportedTests.framework */; };
 		9D8B9D9F4933E671B65E8894 /* Pods_ReportedUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F26188474FB297516CE369E3 /* Pods_ReportedUITests.framework */; };
 		B370B9152252F9FC007D42AD /* MapUpdateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B370B9142252F9FC007D42AD /* MapUpdateViewController.swift */; };
-		B3B51C94225151BB00201955 /* iOSDropDown.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3B51C93225151BB00201955 /* iOSDropDown.framework */; };
 		B3B51C962251520D00201955 /* FormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3B51C952251520D00201955 /* FormViewController.swift */; };
 		B3F048C822507E19001ADDBB /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3F048C722507E19001ADDBB /* MapKit.framework */; };
 		B3F048CA22507E20001ADDBB /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3F048C922507E20001ADDBB /* CoreLocation.framework */; };
 		B3F048CC22507F20001ADDBB /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3F048CB22507F20001ADDBB /* MapViewController.swift */; };
+		B3F17B71226C10C200A7C04D /* DropDown.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3F17B70226C10C200A7C04D /* DropDown.framework */; };
+		B3F17B77226C58C700A7C04D /* FormTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3F17B76226C58C700A7C04D /* FormTextField.swift */; };
+		B3F17B7F226D0F1400A7C04D /* UIExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3F17B7E226D0F1400A7C04D /* UIExtension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -84,6 +86,9 @@
 		B3F048C722507E19001ADDBB /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		B3F048C922507E20001ADDBB /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		B3F048CB22507F20001ADDBB /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		B3F17B70226C10C200A7C04D /* DropDown.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DropDown.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B3F17B76226C58C700A7C04D /* FormTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormTextField.swift; sourceTree = "<group>"; };
+		B3F17B7E226D0F1400A7C04D /* UIExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIExtension.swift; sourceTree = "<group>"; };
 		B6CC965DB842F81EF1CC3F36 /* Pods-ReportedUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReportedUITests.debug.xcconfig"; path = "Target Support Files/Pods-ReportedUITests/Pods-ReportedUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		BDD373C8929FC0B46A934C56 /* Pods-ReportedTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReportedTests.release.xcconfig"; path = "Target Support Files/Pods-ReportedTests/Pods-ReportedTests.release.xcconfig"; sourceTree = "<group>"; };
 		C717494C07E9873DF27E775F /* Pods-ReportedUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReportedUITests.release.xcconfig"; path = "Target Support Files/Pods-ReportedUITests/Pods-ReportedUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -96,7 +101,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B3B51C94225151BB00201955 /* iOSDropDown.framework in Frameworks */,
+				B3F17B71226C10C200A7C04D /* DropDown.framework in Frameworks */,
 				B3F048CA22507E20001ADDBB /* CoreLocation.framework in Frameworks */,
 				B3F048C822507E19001ADDBB /* MapKit.framework in Frameworks */,
 				77E0B6E7657258813BB32CEF /* Pods_Reported.framework in Frameworks */,
@@ -167,6 +172,9 @@
 				22B123F8224C296C00FE40C7 /* Info.plist */,
 				22652F2B22547CDF00960AEF /* ProfileViewController.swift */,
 				22652F2D2254804900960AEF /* ProfileTableViewCell.swift */,
+				22652F2F22548EE300960AEF /* ReportTableViewCell.swift */,
+				B3F17B76226C58C700A7C04D /* FormTextField.swift */,
+				B3F17B7E226D0F1400A7C04D /* UIExtension.swift */,
 			);
 			path = Reported;
 			sourceTree = "<group>";
@@ -205,6 +213,7 @@
 		B3ADAF7E67C7FA6601B63B68 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B3F17B70226C10C200A7C04D /* DropDown.framework */,
 				B3B51C93225151BB00201955 /* iOSDropDown.framework */,
 				B3F048C922507E20001ADDBB /* CoreLocation.framework */,
 				B3F048C722507E19001ADDBB /* MapKit.framework */,
@@ -397,8 +406,8 @@
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/AlamofireImage/AlamofireImage.framework",
 				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
+				"${BUILT_PRODUCTS_DIR}/DropDown/DropDown.framework",
 				"${BUILT_PRODUCTS_DIR}/Parse/Parse.framework",
-				"${BUILT_PRODUCTS_DIR}/iOSDropDown/iOSDropDown.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
@@ -407,8 +416,8 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AlamofireImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bolts.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DropDown.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Parse.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/iOSDropDown.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -467,11 +476,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				22652F2C22547CDF00960AEF /* ProfileViewController.swift in Sources */,
+				B3F17B7F226D0F1400A7C04D /* UIExtension.swift in Sources */,
 				22652F2E2254804900960AEF /* ProfileTableViewCell.swift in Sources */,
 				22B123EF224C296A00FE40C7 /* ViewController.swift in Sources */,
 				B3F048CC22507F20001ADDBB /* MapViewController.swift in Sources */,
 				B370B9152252F9FC007D42AD /* MapUpdateViewController.swift in Sources */,
 				B3B51C962251520D00201955 /* FormViewController.swift in Sources */,
+				22652F3022548EE300960AEF /* ReportTableViewCell.swift in Sources */,
+				B3F17B77226C58C700A7C04D /* FormTextField.swift in Sources */,
 				73DE7DE12253C06C00A650CD /* AlertViewController.swift in Sources */,
 				73DE7DE32253C0A400A650CD /* AlertCell.swift in Sources */,
 				73EFDFC12267DE8E00D06275 /* PostDetailsViewController.swift in Sources */,

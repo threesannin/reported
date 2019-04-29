@@ -57,7 +57,6 @@ class AlertViewController: UIViewController, UITableViewDataSource, UITableViewD
         let imageFile = post["issueImage"] as! PFFileObject
         let urlString = imageFile.url!
         let url = URL(string: urlString)!
-        
         cell.alertImage.af_setImage(withURL: url)
         
         return cell
