@@ -11,7 +11,9 @@ import Parse
 import AlamofireImage
 
 class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewDataSource{
-
+    
+    @IBOutlet weak var navBar: UINavigationItem!
+    
     @IBOutlet weak var tableView: UITableView!
     var posts = [PFObject]()
     var profileData = [PFObject]()
@@ -78,7 +80,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
             self.email = post["email"] as! String
             self.firstName = post["firstName"] as! String
             self.lastName = post["lastName"] as! String
-            //self.navBar.title = "this title"
+            self.navBar.title = self.username
             
             cell.email.text = email
             cell.firstName.text = firstName
