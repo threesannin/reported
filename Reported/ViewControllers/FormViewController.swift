@@ -218,6 +218,11 @@ class FormViewController: UIViewController,UIImagePickerControllerDelegate, UINa
         self.view.endEditing(true)
     }
     
+    @IBAction func onTapMap(_ sender: UITapGestureRecognizer) {
+        performSegue(withIdentifier: "updateLocSegue", sender: Any?.self)
+    }
+    
+    
     // Delegate, helper
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let image = info[.editedImage] as? UIImage{
@@ -353,9 +358,17 @@ class FormViewController: UIViewController,UIImagePickerControllerDelegate, UINa
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
         super.prepare(for: segue, sender: sender)
-        guard let button = sender as? UIBarButtonItem, button === doneButton else {
-            print("The done button was not pressed, cancelling")
-            return
+//        guard let button = sender as? UIBarButtonItem, button === doneButton else {
+//            print("The done button was not pressed, cancelling")
+//            return
+//        }
+        if segue.identifier == "updateLocSegue" {
+            let destinationNavigationController = segue.destination as! UINavigationController
+            let updateMapViewController = destinationNavigationController.topViewController as! UpdateMapViewController
+            
+            updateMapViewController.receivedLocation = pinLocation
+            
+            print("performing update")
         }
         print("prepare segue ok")
     }

@@ -161,10 +161,31 @@
         <!--Update Map-->
         <scene sceneID="CJk-yS-hia">
             <objects>
-                <viewController title="Update Map" id="LnN-hA-evD" customClass="MapUpdateViewController" customModule="Reported" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Update Map" id="LnN-hA-evD" customClass="UpdateMapViewController" customModule="Reported" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="a3M-yh-6DT">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="lBL-Tj-Dvw">
+                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </mapView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ab6-Yp-VcJ">
+                                <rect key="frame" x="157" y="335" width="60" height="60"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                        <color key="value" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="10"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                        <real key="value" value="1"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </imageView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="gdi-WN-8GQ"/>
                     </view>
@@ -176,6 +197,9 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="save" id="1ev-ZX-0ef"/>
                     </navigationItem>
+                    <connections>
+                        <outlet property="mapView" destination="lBL-Tj-Dvw" id="xn3-9h-0lP"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QGS-0v-ygc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -307,6 +331,7 @@
                                             <imageView clipsSubviews="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mapmarker" translatesAutoresizingMaskIntoConstraints="NO" id="tqm-Q1-1q6">
                                                 <rect key="frame" x="38" y="676" width="299" height="150"/>
                                                 <color key="backgroundColor" red="0.93359374995751299" green="0.93359374995751299" blue="0.93359374995751299" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                <gestureRecognizers/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="tqm-Q1-1q6" secondAttribute="height" multiplier="2000:2723" constant="188.82739625413149" id="Bmp-GK-fVI"/>
                                                 </constraints>
@@ -330,6 +355,9 @@
                                                         <real key="value" value="1"/>
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
+                                                <connections>
+                                                    <outletCollection property="gestureRecognizers" destination="4Fb-Gf-ScB" appends="YES" id="m5O-xp-Z9K"/>
+                                                </connections>
                                             </imageView>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xJd-WC-i4c">
                                                 <rect key="frame" x="38" y="1103" width="299" height="30"/>
@@ -518,17 +546,18 @@
                         <outlet property="streetTextField" destination="WXa-vV-Bdl" id="AQR-X2-sam"/>
                         <outlet property="transLabel" destination="udi-8t-gsT" id="LQq-II-SIh"/>
                         <outlet property="transTextField" destination="LdF-te-gEm" id="kLN-34-MWB"/>
+                        <segue destination="efP-5q-wrq" kind="presentation" identifier="updateLocSegue" id="eXG-3o-z7c"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OGK-yp-SAQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <tapGestureRecognizer id="UuH-0k-84h" userLabel="tapMapRecognizer">
-                    <connections>
-                        <segue destination="efP-5q-wrq" kind="presentation" id="v42-HO-LbN"/>
-                    </connections>
-                </tapGestureRecognizer>
                 <tapGestureRecognizer id="xh7-6m-nDg" userLabel="tapOut">
                     <connections>
                         <action selector="tappedOut:" destination="Icw-Yt-UwX" id="Stb-N2-3j7"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <tapGestureRecognizer id="4Fb-Gf-ScB" userLabel="tapMap">
+                    <connections>
+                        <action selector="onTapMap:" destination="Icw-Yt-UwX" id="5hz-fQ-Eye"/>
                     </connections>
                 </tapGestureRecognizer>
             </objects>

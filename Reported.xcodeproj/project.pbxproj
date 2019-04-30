@@ -27,6 +27,7 @@
 		77E0B6E7657258813BB32CEF /* Pods_Reported.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89A6E2A7859686C638197B2E /* Pods_Reported.framework */; };
 		9850E9369924E42783FAB5E3 /* Pods_ReportedTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BE13C4E7D7F6ADE4E88A87A /* Pods_ReportedTests.framework */; };
 		9D8B9D9F4933E671B65E8894 /* Pods_ReportedUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F26188474FB297516CE369E3 /* Pods_ReportedUITests.framework */; };
+		B302C81D2278C6D800F480B2 /* UpdateMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B302C81C2278C6D800F480B2 /* UpdateMapViewController.swift */; };
 		B366E8DF22756D2C0085F46A /* FormObj.swift in Sources */ = {isa = PBXBuildFile; fileRef = B366E8DE22756D2C0085F46A /* FormObj.swift */; };
 		B366E8E1227578C80085F46A /* IssueAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B366E8E0227578C80085F46A /* IssueAnnotation.swift */; };
 		B366E8E3227654180085F46A /* IssueObj.swift in Sources */ = {isa = PBXBuildFile; fileRef = B366E8E2227654180085F46A /* IssueObj.swift */; };
@@ -85,6 +86,7 @@
 		89A6E2A7859686C638197B2E /* Pods_Reported.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Reported.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8BE13C4E7D7F6ADE4E88A87A /* Pods_ReportedTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ReportedTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A171BD004EC04CC461883501 /* Pods-Reported.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Reported.debug.xcconfig"; path = "Target Support Files/Pods-Reported/Pods-Reported.debug.xcconfig"; sourceTree = "<group>"; };
+		B302C81C2278C6D800F480B2 /* UpdateMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateMapViewController.swift; sourceTree = "<group>"; };
 		B366E8DE22756D2C0085F46A /* FormObj.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormObj.swift; sourceTree = "<group>"; };
 		B366E8E0227578C80085F46A /* IssueAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueAnnotation.swift; sourceTree = "<group>"; };
 		B366E8E2227654180085F46A /* IssueObj.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueObj.swift; sourceTree = "<group>"; };
@@ -186,6 +188,7 @@
 				B366E8DE22756D2C0085F46A /* FormObj.swift */,
 				B366E8E0227578C80085F46A /* IssueAnnotation.swift */,
 				B366E8E2227654180085F46A /* IssueObj.swift */,
+				B302C81C2278C6D800F480B2 /* UpdateMapViewController.swift */,
 			);
 			path = Reported;
 			sourceTree = "<group>";
@@ -498,6 +501,7 @@
 				B3B51C962251520D00201955 /* FormViewController.swift in Sources */,
 				B3F17B77226C58C700A7C04D /* FormTextField.swift in Sources */,
 				73DE7DE12253C06C00A650CD /* AlertViewController.swift in Sources */,
+				B302C81D2278C6D800F480B2 /* UpdateMapViewController.swift in Sources */,
 				B366E8DF22756D2C0085F46A /* FormObj.swift in Sources */,
 				73DE7DE32253C0A400A650CD /* AlertCell.swift in Sources */,
 				73EFDFC12267DE8E00D06275 /* PostDetailsViewController.swift in Sources */,
