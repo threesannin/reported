@@ -59,7 +59,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         let annotation = MKPointAnnotation()
         annotation.title = "New Issue"
         annotation.coordinate = coordinate
-        addPinLocation = coordinate
+//        addPinLocation = coordinate
         mapView.addAnnotation(annotation)
         print("did add")
         mapView.showAnnotations([annotation], animated: true)
@@ -128,7 +128,10 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         if UIGestureRecognizer.State.ended == sender.state {
             let location = sender.location(in: mapView)
             let coordinate = mapView.convert(location,toCoordinateFrom: mapView)
+            addPinLocation = coordinate
+           
             self.createNewIssueAnnotation(coordinate: coordinate)
+            
         }
     }
     
@@ -172,6 +175,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         if let annotation = view.annotation, !(annotation is IssueAnnotation) {
             self.mapView.removeAnnotation(annotation)
         }
+        addPinLocation = nil
     }
     
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
@@ -249,6 +253,9 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         let location = locations.first as? CLLocation
         lastLocation = location?.coordinate
     }
+    
+    
+    
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         let editedImage = info[UIImagePickerController.InfoKey.editedImage] as! UIImage

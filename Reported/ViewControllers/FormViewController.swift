@@ -107,6 +107,17 @@ class FormViewController: UIViewController,UIImagePickerControllerDelegate, UINa
         dirTextField.delegate = self
         transTextField.delegate = self
         
+        
+        lookUpCurrentLocation { (placemark) in
+            print("street: \(placemark?.thoroughfare ?? "no street value")")
+            print("detail: \(placemark?.subThoroughfare ?? "no substreet value")")
+            
+            if let thoroughfare = placemark?.thoroughfare, let subThoroughfare = placemark?.subThoroughfare {
+                self.streetTextField.text = "\(subThoroughfare) \(thoroughfare)"
+            }
+        }
+        
+        
         issueTextField.dropDown.setDefault(textField: issueTextField, data: ["Roadway - Pothole", "Litter - Trash and Debris", "Graffiti", "Landscaping - Weeds, Trees, Brush", "Illegal Encampment"])
         
         dirTextField.dropDown.setDefault(textField: dirTextField, data: ["Northbound","Eastbound","Southbound","Westbound", "Both"])
@@ -306,6 +317,33 @@ class FormViewController: UIViewController,UIImagePickerControllerDelegate, UINa
             }
         }
         task.resume()
+    }
+    
+    func lookUpCurrentLocation(completionHandler: @escaping (CLPlacemark?)
+        -> Void ) {
+        // Use the last reported location.
+        if let lastLocation = pinLocation {
+            let geocoder = CLGeocoder()
+            
+            // Look up the location and pass it to the completion handler
+            geocoder.reverseGeocodeLocation(CLLocation(latitude: lastLocation.latitude, longitude: lastLocation.longitude),
+                                            completionHandler: { (placemarks, error) in
+                                                if error == nil {
+                                                    let firstLocation = placemarks?[0]
+                                                    completionHandler(firstLocation)
+                                                }
+                                                else {
+                                                    // An error occurred during geocoding.
+                                                    print(error.debugDescription)
+                                                    completionHandler(nil)
+                                                }
+            })
+        }
+        else {
+            // No location was available.
+            print("no last location")
+            completionHandler(nil)
+        }
     }
     
     // MARK: - Navigation
