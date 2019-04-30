@@ -34,7 +34,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     var centerLocation: CLLocationCoordinate2D!
     var addPinLocation: CLLocationCoordinate2D!
     var issues = [PFObject]()
-    var selectedIssue : PFObject!
+    var selectedIssue : PFObject?
     //    let refreshController = UIRefreshControl()
     
     override func viewDidLoad() {
@@ -71,9 +71,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         print("number of issues: \(issues.count)")
         for issue in self.issues {
             print("createIssueAnnotation")
-            let annotation = IssueAnnotation(
-                descripText: issue["descripText"] as? String, dirOfTravel: issue["dirOfTravel"] as? String, followUp: issue["followUp"] as? Bool, issueCategory: issue["issueCategory"] as? String, issueImageFile: issue["issueImage"] as? PFFileObject, issueDateTime: issue["issueDateTime"] as? NSDate, nearestCrossStreet: issue["nearestCrossStreet"] as? String, transMode: issue["transMode"] as? String, location: issue["location"] as! PFGeoPoint
-            )
+            let annotation = IssueAnnotation(issue: issue, issueCategory: issue["issueCategory"] as! String, coordinate: CLLocationCoordinate2D(latitude: (issue["location"] as! PFGeoPoint).latitude, longitude: (issue["location"] as! PFGeoPoint).longitude))
             annotations.append(annotation)
             mapView.addAnnotation(annotation)
         }
@@ -94,10 +92,12 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     @objc func didClickAddIssue(button: UIButton){
         print("accessory add touched")
         performSegue(withIdentifier: "addIssue", sender: button)
+        
     }
     
-    @objc func didClickIssueDetail(button: UIButton) {
+    @objc func didTapAnnoDetail(button: UIButton) {
         print("accessory detail touched")
+        performSegue(withIdentifier: "tapDetail", sender: button)
     }
     
     @objc func loadIssues() {
@@ -141,7 +141,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         refreshData()
     }
     
-    @IBAction func onLongPressRefresh(_ sender: UILongPressGestureRecognizer) {
+    @IBAction func onLongPressClearAnno(_ sender: UILongPressGestureRecognizer) {
         if UIGestureRecognizer.State.ended == sender.state {
             print("clear annotations")
             clearIssueAnnotations()
@@ -188,25 +188,28 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             if issueAnnotationView == nil {
                 issueAnnotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reportReuse)
                 issueAnnotationView!.canShowCallout = true
-                if let url = (annotation as!
-                    IssueAnnotation).issueImageURL {
-                    issueAnnotationView!.leftCalloutAccessoryView = UIImageView(frame: CGRect(x:0, y:0, width: 50, height:50))
-
-                    let leftCalloutImageView = issueAnnotationView?.leftCalloutAccessoryView as! UIImageView
-                    leftCalloutImageView.af_setImage(withURL: url)
-                      issueAnnotationView?.leftCalloutAccessoryView = leftCalloutImageView
-                    print("valid image")
+                if let issueImageFileObj = (annotation as! IssueAnnotation).issue["issueImage"] {
+                    if let urlString = (issueImageFileObj as! PFFileObject).url{
+                        let url = URL(string: urlString)!
+                        issueAnnotationView!.leftCalloutAccessoryView = UIImageView(frame: CGRect(x:0, y:0, width: 50, height:50))
+                        let leftCalloutImageView = issueAnnotationView?.leftCalloutAccessoryView as! UIImageView
+                        leftCalloutImageView.af_setImage(withURL: url)
+                        issueAnnotationView?.leftCalloutAccessoryView = leftCalloutImageView
+                        print("valid image")
+                    }
                 } else {
                     print("invalid image")
                 }
                 let rightCalloutButton = UIButton(type: .detailDisclosure)
-                rightCalloutButton.addTarget(self, action: #selector(didClickIssueDetail(button:)), for: .touchUpInside)
+                rightCalloutButton.addTarget(self, action: #selector(didTapAnnoDetail(button:)), for: .touchUpInside)
                 issueAnnotationView?.rightCalloutAccessoryView = rightCalloutButton
             } else {
                 issueAnnotationView!.annotation = annotation
             }
+            self.selectedIssue = (annotation as! IssueAnnotation).issue
             return issueAnnotationView
         } else if annotation is MKPointAnnotation {
+            self.selectedIssue = nil
             print("is not IssueAnnotation")
             let newIssueReuse = "newIssueReuse"
             var newIssueAnnotationView = mapView.dequeueReusableAnnotationView(withIdentifier: newIssueReuse) as? MKPinAnnotationView
@@ -225,6 +228,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             }
             return newIssueAnnotationView
         } else {
+            self.selectedIssue = nil
             return annotation as? MKAnnotationView
         }
     }
@@ -259,23 +263,28 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
-        let destinationNavigationController = segue.destination as! UINavigationController
-        let formViewController = destinationNavigationController.topViewController as! FormViewController
-        
-        let mapSnapshotImage = mapView.pbtakesnap()
-        formViewController.mapSnapshotImage = mapSnapshotImage
-        if let passedLocation = addPinLocation {
-            formViewController.pinLocation = passedLocation
-        } else {
-            formViewController.pinLocation = lastLocation
+        if segue.identifier == "addIssue" {
+            let destinationNavigationController = segue.destination as! UINavigationController
+            let formViewController = destinationNavigationController.topViewController as! FormViewController
+            
+            let mapSnapshotImage = mapView.pbtakesnap()
+            formViewController.mapSnapshotImage = mapSnapshotImage
+            if let passedLocation = addPinLocation {
+                formViewController.pinLocation = passedLocation
+            } else {
+                formViewController.pinLocation = lastLocation
+            }
+        } else if segue.identifier == "tapDetail" {
+            print("perform segue to detail")
+//            let destinationNavigationController = segue.destination as! UINavigationController
+//            let postDetailViewController = segue.destination as! PostDetailsViewController
+//            if let selectedIssue = self.selectedIssue {
+//                postDetailViewController.post = selectedIssue
+//            }
         }
-        
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
     }
-    
-    
 }
 
 extension UIView {
@@ -300,5 +309,4 @@ extension MKMapView {
         let topCenterLocation = CLLocation(latitude: topCenterCoordinate.latitude, longitude: topCenterCoordinate.longitude)
         return centerLocation.distance(from: topCenterLocation)
     }
-    
 }

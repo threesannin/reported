@@ -152,7 +152,7 @@
                 </pongPressGestureRecognizer>
                 <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="rNS-SW-CaV">
                     <connections>
-                        <action selector="onLongPressRefresh:" destination="q2r-jl-TJ1" id="vAK-Yx-cNc"/>
+                        <action selector="onLongPressClearAnno:" destination="q2r-jl-TJ1" id="vAK-Yx-cNc"/>
                     </connections>
                 </pongPressGestureRecognizer>
             </objects>
