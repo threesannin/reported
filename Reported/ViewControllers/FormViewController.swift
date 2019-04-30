@@ -222,6 +222,13 @@ class FormViewController: UIViewController,UIImagePickerControllerDelegate, UINa
         performSegue(withIdentifier: "updateLocSegue", sender: Any?.self)
     }
     
+    @IBAction func unwindToForm(segue:UIStoryboardSegue) {
+        if let lat = pinLocation?.latitude, let long = pinLocation?.longitude {
+            gpsLabel.text = String("\(String(describing: lat)), \(String(describing: long))")
+        }
+        mapImageView.image = mapSnapshotImage
+    }
+    
     
     // Delegate, helper
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {

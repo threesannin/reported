@@ -192,16 +192,22 @@
                     <navigationItem key="navigationItem" title="Update location on map" id="KoT-5O-U9e">
                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="XS5-LX-1w8">
                             <connections>
-                                <action selector="cancel:" destination="LnN-hA-evD" id="ims-7y-w9g"/>
+                                <action selector="onTapCancel:" destination="LnN-hA-evD" id="Tbv-Up-ntt"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="1ev-ZX-0ef"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="1ev-ZX-0ef">
+                            <connections>
+                                <action selector="onTapSave:" destination="LnN-hA-evD" id="vdq-lX-ONF"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="mapView" destination="lBL-Tj-Dvw" id="xn3-9h-0lP"/>
+                        <segue destination="EEp-ke-K2e" kind="unwind" identifier="unwindSegueToForm" unwindAction="unwindToFormWithSegue:" id="XLz-rv-hKE"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QGS-0v-ygc" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="EEp-ke-K2e" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="3532" y="944.97751124437787"/>
         </scene>
