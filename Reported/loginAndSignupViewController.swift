@@ -101,6 +101,7 @@ class loginAndSignupViewController: UIViewController {
                             print("error")
                         }
                     }
+                    UserDefaults.standard.set(true, forKey: "userLoggedIn")
                     self.performSegue(withIdentifier: "loginSegue2", sender: nil)
                 }else {
                     print("error signing up: \(String(describing: error?.localizedDescription))")

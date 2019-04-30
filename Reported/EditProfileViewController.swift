@@ -8,9 +8,12 @@
 
 import UIKit
 import Parse
+import AlamofireImage
+import UIKit
 
-class EditProfileViewController: UIViewController {
+class EditProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
+    @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var firstNameTextField: UITextField!
     @IBOutlet weak var lastNameTextField: UITextField!
     @IBOutlet weak var emailTextField: UITextField!
@@ -19,17 +22,22 @@ class EditProfileViewController: UIViewController {
     var firstName: String!
     var lastName: String!
     var userId: String!
+    var urlString: String!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        if firstName != nil{
+        if firstName != ""{
             firstNameTextField.text = firstName
         }
-        if lastName != nil {
+        if lastName != "" {
             lastNameTextField.text = lastName
         }
-        if email != nil {
+        if email != "" {
             emailTextField.text = email
+        }
+        if urlString != "" {
+            let url = URL(string: urlString)!
+            imageView.af_setImage(withURL: url)
         }
         // Do any additional setup after loading the view.
     }
@@ -51,6 +59,10 @@ class EditProfileViewController: UIViewController {
             profile["firstName"] = firstNameTextField.text!
             profile["lastName"] = lastNameTextField.text!
             profile["email"] = emailTextField.text!
+            if let imageData = imageView.image?.pngData() {
+                let file = PFFileObject(data: imageData)
+                profile["profileImage"] = file
+            }
 
             profile.saveInBackground{ (success, error) in
                 if success{
@@ -63,11 +75,47 @@ class EditProfileViewController: UIViewController {
         dismiss(animated: true, completion: nil)
     }
     
-    
-    
     @IBAction func cancel(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
+    
+    @IBAction func changeProfileImage(_ sender: Any) {
+        let picker = UIImagePickerController()
+        picker.delegate = self
+        picker.allowsEditing = true
+        
+        if UIImagePickerController.isSourceTypeAvailable(.camera){
+            picker.sourceType = .camera
+        } else {
+            picker.sourceType = .photoLibrary
+        }
+        
+        present(picker, animated: true, completion: nil)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        let image = info[.editedImage] as! UIImage
+        
+        let size = CGSize(width: 300, height: 300)
+        let scaledImage = image.af_imageScaled(to: size)
+        
+        imageView.image = scaledImage
+        
+        dismiss(animated: true, completion: nil)
+    }
+//    @IBAction func onAddImage(_ sender: Any) {
+//        let picker = UIImagePickerController()
+//        picker.delegate = self
+//        picker.allowsEditing = true
+//
+//        if UIImagePickerController.isSourceTypeAvailable(.camera){
+//            picker.sourceType = .camera
+//        } else {
+//            picker.sourceType = .photoLibrary
+//        }
+//        present(picker, animated: true, completion: nil)
+//    }
+//
     /*
     // MARK: - Navigation
 
