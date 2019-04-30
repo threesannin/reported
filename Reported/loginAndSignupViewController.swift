@@ -21,9 +21,15 @@ class loginAndSignupViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         // Do any additional setup after loading the view.
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        if UserDefaults.standard.bool(forKey: "userLoggedIn") == true {
+            self.performSegue(withIdentifier: "loginSegue", sender: self)
+        }
+    }
+    
     //end editing on sign up view
     @IBAction func onTap(_ sender: Any) {
         print("tapping on main view")
@@ -48,6 +54,7 @@ class loginAndSignupViewController: UIViewController {
             if user != nil {
                 // Do stuff after successful login.
                 print("login successful")
+                UserDefaults.standard.set(true, forKey: "userLoggedIn")
                 self.performSegue(withIdentifier: "loginSegue", sender: nil)
             } else {
                 // The login failed. Check error to see why.
