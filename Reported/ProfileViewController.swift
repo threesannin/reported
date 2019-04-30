@@ -15,8 +15,12 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     @IBOutlet weak var tableView: UITableView!
     var posts = [PFObject]()
     var profileData = [PFObject]()
-    var selectedPost: PFObject!
-    
+    var email = String()
+    var firstName = String()
+    var lastName = String()
+    var username = String()
+    var userId = String()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -30,7 +34,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         super.viewDidAppear(animated)
 
         var query = PFQuery(className: "Issues")
-        query.whereKey("username", equalTo: PFUser.current()?.username)
+        query.whereKey("username", equalTo: PFUser.current()?.username as Any)
         query.limit = 20
     
 
@@ -42,7 +46,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         }
 
         query = PFQuery(className: "Profile")
-        query.whereKey("username", equalTo: PFUser.current()?.username)
+        query.whereKey("username", equalTo: PFUser.current()?.username as Any)
         query.limit = 1;
         
         query.findObjectsInBackground{ (posts, error) in
@@ -69,11 +73,11 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         if(indexPath.row == 0){
             let cell = tableView.dequeueReusableCell(withIdentifier: "ProfileTableViewCell") as! ProfileTableViewCell
             let post = profileData[0]
-            let userName = post["username"] as! String
-            let email = post["email"] as! String
-            let firstName = post["firstName"] as! String
-            let lastName = post["lastName"] as! String
-            print(userName)
+            self.userId = post.objectId!
+            self.username = post["username"] as! String
+            self.email = post["email"] as! String
+            self.firstName = post["firstName"] as! String
+            self.lastName = post["lastName"] as! String
             //self.navBar.title = "this title"
             
             cell.email.text = email
@@ -104,22 +108,32 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     @IBAction func logOut(_ sender: Any) {
         PFUser.logOut()
-         dismiss(animated: true, completion: nil)
+        dismiss(animated: true, completion: nil)
         UserDefaults.standard.set(false, forKey: "userLoggedIn")
         print("logout")
     }
     
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        print("touche me")
-        let cell = sender as! UITableViewCell
-        let indexPath = tableView.indexPath(for: cell)!
-        let post = posts[indexPath.row]
-        
-        let postDetailsViewController = segue.destination as! PostDetailsViewController
-        postDetailsViewController.post = post
-        
-        tableView.deselectRow(at: indexPath, animated: true)
+        if(segue.identifier == "EditProfileSegue"){
+            print("edit profile")
+            let editProfileCV = segue.destination as! EditProfileViewController
+            editProfileCV.email = email
+            editProfileCV.firstName = firstName
+            editProfileCV.lastName = lastName
+            editProfileCV.userId = userId
+            
+        } else{
+            print("touche me")
+            let cell = sender as! UITableViewCell
+            let indexPath = tableView.indexPath(for: cell)!
+            let post = posts[indexPath.row]
+            
+            let postDetailsViewController = segue.destination as! PostDetailsViewController
+            postDetailsViewController.post = post
+            
+            tableView.deselectRow(at: indexPath, animated: true)
+        }
     }
     
     /*

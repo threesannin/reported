@@ -19,7 +19,6 @@ class AlertCell: UITableViewCell {
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
-        print("ouch")
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
