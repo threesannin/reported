@@ -22,6 +22,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     var lastName = String()
     var username = String()
     var userId = String()
+    var imgURL = String()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -80,11 +81,19 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
             self.email = post["email"] as! String
             self.firstName = post["firstName"] as! String
             self.lastName = post["lastName"] as! String
-            self.navBar.title = self.username
             
+            if let imageFile = post["profileImage"] as? PFFileObject {
+                let urlString = imageFile.url!
+                imgURL = imageFile.url!
+                let url = URL(string: urlString)!
+                cell.userImage.af_setImage(withURL: url)
+            }
+            
+            self.navBar.title = self.username
             cell.email.text = email
             cell.firstName.text = firstName
             cell.lastName.text = lastName
+
             return cell
         } else {
             let post = posts[indexPath.row-1]
@@ -124,6 +133,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
             editProfileCV.firstName = firstName
             editProfileCV.lastName = lastName
             editProfileCV.userId = userId
+            editProfileCV.urlString = imgURL
             
         } else{
             print("touche me")

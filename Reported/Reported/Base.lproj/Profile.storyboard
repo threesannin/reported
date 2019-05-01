@@ -163,6 +163,9 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xhC-Te-zdR">
                                 <rect key="frame" x="114" y="185" width="147" height="30"/>
                                 <state key="normal" title="Change Profile Image"/>
+                                <connections>
+                                    <action selector="changeProfileImage:" destination="ldE-Ev-b6z" eventType="touchUpInside" id="pxP-SV-Xhz"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="First Name:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KAW-fJ-Wm4">
                                 <rect key="frame" x="15" y="252" width="107" height="28"/>
@@ -264,6 +267,7 @@
                     <connections>
                         <outlet property="emailTextField" destination="NCu-cr-ncY" id="C4S-KK-6Nn"/>
                         <outlet property="firstNameTextField" destination="pzJ-Fd-qbc" id="eie-cb-HxD"/>
+                        <outlet property="imageView" destination="N1R-SK-hNc" id="IUI-HC-YGp"/>
                         <outlet property="lastNameTextField" destination="WCr-dm-mtf" id="Dfe-cf-kyc"/>
                     </connections>
                 </viewController>
