@@ -34,7 +34,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     }
     @IBOutlet weak var filterButton: UIButton! {
         didSet {
-            filterButton.cornerRadius = filterButton.frame.width/2
+//            filterButton.cornerRadius = filterButton.frame.width/2
         }
     }
     @IBOutlet weak var locationButton: UIButton!

@@ -30,10 +30,10 @@
                                     <constraint firstAttribute="height" constant="50" id="Syz-C9-IZg"/>
                                     <constraint firstAttribute="width" constant="50" id="zBQ-x3-Mhp"/>
                                 </constraints>
-                                <state key="normal" image="add-icon"/>
+                                <state key="normal" image="add-1"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="shadowRadius">
-                                        <real key="value" value="1"/>
+                                        <real key="value" value="1.5"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="size" keyPath="shadowOffset">
                                         <size key="value" width="0.0" height="0.0"/>
@@ -53,10 +53,10 @@
                                     <constraint firstAttribute="width" constant="50" id="Qpg-Kk-8Ei"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                <state key="normal" image="location-icon"/>
+                                <state key="normal" image="loc-2"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="shadowRadius">
-                                        <real key="value" value="1"/>
+                                        <real key="value" value="1.5"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="size" keyPath="shadowOffset">
                                         <size key="value" width="0.0" height="0.0"/>
@@ -627,9 +627,9 @@
         </scene>
     </scenes>
     <resources>
-        <image name="add-icon" width="100.08000183105469" height="100.08000183105469"/>
+        <image name="add-1" width="100.08000183105469" height="100.08000183105469"/>
         <image name="filter (2)" width="96" height="96"/>
-        <image name="location-icon" width="99.480003356933594" height="99.480003356933594"/>
+        <image name="loc-2" width="100.08000183105469" height="100.08000183105469"/>
         <image name="mapmarker" width="2000" height="2723"/>
         <image name="ref-1" width="100.08000183105469" height="100.08000183105469"/>
     </resources>
