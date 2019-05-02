@@ -12,13 +12,34 @@ import CoreLocation
 import Parse
 import AlamofireImage
 
-class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UISearchBarDelegate {
     
     @IBOutlet weak var mapView: MKMapView!
-    @IBOutlet weak var mapSearchBar: UISearchBar!
-    @IBOutlet weak var filterButton: UIButton!
+    @IBOutlet weak var mapSearchBar: UISearchBar! {
+        didSet{
+            
+//           mapSearchBar.searchBarStyle = UISearchBar.Style.minimal
+            mapSearchBar.borderWidth = 1
+            mapSearchBar.borderColor = UIColor.clear
+            mapSearchBar.cornerRadius = 17
+            
+//            mapSearchBar.layer.cornerRadius = 5
+            
+//            let textFieldInsideSearchBar = mapSearchBar.value(forKey: “searchField”) as? UITextField
+//            textFieldInsideSearchBar?.textColor = UIColor.white
+            
+           
+//            mapSearchBar.layer.backgroundColor = UIColor.white.cgColor
+        }
+    }
+    @IBOutlet weak var filterButton: UIButton! {
+        didSet {
+            filterButton.cornerRadius = filterButton.frame.width/2
+        }
+    }
     @IBOutlet weak var locationButton: UIButton!
     @IBOutlet weak var addButton: UIButton!
+    
     //    var currentMapSnapShotImage: UIImage?
     
     var pickedImage: UIImage?
@@ -35,18 +56,27 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     var addPinLocation: CLLocationCoordinate2D!
     var issues = [PFObject]()
     var selectedIssue : PFObject?
+    var allWaitGroup = DispatchGroup()
+    
     //    let refreshController = UIRefreshControl()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         mapView.delegate = self
+        mapSearchBar.delegate = self
         mapView.register(MKMarkerAnnotationView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
         //        self.refreshController.addTarget(self, action: #selector(loadIssues), for: .valueChanged)
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        refreshData()
+        getAllIssues()
+    }
+    
+    func notifyRefresh(group: DispatchGroup){
+        group.notify(queue: .main) {
+            self.refreshAnnotations()
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -70,7 +100,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         var annotations: [IssueAnnotation] = []
         print("number of issues: \(issues.count)")
         for issue in self.issues {
-            print("createIssueAnnotation")
             let annotation = IssueAnnotation(issue: issue, issueCategory: issue["issueCategory"] as! String, coordinate: CLLocationCoordinate2D(latitude: (issue["location"] as! PFGeoPoint).latitude, longitude: (issue["location"] as! PFGeoPoint).longitude))
             annotations.append(annotation)
             mapView.addAnnotation(annotation)
@@ -82,11 +111,10 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         mapView.removeAnnotations(mapView.annotations.filter {$0 is IssueAnnotation})
     }
     
-    @objc func refreshData() {
+    @objc func refreshAnnotations() {
         // temp link to filter button
         clearIssueAnnotations()
-        loadIssues()
-        
+        createIssueAnnotation()
     }
     
     @objc func didClickAddIssue(button: UIButton){
@@ -100,20 +128,24 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         performSegue(withIdentifier: "tapDetail", sender: button)
     }
     
-    @objc func loadIssues() {
+    @objc func getAllIssues() {
         let numberOfIssues = 20
-        
+//        let waitGroup = DispatchGroup()
         let centerGeoPoint = PFGeoPoint(latitude: centerLocation.latitude, longitude: centerLocation.longitude)
         let query = PFQuery(className: "Issues")
         query.includeKeys(["transMode", "issueDateTime", "descripText", "location", "issueCategory", "dirOfTravel", "nearestCrossStreet", "image"])
         query.whereKey("location", nearGeoPoint:centerGeoPoint, withinKilometers: mapView.currentRadius())
         query.limit = numberOfIssues
+        allWaitGroup.enter()
         query.findObjectsInBackground { (issues, error) in
             if issues != nil {
                 self.issues = issues!
-                self.createIssueAnnotation()
+                self.allWaitGroup.leave()
+                print("left")
+//                self.createIssueAnnotation()
             }
         }
+        notifyRefresh(group: allWaitGroup)
     }
     
     @IBAction func onLongPressAdd(_ sender: UILongPressGestureRecognizer) {
@@ -141,7 +173,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     }
     
     @IBAction func onTapRefresh(_ sender: Any) {
-        refreshData()
+        refreshAnnotations()
     }
     
     @IBAction func onLongPressClearAnno(_ sender: UILongPressGestureRecognizer) {
@@ -150,6 +182,52 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             clearIssueAnnotations()
         }
         
+    }
+    
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        print("looking for \(searchBar.text!)")
+        if let keyword = searchBar.text {
+            search(keyword: keyword)
+        }
+    }
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        print("button click")
+        searchBar.endEditing(true)
+    }
+    
+    func search(keyword: String){
+        if keyword.isEmpty {
+            getAllIssues()
+        } else {
+            getSearchIssues(keyword: keyword)
+        }
+//        notifyRefresh()
+    }
+    
+    @objc func getSearchIssues(keyword: String) {
+//        let waitGroup = DispatchGroup()
+        let query = PFQuery(className: "Issues")
+          let centerGeoPoint = PFGeoPoint(latitude: centerLocation.latitude, longitude: centerLocation.longitude)
+        query.whereKey("issueCategory", matchesText: keyword.trimmingCharacters(in: [" "]))
+        query.whereKey("issueCategory",nearGeoPoint:centerGeoPoint, withinKilometers: mapView.currentRadius())
+        allWaitGroup.enter()
+        query.findObjectsInBackground { (objects: [PFObject]?, error: Error?) in
+            if let error = error {
+                // The request failed
+                print(error.localizedDescription)
+            } else if let objects = objects {
+                self.issues = objects
+
+//                objects.forEach { (object) in
+//                    print("Successfully retrieved \(String(describing: object["issueCategory"]))");
+//
+////                    self.createIssueAnnotation()
+//                }
+                self.allWaitGroup.leave()
+
+            }
+        }
+        notifyRefresh(group: allWaitGroup)
     }
     
     // Map Delegates
@@ -186,7 +264,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         
         if annotation is IssueAnnotation {
-            print("viewFor Issue Annotation")
             let reportReuse = "reportReuse"
             var issueAnnotationView = mapView.dequeueReusableAnnotationView(withIdentifier: reportReuse) as? MKPinAnnotationView
             if issueAnnotationView == nil {

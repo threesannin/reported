@@ -33,13 +33,13 @@
                                 <state key="normal" image="add-icon"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="shadowRadius">
-                                        <real key="value" value="2"/>
+                                        <real key="value" value="1"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="size" keyPath="shadowOffset">
-                                        <size key="value" width="0.0" height="2"/>
+                                        <size key="value" width="0.0" height="0.0"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="number" keyPath="shadowOpacity">
-                                        <real key="value" value="0.5"/>
+                                        <real key="value" value="0.20000000000000001"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                                 <connections>
@@ -56,36 +56,65 @@
                                 <state key="normal" image="location-icon"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="shadowRadius">
-                                        <real key="value" value="2"/>
+                                        <real key="value" value="1"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="size" keyPath="shadowOffset">
-                                        <size key="value" width="0.0" height="2"/>
+                                        <size key="value" width="0.0" height="0.0"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="number" keyPath="shadowOpacity">
-                                        <real key="value" value="0.5"/>
+                                        <real key="value" value="0.20000000000000001"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                                 <connections>
                                     <action selector="onLocationPRess:" destination="q2r-jl-TJ1" eventType="touchUpInside" id="spm-5j-snn"/>
                                 </connections>
                             </button>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Q9v-mY-5vl">
+                                <rect key="frame" x="16" y="20" width="343" height="56"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lw3-3T-wUI">
+                                        <rect key="frame" x="18" y="18" width="21" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" image="filter (2)"/>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="10"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowRadius">
+                                        <real key="value" value="1"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowOpacity">
+                                        <real key="value" value="0.20000000000000001"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="size" keyPath="shadowOffset">
+                                        <size key="value" width="0.0" height="0.0"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="shadowColor">
+                                        <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="maskBounds" value="NO"/>
+                                </userDefinedRuntimeAttributes>
+                            </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b6c-HF-7Z3">
                                 <rect key="frame" x="309" y="92" width="50" height="50"/>
                                 <gestureRecognizers/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="50" id="OpG-ca-idi"/>
-                                    <constraint firstAttribute="width" constant="50" id="sd3-x2-35M"/>
+                                    <constraint firstAttribute="height" constant="50" id="ruR-oC-582"/>
                                 </constraints>
-                                <state key="normal" image="filter-icon"/>
+                                <state key="normal" image="ref-1"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="shadowRadius">
-                                        <real key="value" value="2"/>
+                                        <real key="value" value="1"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="size" keyPath="shadowOffset">
-                                        <size key="value" width="0.0" height="2"/>
+                                        <size key="value" width="0.0" height="0.0"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="number" keyPath="shadowOpacity">
-                                        <real key="value" value="0.5"/>
+                                        <real key="value" value="0.20000000000000001"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                                 <connections>
@@ -93,34 +122,26 @@
                                     <outletCollection property="gestureRecognizers" destination="rNS-SW-CaV" appends="YES" id="DOS-Xb-NWd"/>
                                 </connections>
                             </button>
-                            <searchBar alpha="0.90000000000000002" contentMode="redraw" placeholder="Search for an issue" showsSearchResultsButton="YES" translatesAutoresizingMaskIntoConstraints="NO" id="A2m-5b-l8U">
-                                <rect key="frame" x="0.0" y="20" width="375" height="56"/>
+                            <searchBar contentMode="redraw" searchBarStyle="minimal" text="" translatesAutoresizingMaskIntoConstraints="NO" id="dEK-oT-xdD">
+                                <rect key="frame" x="64" y="20" width="295" height="56"/>
                                 <textInputTraits key="textInputTraits"/>
-                                <scopeButtonTitles>
-                                    <string>Title</string>
-                                    <string>Title</string>
-                                </scopeButtonTitles>
-                                <connections>
-                                    <outlet property="delegate" destination="q2r-jl-TJ1" id="rBC-7X-wa1"/>
-                                </connections>
                             </searchBar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="b6c-HF-7Z3" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="xkQ-vQ-hYE" secondAttribute="leading" constant="309" id="CXA-PC-Kt3"/>
+                            <constraint firstItem="b6c-HF-7Z3" firstAttribute="leading" secondItem="MUT-NB-Um4" secondAttribute="leading" id="0ES-Z6-3eX"/>
+                            <constraint firstItem="dEK-oT-xdD" firstAttribute="centerX" secondItem="Hcd-Uf-z3N" secondAttribute="centerX" constant="24" id="3lI-Ke-95b"/>
+                            <constraint firstItem="b6c-HF-7Z3" firstAttribute="trailing" secondItem="cKm-Jc-GDR" secondAttribute="trailingMargin" id="CiI-UL-wht"/>
                             <constraint firstItem="xkQ-vQ-hYE" firstAttribute="bottom" secondItem="MUT-NB-Um4" secondAttribute="bottom" constant="16" id="M91-xh-YUh"/>
-                            <constraint firstItem="A2m-5b-l8U" firstAttribute="trailing" secondItem="xkQ-vQ-hYE" secondAttribute="trailing" id="NfQ-kg-0tY"/>
-                            <constraint firstItem="MUT-NB-Um4" firstAttribute="leading" secondItem="b6c-HF-7Z3" secondAttribute="leading" id="P1X-qJ-q4q"/>
-                            <constraint firstItem="A2m-5b-l8U" firstAttribute="centerX" secondItem="cKm-Jc-GDR" secondAttribute="centerX" id="Qfh-s2-li7"/>
                             <constraint firstItem="Hcd-Uf-z3N" firstAttribute="trailing" secondItem="xkQ-vQ-hYE" secondAttribute="trailing" id="SrD-gI-50l"/>
-                            <constraint firstItem="A2m-5b-l8U" firstAttribute="leading" secondItem="xkQ-vQ-hYE" secondAttribute="leading" id="cO6-1t-qGA"/>
+                            <constraint firstItem="b6c-HF-7Z3" firstAttribute="top" secondItem="cKm-Jc-GDR" secondAttribute="top" constant="92" id="add-g0-UYm"/>
+                            <constraint firstItem="b6c-HF-7Z3" firstAttribute="trailing" secondItem="zgB-dm-PRg" secondAttribute="trailing" id="cjK-9o-bre"/>
                             <constraint firstItem="Hcd-Uf-z3N" firstAttribute="bottom" secondItem="xkQ-vQ-hYE" secondAttribute="bottom" id="fHY-o4-Nnw"/>
                             <constraint firstItem="Hcd-Uf-z3N" firstAttribute="top" secondItem="cKm-Jc-GDR" secondAttribute="top" id="gjp-4M-IBV"/>
-                            <constraint firstItem="b6c-HF-7Z3" firstAttribute="top" secondItem="A2m-5b-l8U" secondAttribute="bottom" constant="16" id="h2R-g8-IKS"/>
-                            <constraint firstItem="zgB-dm-PRg" firstAttribute="leading" secondItem="b6c-HF-7Z3" secondAttribute="leading" id="mwC-uA-7o4"/>
-                            <constraint firstItem="xkQ-vQ-hYE" firstAttribute="trailing" secondItem="b6c-HF-7Z3" secondAttribute="trailing" constant="16" id="rxn-Qb-aPj"/>
+                            <constraint firstItem="b6c-HF-7Z3" firstAttribute="top" secondItem="dEK-oT-xdD" secondAttribute="bottom" constant="16" id="rMw-Fx-jMl"/>
                             <constraint firstItem="Hcd-Uf-z3N" firstAttribute="leading" secondItem="xkQ-vQ-hYE" secondAttribute="leading" id="vEM-0f-wOW"/>
-                            <constraint firstItem="A2m-5b-l8U" firstAttribute="top" secondItem="xkQ-vQ-hYE" secondAttribute="top" id="vHu-UE-D0x"/>
+                            <constraint firstItem="dEK-oT-xdD" firstAttribute="trailing" secondItem="b6c-HF-7Z3" secondAttribute="trailing" id="ybU-ha-ige"/>
+                            <constraint firstItem="b6c-HF-7Z3" firstAttribute="leading" secondItem="zgB-dm-PRg" secondAttribute="leading" id="yjy-ng-St0"/>
                             <constraint firstItem="MUT-NB-Um4" firstAttribute="top" secondItem="zgB-dm-PRg" secondAttribute="bottom" constant="8" id="zdM-XC-x6k"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="xkQ-vQ-hYE"/>
@@ -130,7 +151,7 @@
                         <outlet property="addButton" destination="MUT-NB-Um4" id="gPA-AR-dau"/>
                         <outlet property="filterButton" destination="b6c-HF-7Z3" id="SWy-Of-dyi"/>
                         <outlet property="locationButton" destination="zgB-dm-PRg" id="DYg-GQ-Nwj"/>
-                        <outlet property="mapSearchBar" destination="A2m-5b-l8U" id="yjZ-Dh-f0R"/>
+                        <outlet property="mapSearchBar" destination="dEK-oT-xdD" id="cfe-c7-YS5"/>
                         <outlet property="mapView" destination="Hcd-Uf-z3N" id="iOt-df-5Rz"/>
                         <outlet property="searchDisplayController" destination="yAF-u3-tQF" id="84L-Dg-f5h"/>
                     </connections>
@@ -139,7 +160,6 @@
                 <searchDisplayController id="yAF-u3-tQF">
                     <connections>
                         <outlet property="delegate" destination="q2r-jl-TJ1" id="qr6-Ba-nYG"/>
-                        <outlet property="searchBar" destination="A2m-5b-l8U" id="xsT-6h-uPM"/>
                         <outlet property="searchContentsController" destination="q2r-jl-TJ1" id="XKT-vf-H9r"/>
                         <outlet property="searchResultsDataSource" destination="q2r-jl-TJ1" id="G5x-eG-LfC"/>
                         <outlet property="searchResultsDelegate" destination="q2r-jl-TJ1" id="gsN-ql-tYE"/>
@@ -608,8 +628,9 @@
     </scenes>
     <resources>
         <image name="add-icon" width="100.08000183105469" height="100.08000183105469"/>
-        <image name="filter-icon" width="100.08000183105469" height="100.08000183105469"/>
+        <image name="filter (2)" width="96" height="96"/>
         <image name="location-icon" width="99.480003356933594" height="99.480003356933594"/>
         <image name="mapmarker" width="2000" height="2723"/>
+        <image name="ref-1" width="100.08000183105469" height="100.08000183105469"/>
     </resources>
 </document>
