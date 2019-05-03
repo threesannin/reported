@@ -193,7 +193,7 @@ class FormViewController: UIViewController,UIImagePickerControllerDelegate, UINa
         present(picker, animated: true, completion: nil)
     }
     
-    @IBAction func done(_ sender: UIBarButtonItem) {
+    @IBAction func done(_ sender: UIButton) {
         if requiredFieldsValid() {
             print("submitting")
             

@@ -186,16 +186,27 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="lBL-Tj-Dvw">
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="lBL-Tj-Dvw">
                                 <rect key="frame" x="0.0" y="64" width="375" height="603"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </mapView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="mapmarker" translatesAutoresizingMaskIntoConstraints="NO" id="ab6-Yp-VcJ">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mapmarker" translatesAutoresizingMaskIntoConstraints="NO" id="ab6-Yp-VcJ">
                                 <rect key="frame" x="169" y="315" width="37" height="50"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="iob-HG-htn"/>
+                                    <constraint firstAttribute="width" constant="37" id="nCM-CF-CBF"/>
+                                </constraints>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="lBL-Tj-Dvw" firstAttribute="top" secondItem="gdi-WN-8GQ" secondAttribute="top" id="2Ja-Sa-zFP"/>
+                            <constraint firstItem="lBL-Tj-Dvw" firstAttribute="leading" secondItem="gdi-WN-8GQ" secondAttribute="leading" id="JwN-wI-wba"/>
+                            <constraint firstItem="lBL-Tj-Dvw" firstAttribute="trailing" secondItem="gdi-WN-8GQ" secondAttribute="trailing" id="W4b-PW-94H"/>
+                            <constraint firstItem="ab6-Yp-VcJ" firstAttribute="centerY" secondItem="a3M-yh-6DT" secondAttribute="centerY" constant="6.5" id="qMq-y1-8k5"/>
+                            <constraint firstItem="lBL-Tj-Dvw" firstAttribute="bottom" secondItem="gdi-WN-8GQ" secondAttribute="bottom" id="wAd-4b-WGh"/>
+                            <constraint firstItem="ab6-Yp-VcJ" firstAttribute="centerX" secondItem="lBL-Tj-Dvw" secondAttribute="centerX" id="xGN-Xr-zBx"/>
+                            <constraint firstItem="ab6-Yp-VcJ" firstAttribute="centerY" secondItem="a3M-yh-6DT" secondAttribute="centerY" constant="6.5" id="z4k-6H-zmd"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="gdi-WN-8GQ"/>
                     </view>
                     <navigationItem key="navigationItem" title="Update location" id="KoT-5O-U9e">
@@ -401,7 +412,7 @@
                                                         <real key="value" value="13"/>
                                                     </userDefinedRuntimeAttribute>
                                                     <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
-                                                        <real key="value" value="0.0"/>
+                                                        <real key="value" value="1"/>
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
                                             </imageView>
@@ -510,6 +521,7 @@
                                             <imageView clipsSubviews="YES" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="e61-73-I0R">
                                                 <rect key="frame" x="65" y="1068" width="245" height="211"/>
                                                 <color key="backgroundColor" red="0.91373777389999999" green="0.91370338200000001" blue="0.91372674700000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                <gestureRecognizers/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="211" id="gg8-im-e6M"/>
                                                 </constraints>
@@ -533,12 +545,15 @@
                                                         <color key="value" red="0.91373777389999999" green="0.91370338200000001" blue="0.91372674700000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
+                                                <connections>
+                                                    <outletCollection property="gestureRecognizers" destination="KF4-KG-fdp" appends="YES" id="o4Z-yV-Eda"/>
+                                                </connections>
                                             </imageView>
                                             <button opaque="NO" alpha="0.75" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xJd-WC-i4c">
-                                                <rect key="frame" x="94" y="1158.5" width="187" height="30"/>
+                                                <rect key="frame" x="94" y="1153.5" width="187" height="40"/>
                                                 <color key="backgroundColor" red="0.94646256350000002" green="0.94646256350000002" blue="0.94646256350000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="30" id="JgQ-Je-UwG"/>
+                                                    <constraint firstAttribute="height" constant="40" id="JgQ-Je-UwG"/>
                                                 </constraints>
                                                 <state key="normal" title="Add Image"/>
                                                 <userDefinedRuntimeAttributes>
@@ -546,7 +561,7 @@
                                                         <real key="value" value="1"/>
                                                     </userDefinedRuntimeAttribute>
                                                     <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                                        <real key="value" value="10"/>
+                                                        <real key="value" value="13"/>
                                                     </userDefinedRuntimeAttribute>
                                                     <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
                                                         <color key="value" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -663,6 +678,9 @@
                                                         <real key="value" value="10"/>
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
+                                                <connections>
+                                                    <action selector="done:" destination="Icw-Yt-UwX" eventType="touchUpInside" id="68t-Dt-VCd"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -841,6 +859,11 @@
                 <tapGestureRecognizer id="4Fb-Gf-ScB" userLabel="tapMap">
                     <connections>
                         <action selector="onTapMap:" destination="Icw-Yt-UwX" id="5hz-fQ-Eye"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <tapGestureRecognizer id="KF4-KG-fdp" userLabel="tapImage">
+                    <connections>
+                        <action selector="onAddImage:" destination="Icw-Yt-UwX" id="AfJ-u5-p2a"/>
                     </connections>
                 </tapGestureRecognizer>
             </objects>
