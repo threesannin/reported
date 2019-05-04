@@ -65,6 +65,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         mapView.delegate = self
         mapSearchBar.delegate = self
         mapView.register(MKMarkerAnnotationView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
+        mapView.register(MKClusterAnnotation.self, forAnnotationViewWithReuseIdentifier: "cluster")
         //        self.refreshController.addTarget(self, action: #selector(loadIssues), for: .valueChanged)
     }
     
@@ -243,6 +244,13 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         // get annotations in area
     }
     
+    func mapView(_ mapView: MKMapView, clusterAnnotationForMemberAnnotations memberAnnotations: [MKAnnotation]) -> MKClusterAnnotation {
+        print("clustering")
+        let clusterAnnotation = MKClusterAnnotation(memberAnnotations: memberAnnotations)
+      
+        return clusterAnnotation
+    }
+    
     func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
         let annotations = [mapView.userLocation]
         mapView.showAnnotations(annotations, animated: true)
@@ -268,6 +276,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             var issueAnnotationView = mapView.dequeueReusableAnnotationView(withIdentifier: reportReuse) as? MKPinAnnotationView
             if issueAnnotationView == nil {
                 issueAnnotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reportReuse)
+                issueAnnotationView?.clusteringIdentifier = "cluster"
                 issueAnnotationView!.canShowCallout = true
                 if let issueImageFileObj = (annotation as! IssueAnnotation).issue["issueImage"] {
                     if let urlString = (issueImageFileObj as! PFFileObject).url{
