@@ -63,10 +63,15 @@ class AlertViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         cell.alertLabel.text = finalString
         
-        let imageFile = post["issueImage"] as! PFFileObject
-        let urlString = imageFile.url!
-        let url = URL(string: urlString)!
-        cell.alertImage.af_setImage(withURL: url)
+        if let imageFile = post["issueImage"] as? PFFileObject{
+            let urlString = imageFile.url!
+            let url = URL(string: urlString)!
+            cell.alertImage.af_setImage(withURL: url)
+        }else{
+            let urlString = "https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg"
+            let url = URL(string: urlString)!
+            cell.alertImage.af_setImage(withURL: url)
+        }
         
         return cell
     }
