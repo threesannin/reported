@@ -20,6 +20,7 @@
 		22B12402224C296C00FE40C7 /* ReportedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B12401224C296C00FE40C7 /* ReportedTests.swift */; };
 		22B1240D224C296C00FE40C7 /* ReportedUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B1240C224C296C00FE40C7 /* ReportedUITests.swift */; };
 		22B12421224C305C00FE40C7 /* Map.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 22B1241F224C305C00FE40C7 /* Map.storyboard */; };
+		7337A57A22711411001C5F36 /* details.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7337A57922711411001C5F36 /* details.storyboard */; };
 		73DE7DE12253C06C00A650CD /* AlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73DE7DE02253C06C00A650CD /* AlertViewController.swift */; };
 		73DE7DE32253C0A400A650CD /* AlertCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73DE7DE22253C0A400A650CD /* AlertCell.swift */; };
 		73DE7DE5225413A800A650CD /* loginAndSignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73DE7DE4225413A800A650CD /* loginAndSignupViewController.swift */; };
@@ -81,6 +82,7 @@
 		22B1240E224C296C00FE40C7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		22B12420224C305C00FE40C7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Reported/Base.lproj/Map.storyboard; sourceTree = "<group>"; };
 		3DE3EDEB641C6D6FCD6773F5 /* Pods-ReportedTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReportedTests.debug.xcconfig"; path = "Target Support Files/Pods-ReportedTests/Pods-ReportedTests.debug.xcconfig"; sourceTree = "<group>"; };
+		7337A57922711411001C5F36 /* details.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = details.storyboard; sourceTree = "<group>"; };
 		73DE7DE02253C06C00A650CD /* AlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertViewController.swift; sourceTree = "<group>"; };
 		73DE7DE22253C0A400A650CD /* AlertCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertCell.swift; sourceTree = "<group>"; };
 		73DE7DE4225413A800A650CD /* loginAndSignupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = loginAndSignupViewController.swift; sourceTree = "<group>"; };
@@ -168,23 +170,25 @@
 			children = (
 				B3F048CE225080D5001ADDBB /* ViewControllers */,
 				B3F048CD225080CD001ADDBB /* View */,
-				22B123EC224C296A00FE40C7 /* AppDelegate.swift */,
-				22B123EE224C296A00FE40C7 /* ViewController.swift */,
-				B3F048CB22507F20001ADDBB /* MapViewController.swift */,
-				73DE7DE4225413A800A650CD /* loginAndSignupViewController.swift */,
-				22B123F5224C296C00FE40C7 /* LaunchScreen.storyboard */,
 				22B123F0224C296A00FE40C7 /* Main.storyboard */,
+				22B123F5224C296C00FE40C7 /* LaunchScreen.storyboard */,
 				220108AC224C330500C1EDD0 /* Profile.storyboard */,
-				221566E42277F97D00A29C84 /* EditProfileViewController.swift */,
 				22B1241F224C305C00FE40C7 /* Map.storyboard */,
 				220108AA224C31B800C1EDD0 /* Alert.storyboard */,
+				7337A57922711411001C5F36 /* details.storyboard */,
+				22B123EC224C296A00FE40C7 /* AppDelegate.swift */,
+				221566E42277F97D00A29C84 /* EditProfileViewController.swift */,
+				22B123EE224C296A00FE40C7 /* ViewController.swift */,
+				B3F048CB22507F20001ADDBB /* MapViewController.swift */,
 				B3B51C952251520D00201955 /* FormViewController.swift */,
+				73DE7DE4225413A800A650CD /* loginAndSignupViewController.swift */,
 				73DE7DE02253C06C00A650CD /* AlertViewController.swift */,
 				73EFDFC02267DE8E00D06275 /* PostDetailsViewController.swift */,
 				B370B9142252F9FC007D42AD /* MapUpdateViewController.swift */,
 				73DE7DE22253C0A400A650CD /* AlertCell.swift */,
 				22B123F3224C296C00FE40C7 /* Assets.xcassets */,
 				22B123F8224C296C00FE40C7 /* Info.plist */,
+				B3F17B7E226D0F1400A7C04D /* UIExtension.swift */,
 				22652F2B22547CDF00960AEF /* ProfileViewController.swift */,
 				22652F2D2254804900960AEF /* ProfileTableViewCell.swift */,
 				B3F17B76226C58C700A7C04D /* FormTextField.swift */,
@@ -369,6 +373,7 @@
 				220108AE224C330500C1EDD0 /* Profile.storyboard in Resources */,
 				22B123F7224C296C00FE40C7 /* LaunchScreen.storyboard in Resources */,
 				220108AB224C31B800C1EDD0 /* Alert.storyboard in Resources */,
+				7337A57A22711411001C5F36 /* details.storyboard in Resources */,
 				22B123F4224C296C00FE40C7 /* Assets.xcassets in Resources */,
 				22B123F2224C296A00FE40C7 /* Main.storyboard in Resources */,
 				22B12421224C305C00FE40C7 /* Map.storyboard in Resources */,
