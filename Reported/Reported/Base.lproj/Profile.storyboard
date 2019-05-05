@@ -125,7 +125,7 @@
                                         <connections>
                                             <outlet property="alertImage" destination="SO0-bi-fGw" id="0t9-ie-4XX"/>
                                             <outlet property="alertLabel" destination="X3r-1h-78g" id="aLC-Ql-muh"/>
-                                            <segue destination="Rhj-Wo-CU2" kind="presentation" id="n2B-PR-cOE"/>
+                                            <segue destination="Sax-Z0-2c7" kind="show" id="Mdy-pj-T7k"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -151,6 +151,14 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W5w-Ff-Iku" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3276" y="141.67916041979012"/>
+        </scene>
+        <!--PostDetailsViewController-->
+        <scene sceneID="P1t-aS-LwL">
+            <objects>
+                <viewControllerPlaceholder storyboardName="details" referencedIdentifier="PostDetailsViewController" id="Sax-Z0-2c7" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="nTU-Uh-8JA" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4137" y="219"/>
         </scene>
         <!--Edit Profile View Controller-->
         <scene sceneID="YXv-Z9-0Gd">
@@ -275,14 +283,6 @@
             </objects>
             <point key="canvasLocation" x="4136.8000000000002" y="-208.24587706146929"/>
         </scene>
-        <!--PostDetailViewController-->
-        <scene sceneID="GN9-7d-vtI">
-            <objects>
-                <viewControllerPlaceholder storyboardName="Alert" referencedIdentifier="PostDetailViewController" id="Rhj-Wo-CU2" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="kzf-uK-owA" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="4041" y="162"/>
-        </scene>
         <!--Navigation Controller-->
         <scene sceneID="zIc-ZY-cLV">
             <objects>
@@ -303,6 +303,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="kunai" width="512" height="512"/>
+        <image name="kunai" width="384" height="384"/>
     </resources>
 </document>
