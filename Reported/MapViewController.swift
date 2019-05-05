@@ -13,7 +13,7 @@ import Parse
 import AlamofireImage
 
 class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UISearchBarDelegate {
-    
+   
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var mapSearchBar: UISearchBar! {
         didSet{
@@ -64,8 +64,13 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         super.viewDidLoad()
         mapView.delegate = self
         mapSearchBar.delegate = self
-        mapView.register(MKMarkerAnnotationView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
         mapView.register(MKClusterAnnotation.self, forAnnotationViewWithReuseIdentifier: "cluster")
+        mapView.register(RoadwayAnnotationView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
+        mapView.register(GraffitiAnnotationView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
+        mapView.register(LitterAnnotationView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
+        mapView.register(EncampAnnotationView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
+        mapView.register(LandscapeAnnotationView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
+//        mapView.register(ClusterAnnotationView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultClusterAnnotationViewReuseIdentifier)
         //        self.refreshController.addTarget(self, action: #selector(loadIssues), for: .valueChanged)
     }
     
@@ -101,7 +106,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         var annotations: [IssueAnnotation] = []
         print("number of issues: \(issues.count)")
         for issue in self.issues {
-            let annotation = IssueAnnotation(issue: issue, issueCategory: issue["issueCategory"] as! String, coordinate: CLLocationCoordinate2D(latitude: (issue["location"] as! PFGeoPoint).latitude, longitude: (issue["location"] as! PFGeoPoint).longitude))
+            let annotation = IssueAnnotation(issue: issue)
             annotations.append(annotation)
             mapView.addAnnotation(annotation)
         }
@@ -233,9 +238,9 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     
     // Map Delegates
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-        if let annotation = view.annotation {
-            if let title = annotation.title as? String{
-                print("Tapped \(String(describing: title)) pin")
+        if let issueAnnotation = view.annotation {
+            if issueAnnotation is IssueAnnotation{
+                selectedIssue = (issueAnnotation as! IssueAnnotation).issue
             }
         }
     }
@@ -245,9 +250,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     }
     
     func mapView(_ mapView: MKMapView, clusterAnnotationForMemberAnnotations memberAnnotations: [MKAnnotation]) -> MKClusterAnnotation {
-        print("clustering")
         let clusterAnnotation = MKClusterAnnotation(memberAnnotations: memberAnnotations)
-      
         return clusterAnnotation
     }
     
@@ -262,6 +265,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             self.mapView.removeAnnotation(annotation)
         }
         addPinLocation = nil
+        selectedIssue = nil
     }
     
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
@@ -272,19 +276,55 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         
         if annotation is IssueAnnotation {
-            let reportReuse = "reportReuse"
-            var issueAnnotationView = mapView.dequeueReusableAnnotationView(withIdentifier: reportReuse) as? MKPinAnnotationView
-            if issueAnnotationView == nil {
-                issueAnnotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reportReuse)
-                issueAnnotationView?.clusteringIdentifier = "cluster"
-                issueAnnotationView!.canShowCallout = true
+            /*
+             ["Roadway - Pothole", "Litter - Trash and Debris", "Graffiti", "Landscaping - Weeds, Trees, Brush", "Illegal Encampment"]
+             
+             */
+            var issueAnnotationView: MKMarkerAnnotationView
+            let title = (annotation as! IssueAnnotation).title!
+                
+//            print("TITLE IS: \(annotation.title)")
+//            if annotation.title! == "Roadway - Pothole" {
+//                issueAnnotationView = RoadwayAnnotationView(annotation: annotation, reuseIdentifier: RoadwayAnnotationView.ReuseID)
+//            } else if annotation.title! == "Litter - Trash and Debris" {
+//                issueAnnotationView = LitterAnnotationView(annotation: annotation, reuseIdentifier: LitterAnnotationView.ReuseID)
+//            } else if annotation.title! == "Landscaping - Weeds, Trees, Brush" {
+//                 issueAnnotationView = LandscapeAnnotationView(annotation: annotation, reuseIdentifier: LandscapeAnnotationView.ReuseID)
+//            } else if annotation.title! == "Illegal Encampment" {
+//                issueAnnotationView = EncampAnnotationView(annotation: annotation, reuseIdentifier: EncampAnnotationView.ReuseID)
+//            } else {
+//                fatalError("Found unexpected issue category")
+//
+//            }
+            print("FOUND TITLE: \(title)")
+            switch title {
+            case "Roadway - Pothole":
+                issueAnnotationView = RoadwayAnnotationView(annotation: annotation, reuseIdentifier: RoadwayAnnotationView.ReuseID)
+            case "Graffiti":
+                issueAnnotationView = GraffitiAnnotationView(annotation: annotation, reuseIdentifier: GraffitiAnnotationView.ReuseID)
+            case "Litter - Trash and Debris":
+                issueAnnotationView = LitterAnnotationView(annotation: annotation, reuseIdentifier: LitterAnnotationView.ReuseID)
+            case "Landscaping - Weeds, Trees, Brush":
+                issueAnnotationView = LandscapeAnnotationView(annotation: annotation, reuseIdentifier: LandscapeAnnotationView.ReuseID)
+            case "Illegal Encampment":
+                issueAnnotationView = EncampAnnotationView(annotation: annotation, reuseIdentifier: EncampAnnotationView.ReuseID)
+            default:
+                fatalError("Found unexpected issue category")
+            }
+            
+//            let reportReuse = "reportReuse"
+//            var issueAnnotationView = mapView.dequeueReusableAnnotationView(withIdentifier: reportReuse) as? MKPinAnnotationView
+//            if issueAnnotationView == nil {
+//                issueAnnotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reportReuse)
+            issueAnnotationView.clusteringIdentifier = "cluster"
+            issueAnnotationView.canShowCallout = true
                 if let issueImageFileObj = (annotation as! IssueAnnotation).issue["issueImage"] {
                     if let urlString = (issueImageFileObj as! PFFileObject).url{
                         let url = URL(string: urlString)!
-                        issueAnnotationView!.leftCalloutAccessoryView = UIImageView(frame: CGRect(x:0, y:0, width: 50, height:50))
-                        let leftCalloutImageView = issueAnnotationView?.leftCalloutAccessoryView as! UIImageView
+                        issueAnnotationView.leftCalloutAccessoryView = UIImageView(frame: CGRect(x:0, y:0, width: 50, height:50))
+                        let leftCalloutImageView = issueAnnotationView.leftCalloutAccessoryView as! UIImageView
                         leftCalloutImageView.af_setImage(withURL: url)
-                        issueAnnotationView?.leftCalloutAccessoryView = leftCalloutImageView
+                        issueAnnotationView.leftCalloutAccessoryView = leftCalloutImageView
                         print("valid image")
                     }
                 } else {
@@ -292,14 +332,12 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
                 }
                 let rightCalloutButton = UIButton(type: .detailDisclosure)
                 rightCalloutButton.addTarget(self, action: #selector(didTapAnnoDetail(button:)), for: .touchUpInside)
-                issueAnnotationView?.rightCalloutAccessoryView = rightCalloutButton
-            } else {
-                issueAnnotationView!.annotation = annotation
-            }
-            self.selectedIssue = (annotation as! IssueAnnotation).issue
+            issueAnnotationView.rightCalloutAccessoryView = rightCalloutButton
+//            } else {
+//                issueAnnotationView!.annotation = annotation
+//            }
             return issueAnnotationView
         } else if annotation is MKPointAnnotation {
-            self.selectedIssue = nil
             print("is not IssueAnnotation")
             let newIssueReuse = "newIssueReuse"
             var newIssueAnnotationView = mapView.dequeueReusableAnnotationView(withIdentifier: newIssueReuse) as? MKPinAnnotationView
@@ -318,7 +356,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             }
             return newIssueAnnotationView
         } else {
-            self.selectedIssue = nil
             return annotation as? MKAnnotationView
         }
     }

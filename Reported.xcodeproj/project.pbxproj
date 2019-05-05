@@ -32,6 +32,8 @@
 		B366E8E1227578C80085F46A /* IssueAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B366E8E0227578C80085F46A /* IssueAnnotation.swift */; };
 		B366E8E3227654180085F46A /* IssueObj.swift in Sources */ = {isa = PBXBuildFile; fileRef = B366E8E2227654180085F46A /* IssueObj.swift */; };
 		B370B9152252F9FC007D42AD /* MapUpdateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B370B9142252F9FC007D42AD /* MapUpdateViewController.swift */; };
+		B380BFD4227E29FC0095949B /* IssueAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B380BFD3227E29FC0095949B /* IssueAnnotationView.swift */; };
+		B380BFD6227E3C640095949B /* ClusterAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B380BFD5227E3C640095949B /* ClusterAnnotationView.swift */; };
 		B3B51C962251520D00201955 /* FormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3B51C952251520D00201955 /* FormViewController.swift */; };
 		B3F048C822507E19001ADDBB /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3F048C722507E19001ADDBB /* MapKit.framework */; };
 		B3F048CA22507E20001ADDBB /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3F048C922507E20001ADDBB /* CoreLocation.framework */; };
@@ -91,6 +93,8 @@
 		B366E8E0227578C80085F46A /* IssueAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueAnnotation.swift; sourceTree = "<group>"; };
 		B366E8E2227654180085F46A /* IssueObj.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueObj.swift; sourceTree = "<group>"; };
 		B370B9142252F9FC007D42AD /* MapUpdateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapUpdateViewController.swift; sourceTree = "<group>"; };
+		B380BFD3227E29FC0095949B /* IssueAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueAnnotationView.swift; sourceTree = "<group>"; };
+		B380BFD5227E3C640095949B /* ClusterAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClusterAnnotationView.swift; sourceTree = "<group>"; };
 		B3B51C93225151BB00201955 /* iOSDropDown.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = iOSDropDown.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B3B51C952251520D00201955 /* FormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FormViewController.swift; path = ViewControllers/FormViewController.swift; sourceTree = "<group>"; };
 		B3F048C722507E19001ADDBB /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
@@ -189,6 +193,8 @@
 				B366E8E0227578C80085F46A /* IssueAnnotation.swift */,
 				B366E8E2227654180085F46A /* IssueObj.swift */,
 				B302C81C2278C6D800F480B2 /* UpdateMapViewController.swift */,
+				B380BFD3227E29FC0095949B /* IssueAnnotationView.swift */,
+				B380BFD5227E3C640095949B /* ClusterAnnotationView.swift */,
 			);
 			path = Reported;
 			sourceTree = "<group>";
@@ -490,9 +496,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				22652F2C22547CDF00960AEF /* ProfileViewController.swift in Sources */,
+				B380BFD4227E29FC0095949B /* IssueAnnotationView.swift in Sources */,
 				B366E8E3227654180085F46A /* IssueObj.swift in Sources */,
 				B3F17B7F226D0F1400A7C04D /* UIExtension.swift in Sources */,
 				22652F2E2254804900960AEF /* ProfileTableViewCell.swift in Sources */,
+				B380BFD6227E3C640095949B /* ClusterAnnotationView.swift in Sources */,
 				22B123EF224C296A00FE40C7 /* ViewController.swift in Sources */,
 				B366E8E1227578C80085F46A /* IssueAnnotation.swift in Sources */,
 				B3F048CC22507F20001ADDBB /* MapViewController.swift in Sources */,
