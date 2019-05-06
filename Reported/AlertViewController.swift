@@ -15,6 +15,7 @@ class AlertViewController: UIViewController, UITableViewDataSource, UITableViewD
     @IBOutlet weak var alertsTableView: UITableView!
     var posts = [PFObject]()
     var selectedPost: PFObject!
+    var currentLocation: PFGeoPoint!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,15 +29,23 @@ class AlertViewController: UIViewController, UITableViewDataSource, UITableViewD
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        let query = PFQuery(className: "Issues")
-        query.limit = 20
-        
-        query.findObjectsInBackground{ (posts, error) in
-            if posts != nil{
-                self.posts = posts!
-                self.alertsTableView.reloadData()
+        PFGeoPoint.geoPointForCurrentLocation{
+            (geoPoint, error) in
+            if error == nil {
+                self.currentLocation = geoPoint
+                print("alerts page currentLocation: ", self.currentLocation)
+                let query = PFQuery(className: "Issues")
+                query.whereKey("location", nearGeoPoint:self.currentLocation, withinMiles: 40.0)
+                query.limit = 15
+                query.findObjectsInBackground{ (posts, error) in
+                    if posts != nil{
+                        self.posts = posts!
+                        self.alertsTableView.reloadData()
+                    }
+                }
             }
         }
+
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -54,10 +63,15 @@ class AlertViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         cell.alertLabel.text = finalString
         
-        let imageFile = post["issueImage"] as! PFFileObject
-        let urlString = imageFile.url!
-        let url = URL(string: urlString)!
-        cell.alertImage.af_setImage(withURL: url)
+        if let imageFile = post["issueImage"] as? PFFileObject{
+            let urlString = imageFile.url!
+            let url = URL(string: urlString)!
+            cell.alertImage.af_setImage(withURL: url)
+        }else{
+            let urlString = "https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg"
+            let url = URL(string: urlString)!
+            cell.alertImage.af_setImage(withURL: url)
+        }
         
         return cell
     }
