@@ -76,7 +76,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         //        self.refreshController.addTarget(self, action: #selector(loadIssues), for: .valueChanged)
     }
     
-    
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         getAllIssues()
@@ -90,6 +90,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        self.navigationController?.isNavigationBarHidden = true
 //        refreshData()
     }
     
@@ -431,9 +432,14 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         } else if segue.identifier == "tapDetail" {
             print("perform segue to detail")
 //            let destinationNavigationController = segue.destination as! UINavigationController
-            let postDetailViewController = segue.destination as! PostDetailsViewController
+//            let targetController = destinationNavigationController.topViewController as! PostDetailsViewController
+            
+            let postDetailsViewController = segue.destination as! PostDetailsViewController
+
+          
+            self.navigationController?.isNavigationBarHidden = false
             if let selectedIssue = self.selectedIssue {
-                postDetailViewController.post = selectedIssue
+                postDetailsViewController.post = selectedIssue
             }
         }
         // Get the new view controller using segue.destination.
