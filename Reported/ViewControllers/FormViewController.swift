@@ -12,35 +12,6 @@ import MapKit
 import Parse
 import DropDown
 
-final class FormObj: Codable {
-    var issueCategory: String
-    var dirOfTravel: String
-    var transMode: String
-    var nearestCrossStreet: String
-    var dateTime: String
-    var latitude: String
-    var longitude: String
-    var descripText: String
-    var name: String
-    var email: String
-    var phone: String
-    var followUp: Bool
-    
-    init(issueCategory: String!, dirOfTravel: String!, transMode: String!, nearestCrossStreet: String!, dateTime: String!, latitude: String!, longitude: String!, descripText: String!, name: String!, email: String!, phone: String!, followUp: Bool!) {
-        self.issueCategory = issueCategory
-        self.dirOfTravel = dirOfTravel
-        self.transMode = transMode
-        self.nearestCrossStreet = nearestCrossStreet
-        self.dateTime = dateTime
-        self.latitude = latitude
-        self.longitude = longitude
-        self.descripText = descripText
-        self.name = name
-        self.email = email
-        self.phone = phone
-        self.followUp = followUp
-    }
-}
 
 struct Form: Codable {
     var issueCategory: String
@@ -136,6 +107,15 @@ class FormViewController: UIViewController,UIImagePickerControllerDelegate, UINa
         dirTextField.delegate = self
         transTextField.delegate = self
         
+        
+        lookUpCurrentLocation { (placemark) in
+            
+            if let thoroughfare = placemark?.thoroughfare, let subThoroughfare = placemark?.subThoroughfare {
+                self.streetTextField.text = "\(subThoroughfare) \(thoroughfare)"
+            }
+        }
+        
+        
         issueTextField.dropDown.setDefault(textField: issueTextField, data: ["Roadway - Pothole", "Litter - Trash and Debris", "Graffiti", "Landscaping - Weeds, Trees, Brush", "Illegal Encampment"])
         
         dirTextField.dropDown.setDefault(textField: dirTextField, data: ["Northbound","Eastbound","Southbound","Westbound", "Both"])
@@ -211,13 +191,13 @@ class FormViewController: UIViewController,UIImagePickerControllerDelegate, UINa
         present(picker, animated: true, completion: nil)
     }
     
-    @IBAction func done(_ sender: UIBarButtonItem) {
+    @IBAction func done(_ sender: UIButton) {
         if requiredFieldsValid() {
             print("submitting")
             
             // Form Codable
             let form = Form(issueCategory: issueTextField.text!, dirOfTravel: dirTextField.text!, transMode: transTextField.text!, nearestCrossStreet: streetTextField.text!, dateTime: datePickerTextField.text!, latitude: pinLocation!.latitude, longitude: pinLocation!.longitude, descripText: descipTextField.text!, name: "test", email: "email", phone: "phone", followUp: followUpSwitch.isOn)
-            
+        
             // Send to Parse
             postParse(form: form)
             
@@ -235,6 +215,18 @@ class FormViewController: UIViewController,UIImagePickerControllerDelegate, UINa
     @IBAction func tappedOut(_ sender: Any) {
         self.view.endEditing(true)
     }
+    
+    @IBAction func onTapMap(_ sender: UITapGestureRecognizer) {
+        performSegue(withIdentifier: "updateLocSegue", sender: Any?.self)
+    }
+    
+    @IBAction func unwindToForm(segue:UIStoryboardSegue) {
+        if let lat = pinLocation?.latitude, let long = pinLocation?.longitude {
+            gpsLabel.text = String("\(String(describing: lat)), \(String(describing: long))")
+        }
+        mapImageView.image = mapSnapshotImage
+    }
+    
     
     // Delegate, helper
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
@@ -337,6 +329,33 @@ class FormViewController: UIViewController,UIImagePickerControllerDelegate, UINa
         task.resume()
     }
     
+    func lookUpCurrentLocation(completionHandler: @escaping (CLPlacemark?)
+        -> Void ) {
+        // Use the last reported location.
+        if let lastLocation = pinLocation {
+            let geocoder = CLGeocoder()
+            
+            // Look up the location and pass it to the completion handler
+            geocoder.reverseGeocodeLocation(CLLocation(latitude: lastLocation.latitude, longitude: lastLocation.longitude),
+                                            completionHandler: { (placemarks, error) in
+                                                if error == nil {
+                                                    let firstLocation = placemarks?[0]
+                                                    completionHandler(firstLocation)
+                                                }
+                                                else {
+                                                    // An error occurred during geocoding.
+                                                    print(error.debugDescription)
+                                                    completionHandler(nil)
+                                                }
+            })
+        }
+        else {
+            // No location was available.
+            print("no last location")
+            completionHandler(nil)
+        }
+    }
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -344,10 +363,16 @@ class FormViewController: UIViewController,UIImagePickerControllerDelegate, UINa
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
         super.prepare(for: segue, sender: sender)
-        guard let button = sender as? UIBarButtonItem, button === doneButton else {
-            print("The done button was not pressed, cancelling")
-            return
+//        guard let button = sender as? UIBarButtonItem, button === doneButton else {
+//            print("The done button was not pressed, cancelling")
+//            return
+//        }
+        if segue.identifier == "updateLocSegue" {
+            let destinationNavigationController = segue.destination as! UINavigationController
+            let updateMapViewController = destinationNavigationController.topViewController as! UpdateMapViewController
+            
+            updateMapViewController.receivedLocation = pinLocation
+            
         }
-        print("prepare segue ok")
     }
 }

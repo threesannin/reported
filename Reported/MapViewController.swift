@@ -12,50 +12,35 @@ import CoreLocation
 import Parse
 import AlamofireImage
 
-final class IssueAnnotation: NSObject, MKAnnotation {
-    var descripText: String!
-    var dirOfTravel: String!
-    var followUp: Bool!
-    var issueImageURL: URL?
-    var issueDateTime: NSDate!
-    var nearestCrossStreet: String! // can be geo
-    var transMode: String!
-    var location: PFGeoPoint
-    var coordinate: CLLocationCoordinate2D
-    var title: String?
+class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UISearchBarDelegate {
+   
+    @IBOutlet weak var mapView: MKMapView!
     
-    init(descripText: String!, dirOfTravel: String!, followUp: Bool!, issueCategory: String!, issueImageFile: PFFileObject?, issueDateTime: NSDate!, nearestCrossStreet: String!, transMode: String!, location: PFGeoPoint) {
-        self.descripText = descripText
-        self.dirOfTravel = dirOfTravel
-        self.followUp = followUp
-        // self.issueCategory = issueCategory
-        self.issueDateTime = issueDateTime
-        self.nearestCrossStreet = nearestCrossStreet
-        self.transMode = transMode
-        self.location = location
-        self.title = issueCategory
-        self.coordinate = CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)
-        super.init()
-        processImage()
-        if let urlString = issueImageFile?.url{
-            let url = URL(string: urlString)!
-            self.issueImageURL = url
+    @IBOutlet weak var mapSearchBar: UISearchBar! {
+        didSet{
+            
+//           mapSearchBar.searchBarStyle = UISearchBar.Style.minimal
+            mapSearchBar.borderWidth = 1
+            mapSearchBar.borderColor = UIColor.clear
+            mapSearchBar.cornerRadius = 17
+            
+//            mapSearchBar.layer.cornerRadius = 5
+            
+//            let textFieldInsideSearchBar = mapSearchBar.value(forKey: “searchField”) as? UITextField
+//            textFieldInsideSearchBar?.textColor = UIColor.white
+            
+           
+//            mapSearchBar.layer.backgroundColor = UIColor.white.cgColor
         }
     }
-    
-    func processImage() {
-        
+    @IBOutlet weak var filterButton: UIButton! {
+        didSet {
+//            filterButton.cornerRadius = filterButton.frame.width/2
+        }
     }
-    
-}
-
-class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    
-    @IBOutlet weak var mapView: MKMapView!
-    @IBOutlet weak var mapSearchBar: UISearchBar!
-    @IBOutlet weak var filterButton: UIButton!
     @IBOutlet weak var locationButton: UIButton!
     @IBOutlet weak var addButton: UIButton!
+    
     //    var currentMapSnapShotImage: UIImage?
     
     var pickedImage: UIImage?
@@ -71,28 +56,42 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     var centerLocation: CLLocationCoordinate2D!
     var addPinLocation: CLLocationCoordinate2D!
     var issues = [PFObject]()
-    var selectedIssue : PFObject!
+    var selectedIssue : PFObject?
+    var allWaitGroup = DispatchGroup()
+    
     //    let refreshController = UIRefreshControl()
-    
-    
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         mapView.delegate = self
-        mapView.register(MKMarkerAnnotationView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
+        mapSearchBar.delegate = self
+        mapView.register(MKClusterAnnotation.self, forAnnotationViewWithReuseIdentifier: "cluster")
+        mapView.register(RoadwayAnnotationView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
+        mapView.register(GraffitiAnnotationView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
+        mapView.register(LitterAnnotationView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
+        mapView.register(EncampAnnotationView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
+        mapView.register(LandscapeAnnotationView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
+        
+//        mapView.register(ClusterAnnotationView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultClusterAnnotationViewReuseIdentifier)
         //        self.refreshController.addTarget(self, action: #selector(loadIssues), for: .valueChanged)
     }
     
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        refreshData()
+        getAllIssues()
+    }
+    
+    func notifyRefresh(group: DispatchGroup){
+        group.notify(queue: .main) {
+            self.refreshAnnotations()
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        self.navigationController?.isNavigationBarHidden = true
 //        refreshData()
-
     }
     
     // Action
@@ -100,22 +99,16 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         let annotation = MKPointAnnotation()
         annotation.title = "New Issue"
         annotation.coordinate = coordinate
-        addPinLocation = coordinate
+//        addPinLocation = coordinate
         mapView.addAnnotation(annotation)
-        print("did add")
         mapView.showAnnotations([annotation], animated: true)
         mapView.selectAnnotation(annotation, animated: true)
     }
     
-    
     func createIssueAnnotation() {
         var annotations: [IssueAnnotation] = []
-        print("number of issues: \(issues.count)")
         for issue in self.issues {
-            print("createIssueAnnotation")
-            let annotation = IssueAnnotation(
-                descripText: issue["descripText"] as? String, dirOfTravel: issue["dirOfTravel"] as? String, followUp: issue["followUp"] as? Bool, issueCategory: issue["issueCategory"] as? String, issueImageFile: issue["issueImage"] as? PFFileObject, issueDateTime: issue["issueDateTime"] as? NSDate, nearestCrossStreet: issue["nearestCrossStreet"] as? String, transMode: issue["transMode"] as? String, location: issue["location"] as! PFGeoPoint
-            )
+            let annotation = IssueAnnotation(issue: issue)
             annotations.append(annotation)
             mapView.addAnnotation(annotation)
         }
@@ -126,36 +119,38 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         mapView.removeAnnotations(mapView.annotations.filter {$0 is IssueAnnotation})
     }
     
-    @objc func refreshData() {
+    @objc func refreshAnnotations() {
         // temp link to filter button
         clearIssueAnnotations()
-        loadIssues()
-        
+        createIssueAnnotation()
     }
     
     @objc func didClickAddIssue(button: UIButton){
-        print("accessory add touched")
         performSegue(withIdentifier: "addIssue", sender: button)
-    }
-    
-    @objc func didClickIssueDetail(button: UIButton) {
-        print("accessory detail touched")
-    }
-    
-    @objc func loadIssues() {
-        let numberOfIssues = 20
         
+    }
+    
+    @objc func didTapAnnoDetail(button: UIButton) {
+        performSegue(withIdentifier: "tapDetail", sender: button)
+    }
+    
+    @objc func getAllIssues() {
+        let numberOfIssues = 20
+//        let waitGroup = DispatchGroup()
         let centerGeoPoint = PFGeoPoint(latitude: centerLocation.latitude, longitude: centerLocation.longitude)
         let query = PFQuery(className: "Issues")
         query.includeKeys(["transMode", "issueDateTime", "descripText", "location", "issueCategory", "dirOfTravel", "nearestCrossStreet", "image"])
         query.whereKey("location", nearGeoPoint:centerGeoPoint, withinKilometers: mapView.currentRadius())
         query.limit = numberOfIssues
+        allWaitGroup.enter()
         query.findObjectsInBackground { (issues, error) in
             if issues != nil {
                 self.issues = issues!
-                self.createIssueAnnotation()
+                self.allWaitGroup.leave()
+//                self.createIssueAnnotation()
             }
         }
+        notifyRefresh(group: allWaitGroup)
     }
     
     @IBAction func onLongPressAdd(_ sender: UILongPressGestureRecognizer) {
@@ -170,7 +165,10 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         if UIGestureRecognizer.State.ended == sender.state {
             let location = sender.location(in: mapView)
             let coordinate = mapView.convert(location,toCoordinateFrom: mapView)
+            addPinLocation = coordinate
+           
             self.createNewIssueAnnotation(coordinate: coordinate)
+            
         }
     }
     
@@ -180,28 +178,97 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     }
     
     @IBAction func onTapRefresh(_ sender: Any) {
-        refreshData()
+        refreshAnnotations()
     }
     
-    @IBAction func onLongPressRefresh(_ sender: UILongPressGestureRecognizer) {
+    @IBAction func onLongPressClearAnno(_ sender: UILongPressGestureRecognizer) {
         if UIGestureRecognizer.State.ended == sender.state {
-            print("clear annotations")
             clearIssueAnnotations()
         }
         
     }
     
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        if let keyword = searchBar.text {
+//            search(keyword: keyword)
+            print("searching real places")
+            searchLocal(keyword)
+        } else {
+           
+        }
+    }
+    
+    func searchLocal(_ text: String) {
+        guard let mapView = mapView else { return }
+        let request = MKLocalSearch.Request()
+        request.naturalLanguageQuery = text
+        request.region = mapView.region
+        let search = MKLocalSearch(request: request)
+        search.start { response, _ in
+            guard let response = response else {
+                return
+            }
+//            print("got: \(response.mapItems.first?.placemark.coordinate)")
+            let searchCoord = response.mapItems.first?.placemark.coordinate
+            self.createNewIssueAnnotation(coordinate: searchCoord!)
+//            response.mapItems.first?.openInMaps(launchOptions: nil)
+        }
+    }
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.endEditing(true)
+    }
+    
+    func search(keyword: String){
+        if keyword.isEmpty {
+            getAllIssues()
+        } else {
+            getSearchIssues(keyword: keyword)
+        }
+//        notifyRefresh()
+    }
+    
+    @objc func getSearchIssues(keyword: String) {
+//        let waitGroup = DispatchGroup()
+        let query = PFQuery(className: "Issues")
+          let centerGeoPoint = PFGeoPoint(latitude: centerLocation.latitude, longitude: centerLocation.longitude)
+        query.whereKey("issueCategory", matchesText: keyword.trimmingCharacters(in: [" "]))
+        query.whereKey("issueCategory",nearGeoPoint:centerGeoPoint, withinKilometers: mapView.currentRadius())
+        allWaitGroup.enter()
+        query.findObjectsInBackground { (objects: [PFObject]?, error: Error?) in
+            if let error = error {
+                // The request failed
+                print(error.localizedDescription)
+            } else if let objects = objects {
+                self.issues = objects
+
+//                objects.forEach { (object) in
+//                    print("Successfully retrieved \(String(describing: object["issueCategory"]))");
+//
+////                    self.createIssueAnnotation()
+//                }
+                self.allWaitGroup.leave()
+
+            }
+        }
+        notifyRefresh(group: allWaitGroup)
+    }
+    
     // Map Delegates
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-        if let annotation = view.annotation {
-            if let title = annotation.title as? String{
-                print("Tapped \(String(describing: title)) pin")
+        if let issueAnnotation = view.annotation {
+            if issueAnnotation is IssueAnnotation{
+                selectedIssue = (issueAnnotation as! IssueAnnotation).issue
             }
         }
     }
     
     func mapView(_ mapView: MKMapView, didAdd views: [MKAnnotationView]) {
         // get annotations in area
+    }
+    
+    func mapView(_ mapView: MKMapView, clusterAnnotationForMemberAnnotations memberAnnotations: [MKAnnotation]) -> MKClusterAnnotation {
+        let clusterAnnotation = MKClusterAnnotation(memberAnnotations: memberAnnotations)
+        return clusterAnnotation
     }
     
     func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
@@ -214,49 +281,77 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         if let annotation = view.annotation, !(annotation is IssueAnnotation) {
             self.mapView.removeAnnotation(annotation)
         }
+        addPinLocation = nil
+        selectedIssue = nil
     }
     
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
         centerLocation = mapView.centerCoordinate
-        print("changed region: \(centerLocation.latitude), \(centerLocation.longitude)")
     }
-    
-    
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         
         if annotation is IssueAnnotation {
-            print("viewFor Issue Annotation")
-            
-            let reportReuse = "reportReuse"
-            var issueAnnotationView = mapView.dequeueReusableAnnotationView(withIdentifier: reportReuse) as? MKPinAnnotationView
-            if issueAnnotationView == nil {
-                issueAnnotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reportReuse)
-                issueAnnotationView!.canShowCallout = true
+            /*
+             ["Roadway - Pothole", "Litter - Trash and Debris", "Graffiti", "Landscaping - Weeds, Trees, Brush", "Illegal Encampment"]
+             
+             */
+            var issueAnnotationView: MKMarkerAnnotationView
+            let title = (annotation as! IssueAnnotation).title!
                 
-                if let url = (annotation as!
-                    IssueAnnotation).issueImageURL {
-                    issueAnnotationView!.leftCalloutAccessoryView = UIImageView(frame: CGRect(x:0, y:0, width: 50, height:50))
-                    
-                    let leftCalloutImageView = issueAnnotationView?.leftCalloutAccessoryView as! UIImageView
-                    leftCalloutImageView.af_setImage(withURL: url)
-                      issueAnnotationView?.leftCalloutAccessoryView = leftCalloutImageView
-                    print("valid image")
+//            print("TITLE IS: \(annotation.title)")
+//            if annotation.title! == "Roadway - Pothole" {
+//                issueAnnotationView = RoadwayAnnotationView(annotation: annotation, reuseIdentifier: RoadwayAnnotationView.ReuseID)
+//            } else if annotation.title! == "Litter - Trash and Debris" {
+//                issueAnnotationView = LitterAnnotationView(annotation: annotation, reuseIdentifier: LitterAnnotationView.ReuseID)
+//            } else if annotation.title! == "Landscaping - Weeds, Trees, Brush" {
+//                 issueAnnotationView = LandscapeAnnotationView(annotation: annotation, reuseIdentifier: LandscapeAnnotationView.ReuseID)
+//            } else if annotation.title! == "Illegal Encampment" {
+//                issueAnnotationView = EncampAnnotationView(annotation: annotation, reuseIdentifier: EncampAnnotationView.ReuseID)
+//            } else {
+//                fatalError("Found unexpected issue category")
+//
+//            }
+            switch title {
+            case "Roadway - Pothole":
+                issueAnnotationView = RoadwayAnnotationView(annotation: annotation, reuseIdentifier: RoadwayAnnotationView.ReuseID)
+            case "Graffiti":
+                issueAnnotationView = GraffitiAnnotationView(annotation: annotation, reuseIdentifier: GraffitiAnnotationView.ReuseID)
+            case "Litter - Trash and Debris":
+                issueAnnotationView = LitterAnnotationView(annotation: annotation, reuseIdentifier: LitterAnnotationView.ReuseID)
+            case "Landscaping - Weeds, Trees, Brush":
+                issueAnnotationView = LandscapeAnnotationView(annotation: annotation, reuseIdentifier: LandscapeAnnotationView.ReuseID)
+            case "Illegal Encampment":
+                issueAnnotationView = EncampAnnotationView(annotation: annotation, reuseIdentifier: EncampAnnotationView.ReuseID)
+            default:
+                fatalError("Found unexpected issue category")
+            }
+            
+//            let reportReuse = "reportReuse"
+//            var issueAnnotationView = mapView.dequeueReusableAnnotationView(withIdentifier: reportReuse) as? MKPinAnnotationView
+//            if issueAnnotationView == nil {
+//                issueAnnotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reportReuse)
+            issueAnnotationView.clusteringIdentifier = "cluster"
+            issueAnnotationView.canShowCallout = true
+                if let issueImageFileObj = (annotation as! IssueAnnotation).issue["issueImage"] {
+                    if let urlString = (issueImageFileObj as! PFFileObject).url{
+                        let url = URL(string: urlString)!
+                        issueAnnotationView.leftCalloutAccessoryView = UIImageView(frame: CGRect(x:0, y:0, width: 50, height:50))
+                        let leftCalloutImageView = issueAnnotationView.leftCalloutAccessoryView as! UIImageView
+                        leftCalloutImageView.af_setImage(withURL: url)
+                        issueAnnotationView.leftCalloutAccessoryView = leftCalloutImageView
+                    }
                 } else {
                     print("invalid image")
                 }
-                
                 let rightCalloutButton = UIButton(type: .detailDisclosure)
-                
-                rightCalloutButton.addTarget(self, action: #selector(didClickIssueDetail(button:)), for: .touchUpInside)
-                
-                issueAnnotationView?.rightCalloutAccessoryView = rightCalloutButton
-            } else {
-                issueAnnotationView!.annotation = annotation
-            }
+                rightCalloutButton.addTarget(self, action: #selector(didTapAnnoDetail(button:)), for: .touchUpInside)
+            issueAnnotationView.rightCalloutAccessoryView = rightCalloutButton
+//            } else {
+//                issueAnnotationView!.annotation = annotation
+//            }
             return issueAnnotationView
         } else if annotation is MKPointAnnotation {
-            print("is not IssueAnnotation")
             let newIssueReuse = "newIssueReuse"
             var newIssueAnnotationView = mapView.dequeueReusableAnnotationView(withIdentifier: newIssueReuse) as? MKPinAnnotationView
             if newIssueAnnotationView == nil {
@@ -295,6 +390,9 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         lastLocation = location?.coordinate
     }
     
+    
+    
+    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         let editedImage = info[UIImagePickerController.InfoKey.editedImage] as! UIImage
         
@@ -308,23 +406,30 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
-        let destinationNavigationController = segue.destination as! UINavigationController
-        let formViewController = destinationNavigationController.topViewController as! FormViewController
-        
-        let mapSnapshotImage = mapView.pbtakesnap()
-        formViewController.mapSnapshotImage = mapSnapshotImage
-        if let passedLocation = addPinLocation {
-            formViewController.pinLocation = passedLocation
-        } else {
-            formViewController.pinLocation = lastLocation
+        if segue.identifier == "addIssue" {
+            let destinationNavigationController = segue.destination as! UINavigationController
+            let formViewController = destinationNavigationController.topViewController as! FormViewController
+            
+            let mapSnapshotImage = mapView.pbtakesnap()
+            formViewController.mapSnapshotImage = mapSnapshotImage
+            if let passedLocation = addPinLocation {
+                formViewController.pinLocation = passedLocation
+            } else {
+                formViewController.pinLocation = lastLocation
+            }
+        } else if segue.identifier == "tapDetail" {
+            
+            let postDetailsViewController = segue.destination as! PostDetailsViewController
+
+          
+            self.navigationController?.isNavigationBarHidden = false
+            if let selectedIssue = self.selectedIssue {
+                postDetailsViewController.post = selectedIssue
+            }
         }
-        
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
     }
-    
-    
 }
 
 extension UIView {
@@ -349,5 +454,4 @@ extension MKMapView {
         let topCenterLocation = CLLocation(latitude: topCenterCoordinate.latitude, longitude: topCenterCoordinate.longitude)
         return centerLocation.distance(from: topCenterLocation)
     }
-    
 }
