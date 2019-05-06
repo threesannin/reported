@@ -109,8 +109,6 @@ class FormViewController: UIViewController,UIImagePickerControllerDelegate, UINa
         
         
         lookUpCurrentLocation { (placemark) in
-            print("street: \(placemark?.thoroughfare ?? "no street value")")
-            print("detail: \(placemark?.subThoroughfare ?? "no substreet value")")
             
             if let thoroughfare = placemark?.thoroughfare, let subThoroughfare = placemark?.subThoroughfare {
                 self.streetTextField.text = "\(subThoroughfare) \(thoroughfare)"
@@ -375,8 +373,6 @@ class FormViewController: UIViewController,UIImagePickerControllerDelegate, UINa
             
             updateMapViewController.receivedLocation = pinLocation
             
-            print("performing update")
         }
-        print("prepare segue ok")
     }
 }

@@ -43,7 +43,6 @@ class UpdateMapViewController: UIViewController, MKMapViewDelegate, CLLocationMa
     
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
         centerLocation = mapView.centerCoordinate
-        print("changed region: \(centerLocation.latitude), \(centerLocation.longitude)")
     }
     
     @IBAction func onTapSave(_ sender: UIBarButtonItem) {
