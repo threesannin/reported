@@ -101,14 +101,12 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         annotation.coordinate = coordinate
 //        addPinLocation = coordinate
         mapView.addAnnotation(annotation)
-        print("did add")
         mapView.showAnnotations([annotation], animated: true)
         mapView.selectAnnotation(annotation, animated: true)
     }
     
     func createIssueAnnotation() {
         var annotations: [IssueAnnotation] = []
-        print("number of issues: \(issues.count)")
         for issue in self.issues {
             let annotation = IssueAnnotation(issue: issue)
             annotations.append(annotation)
@@ -128,13 +126,11 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     }
     
     @objc func didClickAddIssue(button: UIButton){
-        print("accessory add touched")
         performSegue(withIdentifier: "addIssue", sender: button)
         
     }
     
     @objc func didTapAnnoDetail(button: UIButton) {
-        print("accessory detail touched")
         performSegue(withIdentifier: "tapDetail", sender: button)
     }
     
@@ -151,7 +147,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             if issues != nil {
                 self.issues = issues!
                 self.allWaitGroup.leave()
-                print("left")
 //                self.createIssueAnnotation()
             }
         }
@@ -188,14 +183,12 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     
     @IBAction func onLongPressClearAnno(_ sender: UILongPressGestureRecognizer) {
         if UIGestureRecognizer.State.ended == sender.state {
-            print("clear annotations")
             clearIssueAnnotations()
         }
         
     }
     
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-        print("looking for \(searchBar.text!)")
         if let keyword = searchBar.text {
 //            search(keyword: keyword)
             print("searching real places")
@@ -222,7 +215,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         }
     }
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        print("button click")
         searchBar.endEditing(true)
     }
     
@@ -295,7 +287,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
         centerLocation = mapView.centerCoordinate
-        print("changed region: \(centerLocation.latitude), \(centerLocation.longitude)")
     }
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
@@ -321,7 +312,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
 //                fatalError("Found unexpected issue category")
 //
 //            }
-            print("FOUND TITLE: \(title)")
             switch title {
             case "Roadway - Pothole":
                 issueAnnotationView = RoadwayAnnotationView(annotation: annotation, reuseIdentifier: RoadwayAnnotationView.ReuseID)
@@ -350,7 +340,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
                         let leftCalloutImageView = issueAnnotationView.leftCalloutAccessoryView as! UIImageView
                         leftCalloutImageView.af_setImage(withURL: url)
                         issueAnnotationView.leftCalloutAccessoryView = leftCalloutImageView
-                        print("valid image")
                     }
                 } else {
                     print("invalid image")
@@ -363,7 +352,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
 //            }
             return issueAnnotationView
         } else if annotation is MKPointAnnotation {
-            print("is not IssueAnnotation")
             let newIssueReuse = "newIssueReuse"
             var newIssueAnnotationView = mapView.dequeueReusableAnnotationView(withIdentifier: newIssueReuse) as? MKPinAnnotationView
             if newIssueAnnotationView == nil {
@@ -430,9 +418,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
                 formViewController.pinLocation = lastLocation
             }
         } else if segue.identifier == "tapDetail" {
-            print("perform segue to detail")
-//            let destinationNavigationController = segue.destination as! UINavigationController
-//            let targetController = destinationNavigationController.topViewController as! PostDetailsViewController
             
             let postDetailsViewController = segue.destination as! PostDetailsViewController
 
