@@ -155,6 +155,7 @@
                         <outlet property="locationButton" destination="zgB-dm-PRg" id="DYg-GQ-Nwj"/>
                         <outlet property="mapSearchBar" destination="dEK-oT-xdD" id="cfe-c7-YS5"/>
                         <outlet property="mapView" destination="Hcd-Uf-z3N" id="iOt-df-5Rz"/>
+                        <segue destination="yTK-Gz-flT" kind="show" identifier="tapDetail" id="u0z-yD-fGp"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="67C-3e-sUh" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -170,6 +171,14 @@
                 </pongPressGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="860" y="124.58770614692655"/>
+        </scene>
+        <!--PostDetailsViewController-->
+        <scene sceneID="jE2-8I-6wo">
+            <objects>
+                <viewControllerPlaceholder storyboardName="details" referencedIdentifier="PostDetailsViewController" id="yTK-Gz-flT" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="CJb-RD-Qtv" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1790" y="93"/>
         </scene>
         <!--Update Map-->
         <scene sceneID="CJk-yS-hia">

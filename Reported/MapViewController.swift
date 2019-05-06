@@ -431,10 +431,10 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         } else if segue.identifier == "tapDetail" {
             print("perform segue to detail")
 //            let destinationNavigationController = segue.destination as! UINavigationController
-//            let postDetailViewController = segue.destination as! PostDetailsViewController
-//            if let selectedIssue = self.selectedIssue {
-//                postDetailViewController.post = selectedIssue
-//            }
+            let postDetailViewController = segue.destination as! PostDetailsViewController
+            if let selectedIssue = self.selectedIssue {
+                postDetailViewController.post = selectedIssue
+            }
         }
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
