@@ -46,7 +46,6 @@ class PostDetailsViewController: UIViewController {
         let uvn = post["upVote"] as! Int
         upvoteLabel.text = String(uvn)
         
-        
         let date = post["issueDateTime"] as? Date
         let dateFormatterPrint = DateFormatter()
         dateFormatterPrint.dateFormat = "MMM d, YYYY h:mm a"
@@ -136,5 +135,50 @@ class PostDetailsViewController: UIViewController {
         }
     }
     
-
+    @IBAction func resolvedIssue(_ sender: Any) {
+    
+        if(post["username"] as? String == PFUser.current()?.username){
+            print("deleting from user")
+            do{
+                try post.delete()
+                dismiss(animated: true, completion: nil)
+            } catch {
+                print("Error while deleting")
+            }
+        } else{
+            print("someone else deleting")
+            var resolved = post["resolved"] as? [String]
+            if(resolved == nil){
+                resolved = []
+                resolved?.append((PFUser.current()?.username)!)
+            }
+            else{
+                let name = PFUser.current()?.username as? String
+                if(!(resolved?.contains(name ?? ""))!){
+                    resolved?.append((PFUser.current()?.username)!)
+                }
+            }
+            if(resolved?.count == 10){
+                do{
+                    try post.delete()
+                    dismiss(animated: true, completion: nil)
+                } catch {
+                    print("Error while deleting")
+                }
+            } else{
+                post["resolved"] = resolved
+                post.saveInBackground{ (success, error) in
+                    if success{
+                        print("Updated")
+                    }else{
+                        print("error")
+                    }
+                } //
+                
+            }
+            
+            
+        }
+    }
+    
 }
