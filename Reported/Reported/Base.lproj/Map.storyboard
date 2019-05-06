@@ -78,6 +78,15 @@
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <state key="normal" image="filter (2)"/>
                                     </button>
+                                    <searchBar contentMode="redraw" fixedFrame="YES" searchBarStyle="minimal" text="" translatesAutoresizingMaskIntoConstraints="NO" id="dEK-oT-xdD">
+                                        <rect key="frame" x="49" y="0.0" width="280" height="56"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                        <scopeButtonTitles>
+                                            <string>Issues</string>
+                                            <string>Locations</string>
+                                        </scopeButtonTitles>
+                                    </searchBar>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <userDefinedRuntimeAttributes>
@@ -122,15 +131,10 @@
                                     <outletCollection property="gestureRecognizers" destination="rNS-SW-CaV" appends="YES" id="DOS-Xb-NWd"/>
                                 </connections>
                             </button>
-                            <searchBar contentMode="redraw" searchBarStyle="minimal" text="" translatesAutoresizingMaskIntoConstraints="NO" id="dEK-oT-xdD">
-                                <rect key="frame" x="64" y="20" width="295" height="56"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </searchBar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="b6c-HF-7Z3" firstAttribute="leading" secondItem="MUT-NB-Um4" secondAttribute="leading" id="0ES-Z6-3eX"/>
-                            <constraint firstItem="dEK-oT-xdD" firstAttribute="centerX" secondItem="Hcd-Uf-z3N" secondAttribute="centerX" constant="24" id="3lI-Ke-95b"/>
                             <constraint firstItem="b6c-HF-7Z3" firstAttribute="trailing" secondItem="cKm-Jc-GDR" secondAttribute="trailingMargin" id="CiI-UL-wht"/>
                             <constraint firstItem="xkQ-vQ-hYE" firstAttribute="bottom" secondItem="MUT-NB-Um4" secondAttribute="bottom" constant="16" id="M91-xh-YUh"/>
                             <constraint firstItem="Hcd-Uf-z3N" firstAttribute="trailing" secondItem="xkQ-vQ-hYE" secondAttribute="trailing" id="SrD-gI-50l"/>
@@ -138,9 +142,7 @@
                             <constraint firstItem="b6c-HF-7Z3" firstAttribute="trailing" secondItem="zgB-dm-PRg" secondAttribute="trailing" id="cjK-9o-bre"/>
                             <constraint firstItem="Hcd-Uf-z3N" firstAttribute="bottom" secondItem="xkQ-vQ-hYE" secondAttribute="bottom" id="fHY-o4-Nnw"/>
                             <constraint firstItem="Hcd-Uf-z3N" firstAttribute="top" secondItem="cKm-Jc-GDR" secondAttribute="top" id="gjp-4M-IBV"/>
-                            <constraint firstItem="b6c-HF-7Z3" firstAttribute="top" secondItem="dEK-oT-xdD" secondAttribute="bottom" constant="16" id="rMw-Fx-jMl"/>
                             <constraint firstItem="Hcd-Uf-z3N" firstAttribute="leading" secondItem="xkQ-vQ-hYE" secondAttribute="leading" id="vEM-0f-wOW"/>
-                            <constraint firstItem="dEK-oT-xdD" firstAttribute="trailing" secondItem="b6c-HF-7Z3" secondAttribute="trailing" id="ybU-ha-ige"/>
                             <constraint firstItem="b6c-HF-7Z3" firstAttribute="leading" secondItem="zgB-dm-PRg" secondAttribute="leading" id="yjy-ng-St0"/>
                             <constraint firstItem="MUT-NB-Um4" firstAttribute="top" secondItem="zgB-dm-PRg" secondAttribute="bottom" constant="8" id="zdM-XC-x6k"/>
                         </constraints>
@@ -153,18 +155,9 @@
                         <outlet property="locationButton" destination="zgB-dm-PRg" id="DYg-GQ-Nwj"/>
                         <outlet property="mapSearchBar" destination="dEK-oT-xdD" id="cfe-c7-YS5"/>
                         <outlet property="mapView" destination="Hcd-Uf-z3N" id="iOt-df-5Rz"/>
-                        <outlet property="searchDisplayController" destination="yAF-u3-tQF" id="84L-Dg-f5h"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="67C-3e-sUh" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <searchDisplayController id="yAF-u3-tQF">
-                    <connections>
-                        <outlet property="delegate" destination="q2r-jl-TJ1" id="qr6-Ba-nYG"/>
-                        <outlet property="searchContentsController" destination="q2r-jl-TJ1" id="XKT-vf-H9r"/>
-                        <outlet property="searchResultsDataSource" destination="q2r-jl-TJ1" id="G5x-eG-LfC"/>
-                        <outlet property="searchResultsDelegate" destination="q2r-jl-TJ1" id="gsN-ql-tYE"/>
-                    </connections>
-                </searchDisplayController>
                 <pongPressGestureRecognizer delaysTouchesBegan="YES" allowableMovement="10" minimumPressDuration="0.5" id="WLY-YN-w52">
                     <connections>
                         <action selector="onLongPressAdd:" destination="q2r-jl-TJ1" id="cwJ-lE-FTM"/>

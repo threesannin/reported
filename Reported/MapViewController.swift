@@ -15,6 +15,7 @@ import AlamofireImage
 class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UISearchBarDelegate {
    
     @IBOutlet weak var mapView: MKMapView!
+    
     @IBOutlet weak var mapSearchBar: UISearchBar! {
         didSet{
             
@@ -70,9 +71,11 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         mapView.register(LitterAnnotationView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
         mapView.register(EncampAnnotationView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
         mapView.register(LandscapeAnnotationView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
+        
 //        mapView.register(ClusterAnnotationView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultClusterAnnotationViewReuseIdentifier)
         //        self.refreshController.addTarget(self, action: #selector(loadIssues), for: .valueChanged)
     }
+    
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -193,7 +196,28 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
         print("looking for \(searchBar.text!)")
         if let keyword = searchBar.text {
-            search(keyword: keyword)
+//            search(keyword: keyword)
+            print("searching real places")
+            searchLocal(keyword)
+        } else {
+           
+        }
+    }
+    
+    func searchLocal(_ text: String) {
+        guard let mapView = mapView else { return }
+        let request = MKLocalSearch.Request()
+        request.naturalLanguageQuery = text
+        request.region = mapView.region
+        let search = MKLocalSearch(request: request)
+        search.start { response, _ in
+            guard let response = response else {
+                return
+            }
+//            print("got: \(response.mapItems.first?.placemark.coordinate)")
+            let searchCoord = response.mapItems.first?.placemark.coordinate
+            self.createNewIssueAnnotation(coordinate: searchCoord!)
+//            response.mapItems.first?.openInMaps(launchOptions: nil)
         }
     }
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
