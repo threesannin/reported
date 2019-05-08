@@ -154,14 +154,16 @@
                         <outlet property="upvoteButton" destination="x3L-G6-2MB" id="7fm-m2-Vo7"/>
                         <outlet property="upvoteLabel" destination="0mH-yz-Reb" id="Oeg-nh-Hq5"/>
                         <outlet property="usernameLabel" destination="JNd-Ma-x5l" id="8vT-wv-RO0"/>
+                        <segue destination="Lrj-bf-Iex" kind="unwind" identifier="unwindSegueToAlert" unwindAction="unwindToAlertWithSegue:" id="19m-WX-0gr"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lav-nq-bRt" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="Lrj-bf-Iex" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="3160.8000000000002" y="-985.45727136431788"/>
         </scene>
     </scenes>
     <resources>
-        <image name="icons8-good-quality-100" width="100" height="100"/>
+        <image name="icons8-good-quality-100" width="75" height="75"/>
     </resources>
 </document>

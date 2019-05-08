@@ -136,12 +136,15 @@ class PostDetailsViewController: UIViewController {
     }
     
     @IBAction func resolvedIssue(_ sender: Any) {
-    
-        if(post["username"] as? String == PFUser.current()?.username){
+        
+        let currentTime = Date()
+        let postedTime = post.createdAt?.addingTimeInterval(5.0 * 60.0)
+        if(post["username"] as? String == PFUser.current()?.username &&
+            postedTime! > currentTime){
             print("deleting from user")
             do{
                 try post.delete()
-                dismiss(animated: true, completion: nil)
+                performSegue(withIdentifier: "unwindSegueToAlert", sender: self)
             } catch {
                 print("Error while deleting")
             }
@@ -161,7 +164,8 @@ class PostDetailsViewController: UIViewController {
             if(resolved?.count == 10){
                 do{
                     try post.delete()
-                    dismiss(animated: true, completion: nil)
+                    performSegue(withIdentifier: "unwindSegueToAlert", sender: self)
+                    //dismiss(animated: true, completion: nil)
                 } catch {
                     print("Error while deleting")
                 }
