@@ -16,6 +16,15 @@ extension UIView{
     }
     
     
+    @IBInspectable var maskBounds: Bool{
+        get {
+            return layer.masksToBounds
+        }
+        set {
+            layer.masksToBounds = newValue
+        }
+    }
+    
     @IBInspectable var cornerRadius: CGFloat {
         get {
             return layer.cornerRadius
