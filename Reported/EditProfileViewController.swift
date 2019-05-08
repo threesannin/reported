@@ -72,7 +72,7 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
                 }
             } //
         } // else
-        dismiss(animated: true, completion: nil)
+        performSegue(withIdentifier: "unwindSegueToProfile", sender: self)
     }
     
     @IBAction func cancel(_ sender: Any) {
@@ -103,27 +103,16 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
         
         dismiss(animated: true, completion: nil)
     }
-//    @IBAction func onAddImage(_ sender: Any) {
-//        let picker = UIImagePickerController()
-//        picker.delegate = self
-//        picker.allowsEditing = true
-//
-//        if UIImagePickerController.isSourceTypeAvailable(.camera){
-//            picker.sourceType = .camera
-//        } else {
-//            picker.sourceType = .photoLibrary
-//        }
-//        present(picker, animated: true, completion: nil)
-//    }
-//
-    /*
+
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        
+        let profileViewController = segue.destination as! ProfileViewController
+//        ProfileViewController.imgUrl =
+        
     }
-    */
+    
 
 }
