@@ -23,15 +23,21 @@ class PostDetailsViewController: UIViewController {
     @IBOutlet weak var locationLabel: UILabel!
     @IBOutlet weak var upvoteLabel: UILabel!
     @IBOutlet weak var upvoteButton: UIButton!
+    @IBOutlet weak var downvoteButton: UIButton!
+    @IBOutlet weak var showInMapsButton: UIButton!
     var isupvoted = false
+    var isdownvoted = false
+    let downvoteThreshold = -5
     
     var post: PFObject!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let usersLikedArray = post["usersLiked"] as? [String]
+        let usersLikedArray = post["usersLiked"] as? [String] //getting the users that liked the post
+        let usersDislikedArray = post["usersDisliked"] as? [String] //getting the users that disliked the post
         let currentUser = PFUser.current()?.username as! String
+        //checking is user has already liked post
         if(usersLikedArray == nil || !(usersLikedArray?.contains(currentUser))!){
             self.upvoteButton.setImage(UIImage(named: "icons8-good-quality-100"), for: UIControl.State.normal)
             self.isupvoted = false
@@ -39,14 +45,21 @@ class PostDetailsViewController: UIViewController {
             self.upvoteButton.setImage(UIImage(named: "icons8-good-quality-filled-100"), for: UIControl.State.normal)
             self.isupvoted = true
         }
+        //checking is user has already disliked post
+        if(usersDislikedArray == nil || !(usersDislikedArray?.contains(currentUser))!){
+            self.downvoteButton.setImage(UIImage(named: "icons8-unlike-100"), for: UIControl.State.normal)
+            self.isdownvoted = false
+        }else{
+            self.downvoteButton.setImage(UIImage(named: "icons8-unlike-filled-100"), for: UIControl.State.normal)
+            self.isdownvoted = true
+        }
         
         categoryLabel.text = post["issueCategory"] as? String
         usernameLabel.text = post["username"] as? String
         descriptionLabel.text = post["descripText"] as? String
         let uvn = post["upVote"] as! Int
         upvoteLabel.text = String(uvn)
-        
-        
+        //formating the date object
         let date = post["issueDateTime"] as? Date
         let dateFormatterPrint = DateFormatter()
         dateFormatterPrint.dateFormat = "MMM d, YYYY h:mm a"
@@ -78,6 +91,8 @@ class PostDetailsViewController: UIViewController {
             issue["location"] = post["location"]
             issue["upVote"] = (post["upVote"] as! Int) + 1
             var usersLikedArray = post["usersLiked"] as? [String]
+            var usersDislikedArray = post["usersDisliked"] as? [String]
+            //adding user to liked array
             if(usersLikedArray == nil){
                 usersLikedArray = []
                 usersLikedArray?.append((PFUser.current()?.username)!)
@@ -85,19 +100,35 @@ class PostDetailsViewController: UIViewController {
             else{
                 usersLikedArray?.append((PFUser.current()?.username)!)
             }
+            //removing user from dislike array if they have already disliked
+            var count = 0
+            if(usersDislikedArray != nil){
+                for user in usersDislikedArray!{
+                    if(user == PFUser.current()?.username){
+                        usersDislikedArray?.remove(at: count)
+                        issue["upVote"] = (post["upVote"] as! Int) + 2
+                    }else{
+                        count += 1
+                    }
+                }
+            }
+            
             issue["usersLiked"] = usersLikedArray
+            issue["usersDisliked"] = usersDislikedArray
             issue.saveInBackground{ (success, error) in
                 if success{
                     print("Updated")
                     self.upvoteButton.setImage(UIImage(named: "icons8-good-quality-filled-100"), for: UIControl.State.normal)
+                    self.downvoteButton.setImage(UIImage(named: "icons8-unlike-100"), for: UIControl.State.normal)
                     self.isupvoted = true
+                    self.isdownvoted = false
                     let uvn = issue["upVote"] as! Int
                     self.upvoteLabel.text = String(uvn)
                     self.post = issue
                 }else{
                     print("error")
                 }
-            } //
+            } // done updating post
         }else{
             let issue = PFObject(className: "Issues")
             issue.objectId = post.objectId
@@ -111,6 +142,7 @@ class PostDetailsViewController: UIViewController {
             issue["location"] = post["location"]
             issue["upVote"] = (post["upVote"] as! Int) - 1
             var usersLikedArray = post["usersLiked"] as? [String]
+            issue["usersDisliked"] = post["usersDisliked"] as! [String]
             var count = 0
             for user in usersLikedArray!{
                 if(user == PFUser.current()?.username){
@@ -131,10 +163,111 @@ class PostDetailsViewController: UIViewController {
                 }else{
                     print("error")
                 }
-            } //
-            
+            } // done updating post
         }
     }
+    @IBAction func downvote(_ sender: Any) {
+        if(!isdownvoted){
+            let issue = PFObject(className: "Issues")
+            issue.objectId = post.objectId
+            issue["issueImage"] = post["issueImage"]
+            issue["issueCategory"] = post["issueCategory"]
+            issue["username"] = post["username"]
+            issue["descripText"] = post["descripText"]
+            issue["issueDateTime"] = post["issueDateTime"]
+            issue["nearestCrossStreet"] = post["nearestCrossStreet"]
+            issue["dirOfTravel"] = post["dirOfTravel"]
+            issue["location"] = post["location"]
+            issue["upVote"] = (post["upVote"] as! Int) - 1
+            var usersDislikedArray = post["usersDisliked"] as? [String]
+            var usersLikedArray = post["usersLiked"] as? [String]
+            if(usersDislikedArray == nil){
+                usersDislikedArray = []
+                usersDislikedArray?.append((PFUser.current()?.username)!)
+            }
+            else{
+                usersDislikedArray?.append((PFUser.current()?.username)!)
+            }
+            //removing user from liked array if they have already liked
+            var count = 0
+            if(usersLikedArray != nil){
+                for user in usersLikedArray!{
+                    if(user == PFUser.current()?.username){
+                        usersLikedArray?.remove(at: count)
+                        issue["upVote"] = (post["upVote"] as! Int) - 2
+                    }else{
+                        count += 1
+                    }
+                }
+            }
+            
+            issue["usersDisliked"] = usersDislikedArray
+            issue["usersLiked"] = usersLikedArray
+            let uvn = issue["upVote"] as! Int
+            if(uvn == self.downvoteThreshold){
+                do{
+                    try issue.delete()
+                    //performSegue(withIdentifier: "unwindToAlertSegue", sender: self)
+                    return
+                }
+                catch{
+                    print("error")
+                }
+                
+            }
+            issue.saveInBackground{ (success, error) in
+                if success{
+                    print("Updated")
+                    self.downvoteButton.setImage(UIImage(named: "icons8-unlike-filled-100"), for: UIControl.State.normal)
+                    self.upvoteButton.setImage(UIImage(named: "icons8-good-quality-100"), for: UIControl.State.normal)
+                    self.isupvoted = false
+                    self.isdownvoted = true
+                    let uvn = issue["upVote"] as! Int
+                    self.upvoteLabel.text = String(uvn)
+                    self.post = issue
+                }else{
+                    print("error")
+                }
+            } // done updating post
+        }else{
+            let issue = PFObject(className: "Issues")
+            issue.objectId = post.objectId
+            issue["issueImage"] = post["issueImage"]
+            issue["issueCategory"] = post["issueCategory"]
+            issue["username"] = post["username"]
+            issue["descripText"] = post["descripText"]
+            issue["issueDateTime"] = post["issueDateTime"]
+            issue["nearestCrossStreet"] = post["nearestCrossStreet"]
+            issue["dirOfTravel"] = post["dirOfTravel"]
+            issue["location"] = post["location"]
+            issue["upVote"] = (post["upVote"] as! Int) + 1
+            var usersDislikedArray = post["usersDisliked"] as? [String]
+            issue["usersLiked"] = post["usersLiked"] as? [String]
+            var count = 0
+            for user in usersDislikedArray!{
+                if(user == PFUser.current()?.username){
+                    usersDislikedArray?.remove(at: count)
+                }else{
+                    count += 1
+                }
+            }
+            issue["usersDisliked"] = usersDislikedArray
+            issue.saveInBackground{ (success, error) in
+                if success{
+                    print("Updated")
+                    self.downvoteButton.setImage(UIImage(named: "icons8-unlike-100"), for: UIControl.State.normal)
+                    self.isdownvoted = false
+                    let uvn = issue["upVote"] as! Int
+                    self.upvoteLabel.text = String(uvn)
+                    self.post = issue
+                }else{
+                    print("error")
+                }
+            } // done updating post
+        }
+    }
+    @IBAction func showInMaps(_ sender: Any) { // empty for sampson ;)
+    }
     
-
+    
 }
