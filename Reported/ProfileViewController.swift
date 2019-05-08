@@ -148,6 +148,10 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         }
     }
     
+    @IBAction func unwindToProfile(segue:UIStoryboardSegue) {
+        tableView.reloadData()
+    }
+    
     /*
     // MARK: - Navigation
 

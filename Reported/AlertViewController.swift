@@ -86,6 +86,10 @@ class AlertViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         alertsTableView.deselectRow(at: indexPath, animated: true)
     }
+    
+    @IBAction func unwindToAlert(segue:UIStoryboardSegue) {
+        alertsTableView.reloadData()
+    }
 
     /*
     // MARK: - Navigation
