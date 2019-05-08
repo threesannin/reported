@@ -277,9 +277,11 @@
                         <outlet property="firstNameTextField" destination="pzJ-Fd-qbc" id="eie-cb-HxD"/>
                         <outlet property="imageView" destination="N1R-SK-hNc" id="IUI-HC-YGp"/>
                         <outlet property="lastNameTextField" destination="WCr-dm-mtf" id="Dfe-cf-kyc"/>
+                        <segue destination="fL0-qh-hJV" kind="unwind" identifier="unwindSegueToProfile" unwindAction="unwindToProfileWithSegue:" id="HQJ-SC-29Z"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="u3u-LY-bAf" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="fL0-qh-hJV" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="4136.8000000000002" y="-208.24587706146929"/>
         </scene>
