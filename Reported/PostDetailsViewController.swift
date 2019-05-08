@@ -207,7 +207,7 @@ class PostDetailsViewController: UIViewController {
             if(uvn == self.downvoteThreshold){
                 do{
                     try issue.delete()
-                    //performSegue(withIdentifier: "unwindToAlertSegue", sender: self)
+                    //performSegue(withIdentifier: "unwindToAlertSegue", sender: self) //commented out until daniel finishes it
                     return
                 }
                 catch{
@@ -267,6 +267,7 @@ class PostDetailsViewController: UIViewController {
         }
     }
     @IBAction func showInMaps(_ sender: Any) { // empty for sampson ;)
+        //sampsons code here
     }
     
     
