@@ -22,15 +22,18 @@
                                 <gestureRecognizers/>
                                 <connections>
                                     <outletCollection property="gestureRecognizers" destination="WLY-YN-w52" appends="YES" id="n6H-4s-HHJ"/>
+                                    <outletCollection property="gestureRecognizers" destination="W9f-sw-KdF" appends="YES" id="ZDc-He-FkO"/>
                                 </connections>
                             </mapView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MUT-NB-Um4">
+                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MUT-NB-Um4">
                                 <rect key="frame" x="309" y="601" width="50" height="50"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="Syz-C9-IZg"/>
                                     <constraint firstAttribute="width" constant="50" id="zBQ-x3-Mhp"/>
                                 </constraints>
-                                <state key="normal" image="add-1"/>
+                                <inset key="contentEdgeInsets" minX="16" minY="16" maxX="16" maxY="16"/>
+                                <state key="normal" image="add@2x"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="shadowRadius">
                                         <real key="value" value="1"/>
@@ -40,20 +43,28 @@
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="number" keyPath="shadowOpacity">
                                         <real key="value" value="0.20000000000000001"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="25"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                        <real key="value" value="0.0"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                                 <connections>
                                     <segue destination="f0I-D0-41z" kind="presentation" identifier="addIssue" modalPresentationStyle="pageSheet" id="Fvd-pb-IcK"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zgB-dm-PRg">
+                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zgB-dm-PRg">
                                 <rect key="frame" x="309" y="543" width="50" height="50"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="5Xp-oq-Nas"/>
                                     <constraint firstAttribute="width" constant="50" id="Qpg-Kk-8Ei"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                <state key="normal" image="loc-2"/>
+                                <inset key="contentEdgeInsets" minX="14" minY="16" maxX="16" maxY="14"/>
+                                <state key="normal" image="cursor@2x"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="shadowRadius">
                                         <real key="value" value="1"/>
@@ -64,22 +75,185 @@
                                     <userDefinedRuntimeAttribute type="number" keyPath="shadowOpacity">
                                         <real key="value" value="0.20000000000000001"/>
                                     </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="25"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                        <real key="value" value="0.0"/>
+                                    </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                                 <connections>
                                     <action selector="onLocationPRess:" destination="q2r-jl-TJ1" eventType="touchUpInside" id="spm-5j-snn"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="x1F-xv-lKy">
+                                <rect key="frame" x="309" y="156" width="50" height="50"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <gestureRecognizers/>
+                                <inset key="contentEdgeInsets" minX="14.5" minY="14" maxX="14" maxY="14"/>
+                                <state key="normal" image="refresh@2x"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowRadius">
+                                        <real key="value" value="1"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="size" keyPath="shadowOffset">
+                                        <size key="value" width="0.0" height="1"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowOpacity">
+                                        <real key="value" value="0.20000000000000001"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="25"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                        <real key="value" value="0.0"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="onTapRefresh:" destination="q2r-jl-TJ1" eventType="touchUpInside" id="F6A-Ma-GiZ"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CYd-3C-Enf">
+                                <rect key="frame" x="309" y="219" width="50" height="50"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <gestureRecognizers/>
+                                <inset key="contentEdgeInsets" minX="17" minY="17" maxX="17" maxY="17"/>
+                                <state key="normal" image="cancel@2x"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowRadius">
+                                        <real key="value" value="1"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="size" keyPath="shadowOffset">
+                                        <size key="value" width="0.0" height="1"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowOpacity">
+                                        <real key="value" value="0.20000000000000001"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="25"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                        <real key="value" value="0.0"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="onTapClearAnno:" destination="q2r-jl-TJ1" eventType="touchUpInside" id="Byt-E4-C5u"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b6c-HF-7Z3">
+                                <rect key="frame" x="309" y="92" width="50" height="50"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <gestureRecognizers/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="50" id="mEZ-3Q-WSO"/>
+                                    <constraint firstAttribute="height" constant="50" id="ruR-oC-582"/>
+                                </constraints>
+                                <inset key="contentEdgeInsets" minX="15" minY="14" maxX="14" maxY="13"/>
+                                <state key="normal" image="layers@2x"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowRadius">
+                                        <real key="value" value="1"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="size" keyPath="shadowOffset">
+                                        <size key="value" width="0.0" height="1"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowOpacity">
+                                        <real key="value" value="0.20000000000000001"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="25"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                        <real key="value" value="0.0"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="onTapRefreshMenu:" destination="q2r-jl-TJ1" eventType="touchUpInside" id="PtR-jx-NIL"/>
+                                </connections>
+                            </button>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HzL-nC-pN6">
+                                <rect key="frame" x="16" y="75" width="343" height="48"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="zOF-qB-dAO">
+                                        <rect key="frame" x="118" y="8" width="209" height="29"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <segments>
+                                            <segment title="Issue"/>
+                                            <segment title="Location"/>
+                                        </segments>
+                                    </segmentedControl>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Search Type" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mp8-Lr-wxY">
+                                        <rect key="frame" x="16" y="13" width="81" height="17"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowRadius">
+                                        <real key="value" value="1"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowOpacity">
+                                        <real key="value" value="0.20000000000000001"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="size" keyPath="shadowOffset">
+                                        <size key="value" width="0.0" height="1"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="shadowColor">
+                                        <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="maskBounds" value="NO"/>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Pb1-Me-b1A">
+                                <rect key="frame" x="16" y="121" width="343" height="48"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="l8d-n3-UXb">
+                                        <rect key="frame" x="118" y="5" width="209" height="29"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <segments>
+                                            <segment title="5 km"/>
+                                            <segment title="10 km"/>
+                                            <segment title="15 km"/>
+                                        </segments>
+                                    </segmentedControl>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Radius" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dWj-0h-MvQ">
+                                        <rect key="frame" x="16" y="11" width="44" height="17"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowRadius">
+                                        <real key="value" value="1"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowOpacity">
+                                        <real key="value" value="0.20000000000000001"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="size" keyPath="shadowOffset">
+                                        <size key="value" width="0.0" height="1"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="shadowColor">
+                                        <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="maskBounds" value="NO"/>
+                                </userDefinedRuntimeAttributes>
+                            </view>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Q9v-mY-5vl">
                                 <rect key="frame" x="16" y="20" width="343" height="56"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lw3-3T-wUI">
-                                        <rect key="frame" x="18" y="18" width="21" height="21"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <state key="normal" image="filter (2)"/>
-                                    </button>
                                     <searchBar contentMode="redraw" fixedFrame="YES" searchBarStyle="minimal" text="" translatesAutoresizingMaskIntoConstraints="NO" id="dEK-oT-xdD">
-                                        <rect key="frame" x="49" y="0.0" width="280" height="56"/>
+                                        <rect key="frame" x="47" y="0.0" width="288" height="56"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <textInputTraits key="textInputTraits"/>
                                         <scopeButtonTitles>
@@ -87,6 +261,18 @@
                                             <string>Locations</string>
                                         </scopeButtonTitles>
                                     </searchBar>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lw3-3T-wUI">
+                                        <rect key="frame" x="17" y="18" width="21" height="20"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <accessibility key="accessibilityConfiguration">
+                                            <accessibilityTraits key="traits" button="YES" updatesFrequently="YES"/>
+                                        </accessibility>
+                                        <gestureRecognizers/>
+                                        <state key="normal" image="filter@2x"/>
+                                        <connections>
+                                            <action selector="onPressFilterMenu:" destination="q2r-jl-TJ1" eventType="touchUpInside" id="Lzg-Ja-Qqg"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <userDefinedRuntimeAttributes>
@@ -108,40 +294,22 @@
                                     <userDefinedRuntimeAttribute type="boolean" keyPath="maskBounds" value="NO"/>
                                 </userDefinedRuntimeAttributes>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b6c-HF-7Z3">
-                                <rect key="frame" x="309" y="92" width="50" height="50"/>
-                                <gestureRecognizers/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="50" id="ruR-oC-582"/>
-                                </constraints>
-                                <state key="normal" image="ref-1"/>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowRadius">
-                                        <real key="value" value="1"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="size" keyPath="shadowOffset">
-                                        <size key="value" width="0.0" height="1"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowOpacity">
-                                        <real key="value" value="0.20000000000000001"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                                <connections>
-                                    <action selector="onTapRefresh:" destination="q2r-jl-TJ1" eventType="touchUpInside" id="gxn-ZI-rPb"/>
-                                    <outletCollection property="gestureRecognizers" destination="rNS-SW-CaV" appends="YES" id="DOS-Xb-NWd"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="b6c-HF-7Z3" firstAttribute="leading" secondItem="MUT-NB-Um4" secondAttribute="leading" id="0ES-Z6-3eX"/>
-                            <constraint firstItem="b6c-HF-7Z3" firstAttribute="trailing" secondItem="cKm-Jc-GDR" secondAttribute="trailingMargin" id="CiI-UL-wht"/>
+                            <constraint firstItem="MUT-NB-Um4" firstAttribute="top" secondItem="zgB-dm-PRg" secondAttribute="bottom" constant="8" id="0lb-3k-c2j"/>
+                            <constraint firstItem="xkQ-vQ-hYE" firstAttribute="trailing" secondItem="zgB-dm-PRg" secondAttribute="trailing" constant="16" id="GSq-A4-LIb"/>
+                            <constraint firstItem="MUT-NB-Um4" firstAttribute="leading" secondItem="xkQ-vQ-hYE" secondAttribute="leading" constant="309" id="LBx-CF-iXA"/>
+                            <constraint firstItem="zgB-dm-PRg" firstAttribute="leading" secondItem="xkQ-vQ-hYE" secondAttribute="leading" constant="309" id="Ly2-3Z-Mjh"/>
                             <constraint firstItem="xkQ-vQ-hYE" firstAttribute="bottom" secondItem="MUT-NB-Um4" secondAttribute="bottom" constant="16" id="M91-xh-YUh"/>
                             <constraint firstItem="Hcd-Uf-z3N" firstAttribute="trailing" secondItem="xkQ-vQ-hYE" secondAttribute="trailing" id="SrD-gI-50l"/>
                             <constraint firstItem="b6c-HF-7Z3" firstAttribute="top" secondItem="cKm-Jc-GDR" secondAttribute="top" constant="92" id="add-g0-UYm"/>
                             <constraint firstItem="b6c-HF-7Z3" firstAttribute="trailing" secondItem="zgB-dm-PRg" secondAttribute="trailing" id="cjK-9o-bre"/>
                             <constraint firstItem="Hcd-Uf-z3N" firstAttribute="bottom" secondItem="xkQ-vQ-hYE" secondAttribute="bottom" id="fHY-o4-Nnw"/>
                             <constraint firstItem="Hcd-Uf-z3N" firstAttribute="top" secondItem="cKm-Jc-GDR" secondAttribute="top" id="gjp-4M-IBV"/>
+                            <constraint firstItem="xkQ-vQ-hYE" firstAttribute="trailing" secondItem="MUT-NB-Um4" secondAttribute="trailing" constant="16" id="oaD-rr-Uej"/>
+                            <constraint firstItem="xkQ-vQ-hYE" firstAttribute="bottom" secondItem="MUT-NB-Um4" secondAttribute="bottom" constant="16" id="t1W-16-koD"/>
                             <constraint firstItem="Hcd-Uf-z3N" firstAttribute="leading" secondItem="xkQ-vQ-hYE" secondAttribute="leading" id="vEM-0f-wOW"/>
                             <constraint firstItem="b6c-HF-7Z3" firstAttribute="leading" secondItem="zgB-dm-PRg" secondAttribute="leading" id="yjy-ng-St0"/>
                             <constraint firstItem="MUT-NB-Um4" firstAttribute="top" secondItem="zgB-dm-PRg" secondAttribute="bottom" constant="8" id="zdM-XC-x6k"/>
@@ -151,10 +319,18 @@
                     <navigationItem key="navigationItem" id="psc-fS-sw7"/>
                     <connections>
                         <outlet property="addButton" destination="MUT-NB-Um4" id="gPA-AR-dau"/>
-                        <outlet property="filterButton" destination="b6c-HF-7Z3" id="SWy-Of-dyi"/>
+                        <outlet property="clearButton" destination="CYd-3C-Enf" id="Vne-U9-VHi"/>
+                        <outlet property="filterMenuButton" destination="lw3-3T-wUI" id="Z7C-XC-3Nb"/>
+                        <outlet property="filterMenuView1" destination="HzL-nC-pN6" id="DjY-My-KKe"/>
+                        <outlet property="filterMenuView2" destination="Pb1-Me-b1A" id="6yE-aw-klg"/>
                         <outlet property="locationButton" destination="zgB-dm-PRg" id="DYg-GQ-Nwj"/>
                         <outlet property="mapSearchBar" destination="dEK-oT-xdD" id="cfe-c7-YS5"/>
                         <outlet property="mapView" destination="Hcd-Uf-z3N" id="iOt-df-5Rz"/>
+                        <outlet property="refreshButton" destination="x1F-xv-lKy" id="y63-a6-ZH0"/>
+                        <outlet property="refreshMenuButton" destination="b6c-HF-7Z3" id="Ds9-JJ-K5F"/>
+                        <outlet property="searchRadiusSegment" destination="l8d-n3-UXb" id="ywg-Iw-omC"/>
+                        <outlet property="searchTypeSegment" destination="zOF-qB-dAO" id="Jx8-7r-EHW"/>
+                        <outlet property="toolBarView" destination="Q9v-mY-5vl" id="J2W-id-PwI"/>
                         <segue destination="yTK-Gz-flT" kind="show" identifier="tapDetail" id="u0z-yD-fGp"/>
                     </connections>
                 </viewController>
@@ -164,11 +340,11 @@
                         <action selector="onLongPressAdd:" destination="q2r-jl-TJ1" id="cwJ-lE-FTM"/>
                     </connections>
                 </pongPressGestureRecognizer>
-                <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="rNS-SW-CaV">
+                <tapGestureRecognizer id="W9f-sw-KdF" userLabel="tapMap">
                     <connections>
-                        <action selector="onLongPressClearAnno:" destination="q2r-jl-TJ1" id="vAK-Yx-cNc"/>
+                        <action selector="onTapMap:" destination="q2r-jl-TJ1" id="vIm-3x-NXo"/>
                     </connections>
-                </pongPressGestureRecognizer>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="1799.2" y="124.58770614692655"/>
         </scene>
@@ -892,7 +1068,6 @@
         <!--Navigation Controller-->
         <scene sceneID="mK8-LC-vth">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="8jq-PZ-xaL" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="efP-5q-wrq" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="ITk-jl-RuK">
@@ -904,6 +1079,7 @@
                         <segue destination="LnN-hA-evD" kind="relationship" relationship="rootViewController" id="BDl-HX-fzg"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="8jq-PZ-xaL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3543" y="932"/>
         </scene>
@@ -930,19 +1106,21 @@
         </scene>
     </scenes>
     <resources>
-        <image name="add-1" width="100.08000183105469" height="100.08000183105469"/>
+        <image name="add@2x" width="384" height="384"/>
         <image name="bicycle-1" width="436.92001342773438" height="436.92001342773438"/>
+        <image name="cancel@2x" width="384" height="384"/>
         <image name="chat" width="384" height="384"/>
         <image name="clock" width="409.60000610351562" height="409.60000610351562"/>
+        <image name="cursor@2x" width="384" height="384"/>
         <image name="exclamation" width="384" height="384"/>
-        <image name="filter (2)" width="96" height="96"/>
+        <image name="filter@2x" width="384" height="384"/>
         <image name="gps" width="384" height="384"/>
-        <image name="loc-2" width="100.08000183105469" height="100.08000183105469"/>
+        <image name="layers@2x" width="384" height="384"/>
         <image name="mapmarker" width="2000" height="2723"/>
         <image name="panel-1" width="512" height="512"/>
         <image name="picture2" width="409.60000610351562" height="409.60000610351562"/>
         <image name="previous" width="384" height="384"/>
-        <image name="ref-1" width="100.08000183105469" height="100.08000183105469"/>
+        <image name="refresh@2x" width="409.60000610351562" height="409.60000610351562"/>
         <image name="road" width="409.60000610351562" height="409.60000610351562"/>
     </resources>
 </document>
