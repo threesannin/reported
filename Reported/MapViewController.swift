@@ -100,7 +100,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         
         filterMenuView1.center = toolBarView.center
         filterMenuView2.center = toolBarView.center
-        toolBarView.center = toolBarView.center
+//        toolBarView.center = toolBarView.center
 
         print("center is: \(refreshMenuButton.center.x), \(refreshMenuButton.center.y)")
         
@@ -218,18 +218,20 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         case 2:
             return 1500
         default:
-            break
+            return -1
         }
-        return 500
     }
     
     @IBAction func onLocationPRess(_ sender: UIButton) {
-//        let annotations = [mapView.userLocation]
         let radius = convertToRadius(searchRadiusSegment!.selectedSegmentIndex)
+        if radius == -1 {
+            let annotations = mapView.annotations
+            mapView.showAnnotations(annotations, animated: true)
+        } else {
         let region = MKCoordinateRegion(center: mapView.userLocation.coordinate, latitudinalMeters: CLLocationDistance(exactly:
 radius)!, longitudinalMeters: CLLocationDistance(exactly: radius)!)
         mapView.setRegion(mapView.regionThatFits(region), animated: true)
-//        mapView.showAnnotations(annotations, animated: true)
+        }
         hideFilterMenu()
         hideRefreshMenu()
     }
@@ -279,6 +281,13 @@ radius)!, longitudinalMeters: CLLocationDistance(exactly: radius)!)
             self.filterMenuView1.cornerRadius = 0
             self.filterMenuView2.cornerRadius = 0
             self.filterMenuView2.roundCorners(corners: [.bottomLeft, .bottomRight], radius: 10)
+//            self.filterMenuView2.maskBounds = false
+//            self.filterMenuView2.shadowOpacity = 1
+//            self.filterMenuView2.shadowRadius = 1
+//            self.filterMenuView2.shadowOffset = CGSize(width: 0, height: 1)
+//            self.filterMenuView2.clipsToBounds = true
+//            self.filterMenuView2.borderWidth = 0
+        
         })
         filterMenuOpen = true
     }
@@ -338,6 +347,9 @@ radius)!, longitudinalMeters: CLLocationDistance(exactly: radius)!)
             default:
                 break
             }
+        } else {
+            
+        }
     }
     
     func searchLocal(_ text: String) {
