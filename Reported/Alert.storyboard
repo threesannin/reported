@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="8oy-bP-uZ0">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Y0N-Se-PAJ">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -13,27 +12,106 @@
         <!--Alerts-->
         <scene sceneID="ZDA-HT-7Ha">
             <objects>
-                <viewController id="8oy-bP-uZ0" userLabel="Alerts" sceneMemberID="viewController">
+                <viewController id="8oy-bP-uZ0" userLabel="Alerts" customClass="AlertViewController" customModule="Reported" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="dLq-bI-ArH">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Alert label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G3N-le-2zX">
-                                <rect key="frame" x="143" y="368" width="37" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="cyh-tW-d2D">
+                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="AlertCell" rowHeight="98" id="GiR-9t-yrZ" customClass="AlertCell" customModule="Reported" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="98"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="GiR-9t-yrZ" id="np0-WW-KQP">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="97.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Bli-kg-bfZ">
+                                                    <rect key="frame" x="296" y="16" width="65" height="65"/>
+                                                    <color key="backgroundColor" red="0.80000000000000004" green="0.80000000000000004" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="65" id="3MB-Vm-H8V"/>
+                                                        <constraint firstAttribute="height" constant="65" id="8cQ-pA-vdr"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="alert text" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AFq-0Q-LxC">
+                                                    <rect key="frame" x="20" y="16" width="256" height="21"/>
+                                                    <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="15"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="Bli-kg-bfZ" firstAttribute="leading" secondItem="AFq-0Q-LxC" secondAttribute="trailing" constant="20" id="5YR-dD-4JT"/>
+                                                <constraint firstItem="AFq-0Q-LxC" firstAttribute="top" secondItem="np0-WW-KQP" secondAttribute="topMargin" constant="5" id="9Ff-dm-a1T"/>
+                                                <constraint firstItem="AFq-0Q-LxC" firstAttribute="top" secondItem="np0-WW-KQP" secondAttribute="top" constant="16" id="d58-jU-ATJ"/>
+                                                <constraint firstItem="AFq-0Q-LxC" firstAttribute="leading" secondItem="np0-WW-KQP" secondAttribute="leadingMargin" constant="5" id="doV-rj-tYD"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="AFq-0Q-LxC" secondAttribute="bottom" constant="5" id="hIE-Jc-xLd"/>
+                                                <constraint firstAttribute="bottom" secondItem="Bli-kg-bfZ" secondAttribute="bottom" constant="16" id="i2e-AX-tkD"/>
+                                                <constraint firstItem="Bli-kg-bfZ" firstAttribute="top" secondItem="np0-WW-KQP" secondAttribute="top" constant="16" id="ty1-qa-KMw"/>
+                                                <constraint firstAttribute="trailing" secondItem="Bli-kg-bfZ" secondAttribute="trailing" constant="14" id="wei-VE-bP6"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="alertImage" destination="Bli-kg-bfZ" id="hEy-Wa-4qh"/>
+                                            <outlet property="alertLabel" destination="AFq-0Q-LxC" id="Dc1-ZY-qbC"/>
+                                            <segue destination="XDe-2D-fm9" kind="show" id="Pcs-xq-bxf"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" red="0.80000000000000004" green="0.80000000000000004" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="cyh-tW-d2D" firstAttribute="leading" secondItem="dLq-bI-ArH" secondAttribute="leading" id="86h-dP-x6O"/>
+                            <constraint firstItem="cyh-tW-d2D" firstAttribute="top" secondItem="zuw-Rb-AZt" secondAttribute="top" id="Ff7-Tp-llW"/>
+                            <constraint firstItem="cyh-tW-d2D" firstAttribute="bottom" secondItem="zuw-Rb-AZt" secondAttribute="bottom" id="S9j-WL-q9G"/>
+                            <constraint firstAttribute="trailing" secondItem="cyh-tW-d2D" secondAttribute="trailing" id="ggi-Pf-MfY"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="zuw-Rb-AZt"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item" id="ukX-K0-Qdl"/>
+                    <tabBarItem key="tabBarItem" title="Alerts" image="attention" id="ukX-K0-Qdl"/>
+                    <navigationItem key="navigationItem" title="Alerts" id="gGs-eB-nvg"/>
+                    <connections>
+                        <outlet property="alertsTableView" destination="cyh-tW-d2D" id="JOZ-6A-dnQ"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4mQ-zy-JvM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1983" y="-426"/>
+            <point key="canvasLocation" x="2209" y="-985"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="fdh-kz-mTY">
+            <objects>
+                <navigationController id="Y0N-Se-PAJ" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="yq9-64-Zup">
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <textAttributes key="titleTextAttributes">
+                            <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="25"/>
+                            <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </textAttributes>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="8oy-bP-uZ0" kind="relationship" relationship="rootViewController" id="xYK-Jt-MNh"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Cgy-O4-IHB" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1284" y="-984"/>
+        </scene>
+        <!--details-->
+        <scene sceneID="rUX-9O-NHh">
+            <objects>
+                <viewControllerPlaceholder storyboardIdentifier="details" storyboardName="details" id="XDe-2D-fm9" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="s0e-HA-YJs" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3160.8000000000002" y="-985.45727136431788"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="attention" width="30" height="30"/>
+    </resources>
 </document>
