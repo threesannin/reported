@@ -57,7 +57,7 @@
                                         <connections>
                                             <outlet property="alertImage" destination="Bli-kg-bfZ" id="hEy-Wa-4qh"/>
                                             <outlet property="alertLabel" destination="AFq-0Q-LxC" id="Dc1-ZY-qbC"/>
-                                            <segue destination="XDe-2D-fm9" kind="show" id="Pcs-xq-bxf"/>
+                                            <segue destination="XDe-2D-fm9" kind="presentation" id="Pcs-xq-bxf"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>

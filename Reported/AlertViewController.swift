@@ -81,7 +81,13 @@ class AlertViewController: UIViewController, UITableViewDataSource, UITableViewD
         let indexPath = alertsTableView.indexPath(for: cell)!
         let post = posts[indexPath.row]
         
-        let postDetailsViewController = segue.destination as! PostDetailsViewController
+
+        let destinationNavigationController = segue.destination as! UINavigationController
+        let postDetailsViewController = destinationNavigationController.topViewController as! PostDetailsViewController
+        
+        
+        
+        
         postDetailsViewController.post = post
         
         alertsTableView.deselectRow(at: indexPath, animated: true)

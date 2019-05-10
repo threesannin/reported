@@ -554,8 +554,9 @@ radius)!, longitudinalMeters: CLLocationDistance(exactly: radius)!)
             }
         } else if segue.identifier == "tapDetail" {
             
-            let postDetailsViewController = segue.destination as! PostDetailsViewController
-
+//            let postDetailsViewController = segue.destination as! PostDetailsViewController
+            let destinationNavigationController = segue.destination as! UINavigationController
+            let postDetailsViewController = destinationNavigationController.topViewController as! PostDetailsViewController
           
             self.navigationController?.isNavigationBarHidden = false
             if let selectedIssue = self.selectedIssue {

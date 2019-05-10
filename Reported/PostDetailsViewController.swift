@@ -80,6 +80,11 @@ class PostDetailsViewController: UIViewController {
         issueImage.af_setImage(withURL: url)
     }
     
+    
+    @IBAction func onTapBack(_ sender: UIBarButtonItem) {
+        dismiss(animated: true, completion: nil)
+    }
+    
     @IBAction func upvote(_ sender: Any) {
         if(!isupvoted){
             let issue = PFObject(className: "Issues")
