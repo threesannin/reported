@@ -348,7 +348,9 @@
         <scene sceneID="BIA-E6-IH6">
             <objects>
                 <viewControllerPlaceholder storyboardName="Map" id="vfp-1r-aPw" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="yLT-Fu-tPk"/>
+                    <tabBarItem key="tabBarItem" title="Issue Map" image="map-1" id="yLT-Fu-tPk">
+                        <inset key="imageInsets" minX="1" minY="2" maxX="1" maxY="1"/>
+                    </tabBarItem>
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="E9P-R3-Zhc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -358,7 +360,9 @@
         <scene sceneID="hcS-sk-dJI">
             <objects>
                 <viewControllerPlaceholder storyboardName="Alert" id="He7-4I-PMv" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Alerts" image="attention" badgeValue="3" id="c3U-6k-BRO"/>
+                    <tabBarItem key="tabBarItem" title="Alerts" image="audit" badgeValue="Alert" id="c3U-6k-BRO">
+                        <inset key="imageInsets" minX="1" minY="2" maxX="1" maxY="1"/>
+                    </tabBarItem>
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Cio-Yd-8ba" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -368,7 +372,9 @@
         <scene sceneID="gZI-8m-eV4">
             <objects>
                 <viewControllerPlaceholder storyboardName="Profile" id="j79-4Q-tOI" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="cW4-LD-rLD"/>
+                    <tabBarItem key="tabBarItem" title="Profile" image="man (1)" id="cW4-LD-rLD">
+                        <inset key="imageInsets" minX="1" minY="2" maxX="1" maxY="1"/>
+                    </tabBarItem>
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7yF-jb-IMX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -376,9 +382,11 @@
         </scene>
     </scenes>
     <resources>
-        <image name="attention" width="30" height="30"/>
+        <image name="audit" width="24" height="24"/>
+        <image name="man (1)" width="24" height="24"/>
+        <image name="map-1" width="24" height="24"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="SSv-2H-B0M"/>
+        <segue reference="2bf-h4-bfH"/>
     </inferredMetricsTieBreakers>
 </document>

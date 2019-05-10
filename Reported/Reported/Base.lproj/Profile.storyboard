@@ -285,11 +285,15 @@
             </objects>
             <point key="canvasLocation" x="4136.8000000000002" y="-208.24587706146929"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Profile-->
         <scene sceneID="zIc-ZY-cLV">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="JwA-H9-22Q" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Profile" image="man (1)" id="Sj4-Za-eSf">
+                        <inset key="imageInsets" minX="1" minY="2" maxX="1" maxY="1"/>
+                    </tabBarItem>
                     <toolbarItems/>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="17D-UU-hDI">
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -306,5 +310,6 @@
     </scenes>
     <resources>
         <image name="kunai" width="384" height="384"/>
+        <image name="man (1)" width="24" height="24"/>
     </resources>
 </document>

@@ -1086,11 +1086,13 @@
             </objects>
             <point key="canvasLocation" x="3543" y="932"/>
         </scene>
-        <!--Item-->
+        <!--Issue Map-->
         <scene sceneID="Qel-Bk-6NT">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="Hmi-BI-4cW" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="nvY-cR-Byo"/>
+                    <tabBarItem key="tabBarItem" title="Issue Map" image="map-1" id="nvY-cR-Byo">
+                        <inset key="imageInsets" minX="1" minY="2" maxX="1" maxY="1"/>
+                    </tabBarItem>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="F85-RI-mCy">
                         <autoresizingMask key="autoresizingMask"/>
@@ -1119,6 +1121,7 @@
         <image name="filter@2x" width="384" height="384"/>
         <image name="gps" width="384" height="384"/>
         <image name="layers@2x" width="384" height="384"/>
+        <image name="map-1" width="24" height="24"/>
         <image name="mapmarker" width="2000" height="2723"/>
         <image name="panel-1" width="512" height="512"/>
         <image name="picture2" width="409.60000610351562" height="409.60000610351562"/>

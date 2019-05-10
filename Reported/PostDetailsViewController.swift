@@ -38,9 +38,9 @@ class PostDetailsViewController: UIViewController {
         
         let usersLikedArray = post["usersLiked"] as? [String] //getting the users that liked the post
         let usersDislikedArray = post["usersDisliked"] as? [String] //getting the users that disliked the post
-        let currentUser = PFUser.current()?.username as! String
+        let currentUser = PFUser.current()?.username
         //checking is user has already liked post
-        if(usersLikedArray == nil || !(usersLikedArray?.contains(currentUser))!){
+        if(usersLikedArray == nil || !(usersLikedArray?.contains(currentUser!))!){
             self.upvoteButton.setImage(UIImage(named: "icons8-good-quality-100"), for: UIControl.State.normal)
             self.isupvoted = false
         }else{
@@ -48,7 +48,7 @@ class PostDetailsViewController: UIViewController {
             self.isupvoted = true
         }
         //checking is user has already disliked post
-        if(usersDislikedArray == nil || !(usersDislikedArray?.contains(currentUser))!){
+        if(usersDislikedArray == nil || !(usersDislikedArray?.contains(currentUser!))!){
             self.downvoteButton.setImage(UIImage(named: "icons8-unlike-100"), for: UIControl.State.normal)
             self.isdownvoted = false
         }else{
@@ -303,7 +303,7 @@ class PostDetailsViewController: UIViewController {
                 resolved?.append((PFUser.current()?.username)!)
             }
             else{
-                let name = PFUser.current()?.username as? String
+                let name = PFUser.current()?.username
                 if(!(resolved?.contains(name ?? ""))!){
                     resolved?.append((PFUser.current()?.username)!)
                 }
