@@ -26,6 +26,13 @@ class AlertViewController: UIViewController, UITableViewDataSource, UITableViewD
         // Do any additional setup after loading the view.
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        tabBarController?.tabBar.isHidden = false
+
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
@@ -59,7 +66,7 @@ class AlertViewController: UIViewController, UITableViewDataSource, UITableViewD
         let reportType = post["issueCategory"] as! String
         let reportDesc = post["descripText"] as! String
         
-        let finalString = "Issue Type: <" + reportType + "> Reported: '" + reportDesc + "'"
+        let finalString = "[" + reportType + "]\nReported: '" + reportDesc + "'"
         
         cell.alertLabel.text = finalString
         
@@ -81,7 +88,12 @@ class AlertViewController: UIViewController, UITableViewDataSource, UITableViewD
         let indexPath = alertsTableView.indexPath(for: cell)!
         let post = posts[indexPath.row]
         
+
         let postDetailsViewController = segue.destination as! PostDetailsViewController
+        
+        
+        
+        
         postDetailsViewController.post = post
         
         alertsTableView.deselectRow(at: indexPath, animated: true)

@@ -718,7 +718,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = cst495.Reported;
+				PRODUCT_BUNDLE_IDENTIFIER = cst495.Reported.test;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_ENABLE_BATCH_MODE = YES;
 				SWIFT_VERSION = 4.2;
@@ -739,7 +739,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = cst495.Reported;
+				PRODUCT_BUNDLE_IDENTIFIER = cst495.Reported.test;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_ENABLE_BATCH_MODE = YES;
 				SWIFT_VERSION = 4.2;
