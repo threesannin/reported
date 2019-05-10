@@ -13,6 +13,9 @@ import Parse
 import AlamofireImage
 
 class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UISearchBarDelegate {
+    
+    
+   
    
     @IBOutlet weak var mapView: MKMapView!
     
@@ -33,22 +36,41 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
 //            mapSearchBar.layer.backgroundColor = UIColor.white.cgColor
         }
     }
-    @IBOutlet weak var filterButton: UIButton! {
-        didSet {
-//            filterButton.cornerRadius = filterButton.frame.width/2
-        }
-    }
+    
+    
+    @IBOutlet weak var toolBarView: UIView!
+    
+    @IBOutlet weak var filterMenuButton: UIButton!
+    @IBOutlet weak var refreshMenuButton: UIButton!
+    @IBOutlet weak var refreshButton: UIButton!
+    @IBOutlet weak var clearButton: UIButton!
     @IBOutlet weak var locationButton: UIButton!
     @IBOutlet weak var addButton: UIButton!
+    @IBOutlet weak var filterMenuView1: UIView!
+    @IBOutlet weak var filterMenuView2: UIView!
     
-    //    var currentMapSnapShotImage: UIImage?
+    @IBOutlet weak var searchTypeSegment: UISegmentedControl!
+    @IBOutlet weak var searchRadiusSegment: UISegmentedControl!
     
+    
+    var refreshMenuButtonCenter: CGPoint!
+    var refreshButtonDestCenter: CGPoint!
+    var clearButtonDestCenter: CGPoint!
+    
+    var filterMenuView1Center: CGPoint!
+    var filterMenuView2Center: CGPoint!
+    var refreshMenuOpen = false
+    var filterMenuOpen = false
+    
+    var meterRadius: Int!
+
     var pickedImage: UIImage?
     var locationManager : CLLocationManager! {
         didSet {
             locationManager = CLLocationManager()
             locationManager.desiredAccuracy = kCLLocationAccuracyBest
-            locationManager.distanceFilter = 100
+            locationManager.distanceFilter = 5
+            
             locationManager.requestWhenInUseAuthorization()
         }
     }
@@ -58,8 +80,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     var issues = [PFObject]()
     var selectedIssue : PFObject?
     var allWaitGroup = DispatchGroup()
-    
-    //    let refreshController = UIRefreshControl()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -72,16 +92,34 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         mapView.register(EncampAnnotationView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
         mapView.register(LandscapeAnnotationView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
         
-//        mapView.register(ClusterAnnotationView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultClusterAnnotationViewReuseIdentifier)
-        //        self.refreshController.addTarget(self, action: #selector(loadIssues), for: .valueChanged)
+        refreshButtonDestCenter = refreshButton.center
+        clearButtonDestCenter = clearButton.center
+        
+        refreshButton.center = refreshMenuButton.center
+        clearButton.center = refreshMenuButton.center
+        
+        filterMenuView1.center = toolBarView.center
+        filterMenuView2.center = toolBarView.center
+//        toolBarView.center = toolBarView.center
+
+        print("center is: \(refreshMenuButton.center.x), \(refreshMenuButton.center.y)")
+        
+        print("center is: \(refreshButton.center.x), \(refreshButton.center.y)")
+        print("center is: \(clearButton.center.x), \(clearButton.center.y)")
+       refreshMenuOpen = false
+        filterMenuOpen = false
+        
+        filterMenuView1.cornerRadius = 10
+        filterMenuView2.cornerRadius = 10
     }
     
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        getAllIssues()
+        
+        getAllIssues(radius: 0)
     }
-    
+
     func notifyRefresh(group: DispatchGroup){
         group.notify(queue: .main) {
             self.refreshAnnotations()
@@ -91,7 +129,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.isNavigationBarHidden = true
-//        refreshData()
+        tabBarController?.tabBar.isHidden = false
+
     }
     
     // Action
@@ -109,7 +148,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         var annotations: [IssueAnnotation] = []
         for issue in self.issues {
             let annotation = IssueAnnotation(issue: issue)
-            annotations.append(annotation)
+                                                                annotations.append(annotation)
             mapView.addAnnotation(annotation)
         }
         mapView.showAnnotations(annotations, animated: true)
@@ -134,13 +173,20 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         performSegue(withIdentifier: "tapDetail", sender: button)
     }
     
-    @objc func getAllIssues() {
-        let numberOfIssues = 20
+    @objc func getAllIssues(radius: Double) {
+        let numberOfIssues = 100
 //        let waitGroup = DispatchGroup()
         let centerGeoPoint = PFGeoPoint(latitude: centerLocation.latitude, longitude: centerLocation.longitude)
         let query = PFQuery(className: "Issues")
         query.includeKeys(["transMode", "issueDateTime", "descripText", "location", "issueCategory", "dirOfTravel", "nearestCrossStreet", "image"])
-        query.whereKey("location", nearGeoPoint:centerGeoPoint, withinKilometers: mapView.currentRadius())
+        print("radius: \(mapView.currentRadius())")
+        
+        if radius > 0 {
+            query.whereKey("location", nearGeoPoint:centerGeoPoint, withinKilometers: radius/1000)
+        } else {
+            query.whereKey("location", nearGeoPoint:centerGeoPoint)
+        }
+        
         query.limit = numberOfIssues
         allWaitGroup.enter()
         query.findObjectsInBackground { (issues, error) in
@@ -172,29 +218,147 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         }
     }
     
+    func convertToRadius(_ segment : Int!) -> Int {
+        switch segment {
+        case 0:
+            return 500
+        case 1:
+            return 1000
+        case 2:
+            return 1500
+        default:
+            return -1
+        }
+    }
+    
     @IBAction func onLocationPRess(_ sender: UIButton) {
-        let annotations = [mapView.userLocation]
-        mapView.showAnnotations(annotations, animated: true)
+        let radius = convertToRadius(searchRadiusSegment!.selectedSegmentIndex)
+        if radius == -1 {
+            let annotations = mapView.annotations
+            getAllIssues(radius: 0)
+        } else {
+        let region = MKCoordinateRegion(center: mapView.userLocation.coordinate, latitudinalMeters: CLLocationDistance(exactly:
+radius)!, longitudinalMeters: CLLocationDistance(exactly: radius)!)
+        mapView.setRegion(mapView.regionThatFits(region), animated: true)
+        }
+        hideFilterMenu()
+        hideRefreshMenu()
     }
     
+    
+    @IBAction func onPressFilterMenu(_ sender: UIButton) {
+       toggleFilterMenu()
+        hideRefreshMenu()
+    }
+    
+
+    func toggleFilterMenu() {
+        if filterMenuOpen {
+            hideFilterMenu()
+        } else {
+            showFilterMenu()
+        }
+    }
+    
+
+    func showRefreshMenu() {
+        UIView.animate(withDuration: 0.3, animations: {
+            self.refreshButton.center = self.refreshButtonDestCenter
+            self.clearButton.center = self.clearButtonDestCenter
+        })
+        refreshMenuOpen = true
+    }
+    
+    @IBAction func hideRefreshMenu() {
+        UIView.animate(withDuration: 0.3, animations: {
+            self.refreshButton.center = self.refreshMenuButton.center
+            self.clearButton.center = self.refreshMenuButton.center
+        })
+        refreshMenuOpen = false
+    }
+    
+    func showFilterMenu() {
+        let drop1 = (toolBarView.frame.height / 2) + (filterMenuView1.frame.height / 2)
+        let drop2 = (toolBarView.frame.height / 2) + (3 * filterMenuView1.frame.height / 2)
+        UIView.animate(withDuration: 0.3, animations: {
+            self.filterMenuView1.transform = CGAffineTransform.init(a: 1, b: 0, c: 0, d: 1, tx: 0, ty: drop1)
+            self.filterMenuView2.transform = CGAffineTransform.init(a: 1, b: 0, c: 0, d: 1, tx: 0, ty: drop2)
+        })
+        UIView.animate(withDuration: 0.09, animations: {
+            self.toolBarView.cornerRadius = 0
+            self.toolBarView.roundCorners(corners: [.topLeft, .topRight], radius: 10)
+            self.filterMenuView1.cornerRadius = 0
+            self.filterMenuView2.cornerRadius = 0
+            self.filterMenuView2.roundCorners(corners: [.bottomLeft, .bottomRight], radius: 10)
+//            self.filterMenuView2.maskBounds = false
+//            self.filterMenuView2.shadowOpacity = 1
+//            self.filterMenuView2.shadowRadius = 1
+//            self.filterMenuView2.shadowOffset = CGSize(width: 0, height: 1)
+//            self.filterMenuView2.clipsToBounds = true
+//            self.filterMenuView2.borderWidth = 0
+        
+        })
+        filterMenuOpen = true
+    }
+    
+    @IBAction func hideFilterMenu() {
+        UIView.animate(withDuration: 0.3, animations: {
+            self.filterMenuView1.transform = CGAffineTransform.identity
+            self.filterMenuView2.transform = CGAffineTransform.identity
+            self.toolBarView.cornerRadius = 10
+            self.filterMenuView1.cornerRadius = 10
+            self.filterMenuView2.cornerRadius = 10
+        })
+        filterMenuOpen = false
+    }
+    
+    func toggleRefreshMenu() {
+        print("refresh menu tapped")
+        
+        if refreshMenuOpen {
+            hideRefreshMenu()
+        } else {
+            showRefreshMenu()
+        }
+    }
+    @IBAction func onTapRefreshMenu(_ sender: UIButton) {
+       toggleRefreshMenu()
+        hideFilterMenu()
+    }
     @IBAction func onTapRefresh(_ sender: Any) {
-        refreshAnnotations()
+        getAllIssues(radius: mapView.currentRadius())
+//        refreshAnnotations()
     }
     
-    @IBAction func onLongPressClearAnno(_ sender: UILongPressGestureRecognizer) {
-        if UIGestureRecognizer.State.ended == sender.state {
-            clearIssueAnnotations()
+
+    @IBAction func onTapMap(_ sender: UITapGestureRecognizer) {
+        if refreshMenuOpen {
+            hideRefreshMenu()
+        }
+        if filterMenuOpen {
+            hideFilterMenu()
         }
         
+    }
+    
+    @IBAction func onTapClearAnno(_ sender: UIButton) {
+        clearIssueAnnotations()
     }
     
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
         if let keyword = searchBar.text {
 //            search(keyword: keyword)
             print("searching real places")
-            searchLocal(keyword)
+            switch searchTypeSegment.selectedSegmentIndex {
+            case 0:
+                search(keyword: keyword)
+            case 1:
+                searchLocal(keyword)
+            default:
+                break
+            }
         } else {
-           
+            print("no")
         }
     }
     
@@ -208,31 +372,28 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             guard let response = response else {
                 return
             }
-//            print("got: \(response.mapItems.first?.placemark.coordinate)")
             let searchCoord = response.mapItems.first?.placemark.coordinate
             self.createNewIssueAnnotation(coordinate: searchCoord!)
-//            response.mapItems.first?.openInMaps(launchOptions: nil)
         }
     }
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.endEditing(true)
     }
     
-    func search(keyword: String){
+    func search(keyword: String=""){
         if keyword.isEmpty {
-            getAllIssues()
+            print("getting all issues")
+            getAllIssues(radius: 0)
         } else {
             getSearchIssues(keyword: keyword)
         }
-//        notifyRefresh()
     }
     
     @objc func getSearchIssues(keyword: String) {
-//        let waitGroup = DispatchGroup()
         let query = PFQuery(className: "Issues")
           let centerGeoPoint = PFGeoPoint(latitude: centerLocation.latitude, longitude: centerLocation.longitude)
         query.whereKey("issueCategory", matchesText: keyword.trimmingCharacters(in: [" "]))
-        query.whereKey("issueCategory",nearGeoPoint:centerGeoPoint, withinKilometers: mapView.currentRadius())
+        query.whereKey("issueCategory",nearGeoPoint:centerGeoPoint, withinKilometers: mapView.currentRadius()/1000)
         allWaitGroup.enter()
         query.findObjectsInBackground { (objects: [PFObject]?, error: Error?) in
             if let error = error {
@@ -240,12 +401,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
                 print(error.localizedDescription)
             } else if let objects = objects {
                 self.issues = objects
-
-//                objects.forEach { (object) in
-//                    print("Successfully retrieved \(String(describing: object["issueCategory"]))");
-//
-////                    self.createIssueAnnotation()
-//                }
                 self.allWaitGroup.leave()
 
             }
@@ -292,10 +447,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         
         if annotation is IssueAnnotation {
-            /*
-             ["Roadway - Pothole", "Litter - Trash and Debris", "Graffiti", "Landscaping - Weeds, Trees, Brush", "Illegal Encampment"]
-             
-             */
             var issueAnnotationView: MKMarkerAnnotationView
             let title = (annotation as! IssueAnnotation).title!
                 
@@ -326,11 +477,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             default:
                 fatalError("Found unexpected issue category")
             }
-            
-//            let reportReuse = "reportReuse"
-//            var issueAnnotationView = mapView.dequeueReusableAnnotationView(withIdentifier: reportReuse) as? MKPinAnnotationView
-//            if issueAnnotationView == nil {
-//                issueAnnotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reportReuse)
             issueAnnotationView.clusteringIdentifier = "cluster"
             issueAnnotationView.canShowCallout = true
                 if let issueImageFileObj = (annotation as! IssueAnnotation).issue["issueImage"] {
@@ -419,8 +565,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             }
         } else if segue.identifier == "tapDetail" {
             
+//            let postDetailsViewController = segue.destination as! PostDetailsViewController
             let postDetailsViewController = segue.destination as! PostDetailsViewController
-
           
             self.navigationController?.isNavigationBarHidden = false
             if let selectedIssue = self.selectedIssue {
@@ -442,6 +588,13 @@ extension UIView {
         UIGraphicsEndImageContext()
         return image
     }
+    
+    func roundCorners(corners: UIRectCorner, radius: CGFloat) {
+        let path = UIBezierPath(roundedRect: bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
+        let mask = CAShapeLayer()
+        mask.path = path.cgPath
+        layer.mask = mask
+    }
 }
 extension MKMapView {
     func topCenterCoordinate() -> CLLocationCoordinate2D {
@@ -455,3 +608,4 @@ extension MKMapView {
         return centerLocation.distance(from: topCenterLocation)
     }
 }
+

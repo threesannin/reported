@@ -28,7 +28,7 @@ class RoadwayAnnotationView: MKMarkerAnnotationView {
         super.prepareForDisplay()
         displayPriority = .defaultHigh
         markerTintColor = UIColor.red
-        glyphImage = #imageLiteral(resourceName: "exclamation")
+        glyphImage = #imageLiteral(resourceName: "navigation")
     }
 }
 
@@ -49,7 +49,7 @@ class GraffitiAnnotationView: MKMarkerAnnotationView {
         super.prepareForDisplay()
         displayPriority = .defaultHigh
         markerTintColor = UIColor.orange
-        glyphImage = #imageLiteral(resourceName: "image")
+        glyphImage = #imageLiteral(resourceName: "spray")
     }
 }
 
@@ -70,7 +70,7 @@ class LitterAnnotationView: MKMarkerAnnotationView {
         super.prepareForDisplay()
         displayPriority = .defaultHigh
         markerTintColor = UIColor.brown
-        glyphImage = #imageLiteral(resourceName: "filter (2)")
+        glyphImage = #imageLiteral(resourceName: "garbage")
     }
 }
 
@@ -91,7 +91,7 @@ class LandscapeAnnotationView: MKMarkerAnnotationView {
         super.prepareForDisplay()
         displayPriority = .defaultLow
         markerTintColor = UIColor.green
-        glyphImage = #imageLiteral(resourceName: "bike")
+        glyphImage = #imageLiteral(resourceName: "tree")
     }
 }
 
@@ -112,7 +112,7 @@ class EncampAnnotationView: MKMarkerAnnotationView {
         super.prepareForDisplay()
         displayPriority = .defaultLow
         markerTintColor = UIColor.blue
-        glyphImage = #imageLiteral(resourceName: "exclamation")
+        glyphImage = #imageLiteral(resourceName: "camp")
     }
 }
 

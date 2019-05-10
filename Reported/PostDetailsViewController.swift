@@ -9,6 +9,8 @@
 import UIKit
 import Parse
 import AlamofireImage
+import MapKit
+
 
 class PostDetailsViewController: UIViewController {
     
@@ -36,9 +38,9 @@ class PostDetailsViewController: UIViewController {
         
         let usersLikedArray = post["usersLiked"] as? [String] //getting the users that liked the post
         let usersDislikedArray = post["usersDisliked"] as? [String] //getting the users that disliked the post
-        let currentUser = PFUser.current()?.username as! String
+        let currentUser = PFUser.current()?.username
         //checking is user has already liked post
-        if(usersLikedArray == nil || !(usersLikedArray?.contains(currentUser))!){
+        if(usersLikedArray == nil || !(usersLikedArray?.contains(currentUser!))!){
             self.upvoteButton.setImage(UIImage(named: "icons8-good-quality-100"), for: UIControl.State.normal)
             self.isupvoted = false
         }else{
@@ -46,7 +48,7 @@ class PostDetailsViewController: UIViewController {
             self.isupvoted = true
         }
         //checking is user has already disliked post
-        if(usersDislikedArray == nil || !(usersDislikedArray?.contains(currentUser))!){
+        if(usersDislikedArray == nil || !(usersDislikedArray?.contains(currentUser!))!){
             self.downvoteButton.setImage(UIImage(named: "icons8-unlike-100"), for: UIControl.State.normal)
             self.isdownvoted = false
         }else{
@@ -70,12 +72,21 @@ class PostDetailsViewController: UIViewController {
         nearestCrossStreetLabel.text = post["nearestCrossStreet"] as? String
         directionOfTravelLabel.text = post["dirOfTravel"] as? String
         let location = post["location"] as! PFGeoPoint
-        let locationString = "latitude: " + String(location.latitude) + " longitude: " + String(location.longitude)
+        let locationString = String(location.latitude) + ", " + String(location.longitude)
         locationLabel.text = locationString
         let imageFile = post["issueImage"] as! PFFileObject
         let urlString = imageFile.url!
         let url = URL(string: urlString)!
         issueImage.af_setImage(withURL: url)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tabBarController?.tabBar.isHidden = true
+
+    }
+    @IBAction func onTapBack(_ sender: UIBarButtonItem) {
+        dismiss(animated: true, completion: nil)
     }
     
     @IBAction func upvote(_ sender: Any) {
@@ -269,6 +280,15 @@ class PostDetailsViewController: UIViewController {
     }
     @IBAction func showInMaps(_ sender: Any) { // empty for sampson ;)
         //sampsons code here
+        let latitude = (post["location"] as! PFGeoPoint).latitude
+        
+        let longitude = (post["location"] as! PFGeoPoint).longitude
+        
+        let placemark = MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: latitude, longitude: longitude), addressDictionary:nil)
+        let mapItem = MKMapItem(placemark: placemark)
+        mapItem.name = post["issueCategory"] as? String
+        
+        mapItem.openInMaps(launchOptions: nil)
     }
     
     @IBAction func resolvedIssue(_ sender: Any) {
@@ -292,7 +312,7 @@ class PostDetailsViewController: UIViewController {
                 resolved?.append((PFUser.current()?.username)!)
             }
             else{
-                let name = PFUser.current()?.username as? String
+                let name = PFUser.current()?.username
                 if(!(resolved?.contains(name ?? ""))!){
                     resolved?.append((PFUser.current()?.username)!)
                 }
