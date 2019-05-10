@@ -72,7 +72,7 @@ class PostDetailsViewController: UIViewController {
         nearestCrossStreetLabel.text = post["nearestCrossStreet"] as? String
         directionOfTravelLabel.text = post["dirOfTravel"] as? String
         let location = post["location"] as! PFGeoPoint
-        let locationString = "latitude: " + String(location.latitude) + " longitude: " + String(location.longitude)
+        let locationString = String(location.latitude) + ", " + String(location.longitude)
         locationLabel.text = locationString
         let imageFile = post["issueImage"] as! PFFileObject
         let urlString = imageFile.url!
