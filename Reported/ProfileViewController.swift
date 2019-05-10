@@ -102,7 +102,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
             let reportType = post["issueCategory"] as! String
             let reportDesc = post["descripText"] as! String
             
-            let finalString = "Issue Type: <" + reportType + "> Reported: '" + reportDesc + "'"
+            let finalString = "[" + reportType + "]\nReported: '" + reportDesc + "'"
             
             cell.alertLabel.text = finalString
             
