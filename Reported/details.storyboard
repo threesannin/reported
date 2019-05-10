@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Brh-T4-wSe">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="M5k-D0-fed">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -146,13 +146,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="oJv-Z8-wVM"/>
                     </view>
-                    <navigationItem key="navigationItem" id="Pf7-oi-FFE">
-                        <barButtonItem key="leftBarButtonItem" title="Back" id="doP-fz-wy8">
-                            <connections>
-                                <action selector="onTapBack:" destination="M5k-D0-fed" id="9KR-Ud-vGw"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" id="Pf7-oi-FFE"/>
                     <connections>
                         <outlet property="categoryLabel" destination="GA2-ei-WoN" id="dRy-OK-fS7"/>
                         <outlet property="dateLabel" destination="JFB-9W-50m" id="q6w-OL-4ya"/>
@@ -173,24 +167,6 @@
                 <exit id="Lrj-bf-Iex" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="4100" y="-985.45727136431788"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="Vhd-Al-zB0">
-            <objects>
-                <navigationController storyboardIdentifier="PostDetailsNavController" automaticallyAdjustsScrollViewInsets="NO" id="Brh-T4-wSe" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="bI6-m7-jcl">
-                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="M5k-D0-fed" kind="relationship" relationship="rootViewController" id="1X2-Cw-JvD"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="cRC-lS-wtp" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="3160.8000000000002" y="-985.45727136431788"/>
         </scene>
     </scenes>
     <resources>

@@ -117,7 +117,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        getAllIssues()
+        getAllIssues(radius: 0)
     }
 
     func notifyRefresh(group: DispatchGroup){
@@ -129,6 +129,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.isNavigationBarHidden = true
+        tabBarController?.tabBar.isHidden = false
+
     }
     
     // Action
@@ -146,7 +148,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         var annotations: [IssueAnnotation] = []
         for issue in self.issues {
             let annotation = IssueAnnotation(issue: issue)
-            annotations.append(annotation)
+                                                                annotations.append(annotation)
             mapView.addAnnotation(annotation)
         }
         mapView.showAnnotations(annotations, animated: true)
@@ -171,13 +173,20 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         performSegue(withIdentifier: "tapDetail", sender: button)
     }
     
-    @objc func getAllIssues() {
+    @objc func getAllIssues(radius: Double) {
         let numberOfIssues = 100
 //        let waitGroup = DispatchGroup()
         let centerGeoPoint = PFGeoPoint(latitude: centerLocation.latitude, longitude: centerLocation.longitude)
         let query = PFQuery(className: "Issues")
         query.includeKeys(["transMode", "issueDateTime", "descripText", "location", "issueCategory", "dirOfTravel", "nearestCrossStreet", "image"])
-        query.whereKey("location", nearGeoPoint:centerGeoPoint, withinKilometers: mapView.currentRadius())
+        print("radius: \(mapView.currentRadius())")
+        
+        if radius > 0 {
+            query.whereKey("location", nearGeoPoint:centerGeoPoint, withinKilometers: radius/1000)
+        } else {
+            query.whereKey("location", nearGeoPoint:centerGeoPoint)
+        }
+        
         query.limit = numberOfIssues
         allWaitGroup.enter()
         query.findObjectsInBackground { (issues, error) in
@@ -226,7 +235,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         let radius = convertToRadius(searchRadiusSegment!.selectedSegmentIndex)
         if radius == -1 {
             let annotations = mapView.annotations
-            mapView.showAnnotations(annotations, animated: true)
+            getAllIssues(radius: 0)
         } else {
         let region = MKCoordinateRegion(center: mapView.userLocation.coordinate, latitudinalMeters: CLLocationDistance(exactly:
 radius)!, longitudinalMeters: CLLocationDistance(exactly: radius)!)
@@ -317,7 +326,8 @@ radius)!, longitudinalMeters: CLLocationDistance(exactly: radius)!)
         hideFilterMenu()
     }
     @IBAction func onTapRefresh(_ sender: Any) {
-        refreshAnnotations()
+        getAllIssues(radius: mapView.currentRadius())
+//        refreshAnnotations()
     }
     
 
@@ -348,7 +358,7 @@ radius)!, longitudinalMeters: CLLocationDistance(exactly: radius)!)
                 break
             }
         } else {
-            
+            print("no")
         }
     }
     
@@ -370,9 +380,10 @@ radius)!, longitudinalMeters: CLLocationDistance(exactly: radius)!)
         searchBar.endEditing(true)
     }
     
-    func search(keyword: String){
+    func search(keyword: String=""){
         if keyword.isEmpty {
-            getAllIssues()
+            print("getting all issues")
+            getAllIssues(radius: 0)
         } else {
             getSearchIssues(keyword: keyword)
         }
@@ -382,7 +393,7 @@ radius)!, longitudinalMeters: CLLocationDistance(exactly: radius)!)
         let query = PFQuery(className: "Issues")
           let centerGeoPoint = PFGeoPoint(latitude: centerLocation.latitude, longitude: centerLocation.longitude)
         query.whereKey("issueCategory", matchesText: keyword.trimmingCharacters(in: [" "]))
-        query.whereKey("issueCategory",nearGeoPoint:centerGeoPoint, withinKilometers: mapView.currentRadius())
+        query.whereKey("issueCategory",nearGeoPoint:centerGeoPoint, withinKilometers: mapView.currentRadius()/1000)
         allWaitGroup.enter()
         query.findObjectsInBackground { (objects: [PFObject]?, error: Error?) in
             if let error = error {
@@ -555,8 +566,7 @@ radius)!, longitudinalMeters: CLLocationDistance(exactly: radius)!)
         } else if segue.identifier == "tapDetail" {
             
 //            let postDetailsViewController = segue.destination as! PostDetailsViewController
-            let destinationNavigationController = segue.destination as! UINavigationController
-            let postDetailsViewController = destinationNavigationController.topViewController as! PostDetailsViewController
+            let postDetailsViewController = segue.destination as! PostDetailsViewController
           
             self.navigationController?.isNavigationBarHidden = false
             if let selectedIssue = self.selectedIssue {

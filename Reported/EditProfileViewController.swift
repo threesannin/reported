@@ -42,6 +42,12 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
         // Do any additional setup after loading the view.
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tabBarController?.tabBar.isHidden = false
+
+    }
+    
 
     @IBAction func update(_ sender: Any) {
         

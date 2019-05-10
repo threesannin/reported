@@ -26,6 +26,13 @@ class AlertViewController: UIViewController, UITableViewDataSource, UITableViewD
         // Do any additional setup after loading the view.
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        tabBarController?.tabBar.isHidden = false
+
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
@@ -82,8 +89,7 @@ class AlertViewController: UIViewController, UITableViewDataSource, UITableViewD
         let post = posts[indexPath.row]
         
 
-        let destinationNavigationController = segue.destination as! UINavigationController
-        let postDetailsViewController = destinationNavigationController.topViewController as! PostDetailsViewController
+        let postDetailsViewController = segue.destination as! PostDetailsViewController
         
         
         

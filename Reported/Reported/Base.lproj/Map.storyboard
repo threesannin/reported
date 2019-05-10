@@ -334,7 +334,7 @@
                         <outlet property="searchRadiusSegment" destination="l8d-n3-UXb" id="ywg-Iw-omC"/>
                         <outlet property="searchTypeSegment" destination="zOF-qB-dAO" id="Jx8-7r-EHW"/>
                         <outlet property="toolBarView" destination="Q9v-mY-5vl" id="J2W-id-PwI"/>
-                        <segue destination="yTK-Gz-flT" kind="presentation" identifier="tapDetail" id="u0z-yD-fGp"/>
+                        <segue destination="yTK-Gz-flT" kind="show" identifier="tapDetail" id="u0z-yD-fGp"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="67C-3e-sUh" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -351,10 +351,10 @@
             </objects>
             <point key="canvasLocation" x="1799.2" y="124.58770614692655"/>
         </scene>
-        <!--PostDetailsNavController-->
+        <!--PostDetailsViewController-->
         <scene sceneID="jE2-8I-6wo">
             <objects>
-                <viewControllerPlaceholder storyboardName="details" referencedIdentifier="PostDetailsNavController" id="yTK-Gz-flT" sceneMemberID="viewController"/>
+                <viewControllerPlaceholder storyboardName="details" referencedIdentifier="PostDetailsViewController" id="yTK-Gz-flT" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CJb-RD-Qtv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2728.8000000000002" y="92.653673163418304"/>

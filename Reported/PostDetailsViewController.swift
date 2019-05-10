@@ -80,7 +80,11 @@ class PostDetailsViewController: UIViewController {
         issueImage.af_setImage(withURL: url)
     }
     
-    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tabBarController?.tabBar.isHidden = true
+
+    }
     @IBAction func onTapBack(_ sender: UIBarButtonItem) {
         dismiss(animated: true, completion: nil)
     }
