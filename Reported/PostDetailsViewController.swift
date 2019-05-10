@@ -9,6 +9,8 @@
 import UIKit
 import Parse
 import AlamofireImage
+import MapKit
+
 
 class PostDetailsViewController: UIViewController {
     
@@ -269,6 +271,15 @@ class PostDetailsViewController: UIViewController {
     }
     @IBAction func showInMaps(_ sender: Any) { // empty for sampson ;)
         //sampsons code here
+        let latitude = (post["location"] as! PFGeoPoint).latitude
+        
+        let longitude = (post["location"] as! PFGeoPoint).longitude
+        
+        let placemark = MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: latitude, longitude: longitude), addressDictionary:nil)
+        let mapItem = MKMapItem(placemark: placemark)
+        mapItem.name = post["issueCategory"] as? String
+        
+        mapItem.openInMaps(launchOptions: nil)
     }
     
     @IBAction func resolvedIssue(_ sender: Any) {

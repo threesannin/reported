@@ -121,20 +121,20 @@
                                 <color key="textColor" red="0.0" green="0.59999999999999998" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mza-bH-1b1">
-                                <rect key="frame" x="137" y="625" width="94" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="show in maps"/>
-                                <connections>
-                                    <action selector="showInMaps:" destination="M5k-D0-fed" eventType="touchUpInside" id="l3Y-Z7-59y"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ARB-tI-Jv9">
                                 <rect key="frame" x="132" y="591" width="94" height="38"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Resolve Issue"/>
                                 <connections>
                                     <action selector="resolvedIssue:" destination="M5k-D0-fed" eventType="touchUpInside" id="yPZ-8b-m1d"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mza-bH-1b1">
+                                <rect key="frame" x="132" y="576" width="94" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="show in maps"/>
+                                <connections>
+                                    <action selector="showInMaps:" destination="M5k-D0-fed" eventType="touchUpInside" id="l3Y-Z7-59y"/>
                                 </connections>
                             </button>
                         </subviews>
