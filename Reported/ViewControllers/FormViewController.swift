@@ -196,13 +196,13 @@ class FormViewController: UIViewController,UIImagePickerControllerDelegate, UINa
             print("submitting")
             
             // Form Codable
-            let form = Form(issueCategory: issueTextField.text!, dirOfTravel: dirTextField.text!, transMode: transTextField.text!, nearestCrossStreet: streetTextField.text!, dateTime: datePickerTextField.text!, latitude: pinLocation!.latitude, longitude: pinLocation!.longitude, descripText: descipTextField.text!, name: "test", email: "email", phone: "phone", followUp: followUpSwitch.isOn)
+            let form = Form(issueCategory: issueTextField.text!, dirOfTravel: dirTextField.text!, transMode: transTextField.text!, nearestCrossStreet: streetTextField.text!, dateTime: datePickerTextField.text!, latitude: pinLocation!.latitude, longitude: pinLocation!.longitude, descripText: descipTextField.text!, name: PFUser.current()?.username, email: PFUser.current()?.email, phone: "9056869456", followUp: followUpSwitch.isOn)
         
             // Send to Parse
             postParse(form: form)
             
             // Send to Selenium
-//            postSelenium(form: form)
+            postSelenium(form: form)
         } else {
             print("not all fields valid")
         }
