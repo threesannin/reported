@@ -11,7 +11,7 @@ Reported - README
 
 ## Overview
 ### Description
-Report issues dealing with city/state infustructure damage/disturbances which includes Graffiti, Litter, Roadway(Potholes, Roadkill), Landscaping, etc. This app uses current geo-location to report issues along with a short easy to fill survey. This information will be sent to the appropriate city/state reporting outlet (email, online form, etc). 
+Report issues dealing with city/state infrastructure  damage/disturbances which includes Graffiti, Litter, Roadway(Potholes, Roadkill), Landscaping, etc. This app uses current geo-location to report issues along with a short easy to fill survey. This information will be sent to the appropriate city/state reporting outlet (email, online form, etc). 
 
 ### App Evaluation
 [Evaluation of your app across the following attributes]
